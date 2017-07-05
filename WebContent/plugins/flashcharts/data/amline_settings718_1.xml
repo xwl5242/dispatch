@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings>
+  <legend>
+    <enabled>true</enabled>
+  </legend>
+  <connect>true</connect>
+  <text_size>12</text_size>
+  <decimals_separator>.</decimals_separator>
+  <redraw>true</redraw>
+  <plot_area>
+    <margins>
+      <top>40</top>
+      <bottom>40</bottom>
+    </margins>
+  </plot_area>
+  <grid>
+    <x>
+      <approx_count>6</approx_count>
+    </x>
+    <y_left>
+      <approx_count>6</approx_count>
+    </y_left>
+    <y_right>
+      <approx_count>6</approx_count>
+    </y_right>
+  </grid>
+  <strings>
+    <collecting_data>正在导出...</collecting_data>
+  </strings>
+  <zoom_out_button>
+    <text>返回</text>
+  </zoom_out_button>
+  <scroller>
+    <color>FF0000</color>
+  </scroller>
+  <values>
+    <x>
+      <skip_first>false</skip_first>
+    </x>
+  </values>
+  <values>
+    <x>
+      <skip_last>false</skip_last>
+    </x>
+  </values>
+  <graphs>
+    <graph gid="1">
+      <title>盘山电厂总耗热量</title>
+      <axis></axis>
+      <hidden>FALSE</hidden>
+      <line_width>2</line_width>
+      <text_size>16</text_size>
+    </graph>
+    <graph gid="2">
+      <title>大港电厂总耗热量</title>
+      <axis></axis>
+      <hidden>FALSE</hidden>
+      <line_width>2</line_width>
+      <text_size>16</text_size>
+    </graph>
+    <graph gid="3">
+      <title>北塘电厂总耗热量</title>
+      <axis></axis>
+      <hidden>FALSE</hidden>
+      <line_width>2</line_width>
+      <text_size>16</text_size>
+    </graph>
+    <graph gid="4">
+      <title>陈塘庄电厂总耗热量</title>
+      <axis></axis>
+      <hidden>FALSE</hidden>
+      <line_width>2</line_width>
+      <text_size>16</text_size>
+    </graph>
+    <graph gid="5">
+      <title>军粮城电厂总耗热量</title>
+      <axis></axis>
+      <hidden>FALSE</hidden>
+      <line_width>2</line_width>
+      <text_size>16</text_size>
+    </graph>
+  </graphs>
+  <labels>
+    <label>
+      <y>0</y>
+      <align>center</align>
+      <text>&lt;b&gt;&lt;/b&gt;</text>
+    </label>
+  </labels>
+</settings>

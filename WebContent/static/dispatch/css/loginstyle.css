@@ -1,0 +1,14 @@
+* { padding:0px auto; margin:0px auto;}
+
+body,html	{ width:100%; background:#2170cc; font-family:"微软雅黑"; font-size:14px; }
+.login_logo	{ height:71px; width:100%; background:url(../image/logo.png) no-repeat center; margin-top: 40px;}
+.login_bg	{ width:1311px; height:498px; background:url(../image/login_bg.png) no-repeat;}
+.login_box	{ width:300px;  position:relative; top:220px; left:350px;}
+.login_box > div	{ margin-top:20px; text-align:center;}
+.login_box > div > input	{ width:230px; height:35px; border:1px solid #458ac5; padding-left:40px; line-height:35px;  border-radius:5px;}
+.login_box > div > input.login_user	{ background:url(../image/icon_user.png) no-repeat center left; }
+.login_box > div > input.login_pass	{ background:url(../image/icon_pass.png) no-repeat center left; }
+.login_box > div.login_cz	{padding:0px 13px; text-align:left;}
+.login_box > div.login_cz > input	{ width:14px; height:14px; border:0px; padding:0px;}
+.login_box > div.login_cz > a	{ display:inline-block; width:92px; height:37px; background:url(../image/login_btn.png) no-repeat; line-height:37px; text-align:center; color:#0952a1; cursor:pointer; float:right; }
+.login_box > div.login_cz > a:hover	{  background:url(../image/login_btnH.png) no-repeat; }

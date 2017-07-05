@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chart bgColor="FFFFFF" canvasbgAlpha="100" bgAlpha="0" borderAlpha="0" chartTopMargin="0" chartBottomMargin="0" upperLimit="100" lowerLimit="0" ticksBelowGauge="1" tickMarkDistance="3" valuePadding="-2" pointerRadius="5" majorTMColor="000000" majorTMNumber="3" minorTMNumber="4" minorTMHeight="4" majorTMHeight="8" showShadow="0" pointerBgColor="FFFFFF" pointerBorderColor="000000" gaugeBorderThickness="3" baseFontColor="000000" gaugeFillMix="{color},{FFFFFF}" gaugeFillRatio="50,50">
+  <colorrange> 
+    <color minValue="0" maxValue="30" code="B40001" label="23"/> 
+  </colorrange>
+  <value>23</value> 
+</chart>

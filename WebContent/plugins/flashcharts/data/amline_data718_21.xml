@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chart>
+  <!--<message><![CDATA[You can broadcast any message to chart from data XML file]]></message>-->
+  <series>
+    <value xid="0">滨海热电</value>
+    <value xid="1">热电公司</value>
+    <value xid="2">城安热电</value>
+    <value xid="3">津安热电</value>
+  </series>
+  <graphs>
+    <graph gid="1">
+      <value xid="0">8521.13</value>
+      <value xid="1">null</value>
+      <value xid="2">null</value>
+      <value xid="3">null</value>
+    </graph>
+    <graph gid="2">
+      <value xid="0">null</value>
+      <value xid="1">18095.31</value>
+      <value xid="2">null</value>
+      <value xid="3">null</value>
+    </graph>
+    <graph gid="3">
+      <value xid="0">null</value>
+      <value xid="1">null</value>
+      <value xid="2">13183.00</value>
+      <value xid="3">null</value>
+    </graph>
+    <graph gid="4">
+      <value xid="0">null</value>
+      <value xid="1">null</value>
+      <value xid="2">null</value>
+      <value xid="3">19045.00</value>
+    </graph>
+  </graphs>
+</chart>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chart>
+  <!--<message><![CDATA[You can broadcast any message to chart from data XML file]]></message>-->
+  <series>
+    <value xid="0">2014-12-01</value>
+    <value xid="1">2014-12-02</value>
+    <value xid="2">2014-12-03</value>
+    <value xid="3">2014-12-04</value>
+    <value xid="4">2014-12-05</value>
+    <value xid="5">2014-12-06</value>
+    <value xid="6">2014-12-07</value>
+    <value xid="7">2014-12-08</value>
+    <value xid="8">2014-12-09</value>
+    <value xid="9">2014-12-10</value>
+    <value xid="10">2014-12-11</value>
+    <value xid="11">2014-12-12</value>
+    <value xid="12">2014-12-13</value>
+    <value xid="13">2014-12-14</value>
+    <value xid="14">2014-12-15</value>
+    <value xid="15">2014-12-16</value>
+    <value xid="16">2014-12-17</value>
+    <value xid="17">2014-12-18</value>
+    <value xid="18">2014-12-19</value>
+    <value xid="19">2014-12-20</value>
+    <value xid="20">2014-12-21</value>
+    <value xid="21">2014-12-22</value>
+    <value xid="22">2014-12-23</value>
+    <value xid="23">2014-12-24</value>
+    <value xid="24">2014-12-25</value>
+    <value xid="25">2014-12-26</value>
+    <value xid="26">2014-12-27</value>
+    <value xid="27">2014-12-28</value>
+    <value xid="28">2014-12-29</value>
+  </series>
+  <graphs>
+    <graph gid="1">
+      <value xid="0">1110.87</value>
+      <value xid="1">961.99</value>
+      <value xid="2">1140.02</value>
+      <value xid="3">784.52</value>
+      <value xid="4">801.65</value>
+      <value xid="5">811.98</value>
+      <value xid="6">806.44</value>
+      <value xid="7">739.27</value>
+      <value xid="8">619.10</value>
+      <value xid="9">578.58</value>
+      <value xid="10">641.28</value>
+      <value xid="11">625.11</value>
+      <value xid="12">707.21</value>
+      <value xid="13">605.48</value>
+      <value xid="14">720.27</value>
+      <value xid="15">845.77</value>
+      <value xid="16">730.16</value>
+      <value xid="17">675.39</value>
+      <value xid="18">533.27</value>
+      <value xid="19">622.32</value>
+      <value xid="20">818.25</value>
+      <value xid="21">704.84</value>
+      <value xid="22">584.01</value>
+      <value xid="23">712.80</value>
+      <value xid="24">679.70</value>
+      <value xid="25">787.25</value>
+      <value xid="26">695.59</value>
+      <value xid="27">644.58</value>
+      <value xid="28">547.07</value>
+    </graph>
+  </graphs>
+</chart>

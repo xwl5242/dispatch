@@ -1,0 +1,93 @@
+
+#box_top .floor-btm{
+	background-color: #0f2b61;
+}
+
+#box_top .floor-btm .logo{
+	background: url(../images/logo.png) no-repeat;
+}
+
+#box_top .floor-btm .info-box{
+	border-right: 1px solid #FFF;
+	color: #FFF;
+}
+
+#box_mid .left-part{
+	background-color: #23488a;
+}
+
+	.left-part-container{
+		background-color: #23488a;
+	}
+
+.left-part-container .avatar-box .uname{
+	border-bottom: 1px solid #0f2b61;
+	color: #FFF;
+}
+
+	
+	.left-part-container ul.menu>li{
+		border-bottom: 1px solid #99bbe8;
+	}
+	
+	.left-part-container ul li a{
+		color: #FFF;
+	}
+	
+	.left-part-container ul.menu li:hover{
+		background-color: #99bbe8;
+	}
+	
+	
+	.vcon ul {
+		border-bottom: 1px solid #99bbe8;
+	}
+	.vcon ul li {
+		background-color: #FFF;
+		
+	}
+
+	
+	.v {
+		background: url(../images/arrow-right.png) no-repeat 2px 7px;
+	}
+	
+	.v01 {
+		background: url(../images/arrow-right.png) no-repeat 2px 7px;
+	}
+	
+	.v02 {
+		background: url(../images/arrow-down.png) no-repeat 0 10px;
+	}
+	
+	.menu-active{
+		background-color: #3d6ebb;
+	}
+	
+	.vcon ul li.menu-active{
+		background-color: #3d6ebb;
+	}
+
+
+
+	.weather{
+		background: url(../images/weather.png) no-repeat;
+	}
+	.mail{
+		background: url(../images/mail.png) no-repeat;
+	}
+	.shutdown{
+		background: url(../images/shutdown.png) no-repeat;
+	}
+	.system{
+		background: url(../images/skin.png) no-repeat 0 -1px;
+	}
+
+	
+	.vcon ul li.active	{ background:#99bbe8;}
+
+
+
+
+
+

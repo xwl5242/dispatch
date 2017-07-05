@@ -1,0 +1,86 @@
+/**
+* 静雅蓝
+**/
+#box_top .floor-btm ,#box_top .floor-top{
+	background-color: #61aae1;
+}
+/*公司logo*/
+#box_top .floor-btm .logo{
+	background: url(../images/logo.png) no-repeat;
+}
+/*天气、消息、退出 等按钮*/
+#box_top .floor-btm .info-box{
+	border-right: 1px solid #FFF;
+	color: #FFF;
+}
+/*左侧菜单区域 大背景底色*/
+#box_mid .left-part{
+	background-color: #1e8ee2;
+}
+	/*左侧菜单栏背景底色*/
+	.left-part-container{
+		background-color: #1e8ee2;
+	}
+/*用户信息 姓名*/
+.left-part-container .avatar-box .uname{
+	border-bottom: 1px solid #61AAE1;
+	color: #FFF;
+}
+
+	/*菜单项*/
+	.left-part-container ul.menu>li{
+		border-bottom: 1px solid #61aae1;
+	}
+	/*菜单项 字体颜色*/
+	.left-part-container ul li a{
+		color: #FFF;
+	}
+	/*鼠标滑过菜单项*/
+	.left-part-container ul.menu li:hover{
+		background-color: #61aae1;
+	}
+	
+	/*下拉菜单*/
+	.vcon ul {
+		border-bottom: 1px solid #5a9aca;
+	}
+	.vcon ul li {
+		background-color: #0370c1;
+		
+	}
+
+	/*箭头*/
+	.v {
+		background: url(../images/arrow-right.png) no-repeat 2px 7px;
+	}
+	/*普通箭头*/
+	.v01 {
+		background: url(../images/arrow-right.png) no-repeat 2px 7px;
+	}
+	/*激活箭头*/
+	.v02 {
+		background: url(../images/arrow-down.png) no-repeat 0 10px;
+	}
+	/*激活的菜单*/
+	.menu-active{
+		background-color: #61aae1;
+	}
+	
+
+	.weather{
+		background: url(../images/weather.png) no-repeat;
+	}
+	.mail{
+		background: url(../images/mail.png) no-repeat;
+	}
+	.shutdown{
+		background: url(../images/shutdown.png) no-repeat;
+	}
+	.skin{
+		background: url(../images/skin.png) no-repeat 0 -1px;
+	}
+	
+	a.top_menu, a:hover	{ color:#025b9d}
+	.vcon ul li.active	{ background:#61aae1;}
+
+

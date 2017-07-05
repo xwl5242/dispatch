@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chart>
+  <!--<message><![CDATA[You can broadcast any message to chart from data XML file]]></message>-->
+  <series>
+    <value xid="0">2014-12-01 23</value>
+    <value xid="1">2014-12-02 23</value>
+    <value xid="2">2014-12-03 23</value>
+    <value xid="3">2014-12-04 23</value>
+    <value xid="4">2014-12-05 23</value>
+    <value xid="5">2014-12-06 23</value>
+  </series>
+  <graphs>
+    <graph gid="1">
+      <value xid="0">0.59</value>
+      <value xid="1">0.63</value>
+      <value xid="2">0.57</value>
+      <value xid="3">0.63</value>
+      <value xid="4">0.62</value>
+      <value xid="5">0.53</value>
+    </graph>
+    <graph gid="2">
+      <value xid="0">0.89</value>
+      <value xid="1">0.87</value>
+      <value xid="2">0.91</value>
+      <value xid="3">0.94</value>
+      <value xid="4">0.93</value>
+      <value xid="5">0.85</value>
+    </graph>
+  </graphs>
+</chart>

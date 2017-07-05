@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>dispatch</display-name>
+	<context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>dispatch.root</param-value>
+    </context-param>
+    <!-- log4j -->
+	<context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:conf/log4j.properties</param-value>
+    </context-param>
+    <listener> 
+	   <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class> 
+   </listener>
+   <listener> 
+     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class> 
+   </listener> 
+   <!-- springmvc -->
+   <servlet> 
+     <servlet-name>spring</servlet-name> 
+     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 
+     <init-param> 
+       <param-name>contextConfigLocation</param-name> 
+      <param-value>classpath:applicationContext-*.xml</param-value> 
+     </init-param> 
+     <load-on-startup>1</load-on-startup> 
+   </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>InitLog4jServlet</servlet-name>
+    <servlet-class>com.frames.log4j.InitLog4jServlet</servlet-class>
+  </servlet>
+ 
+   
+   <servlet-mapping> 
+     <servlet-name>spring</servlet-name> 
+     <url-pattern>*.do</url-pattern> 
+   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InitLog4jServlet</servlet-name>
+    <url-pattern>/servlet/InitLog4jServlet</url-pattern>
+  </servlet-mapping> 
+   <!-- session -->
+   <session-config>
+		<session-timeout>600</session-timeout>
+	</session-config>
+   <!-- 统一字符编码为UTF-8 --> 
+   <filter> 
+     <filter-name>encodingFilter</filter-name> 
+     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class> 
+     <init-param> 
+       <param-name>encoding</param-name> 
+       <param-value>UTF-8</param-value> 
+     </init-param> 
+   </filter> 
+   <filter-mapping>  
+        <filter-name>encodingFilter</filter-name>  
+        <url-pattern>*.do</url-pattern>  
+    </filter-mapping>  
+    <filter-mapping>  
+        <filter-name>encodingFilter</filter-name>  
+        <url-pattern>*.jsp</url-pattern>  
+    </filter-mapping>
+    
+    
+   
+   
+	 <filter>
+		<filter-name>SessionFilter</filter-name>
+		<filter-class>com.util.common.SessionFilter</filter-class>
+		<init-param>
+			<param-name>session_parameter</param-name>
+			<param-value>ECCUSER</param-value>
+		</init-param>
+		<init-param>
+			<param-name>filter_exception</param-name>
+			<param-value>jsp/sys/admin/login.jsp;login/newCheckLogin.do;event/gisEventDataList.do;event/gisEventProcess.do;event/saveEventInfoForApp.do;event/eventListForApp.do;event/eventDForApp.do;event/eventPForApp.do;event/eventProcessSaveForApp.do;mobile/findDefectList.do;mobile/findUnitName.do;mobile/findEquipmentList.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>filter_content</param-name>
+			<param-value>.html;.do;</param-value>
+		</init-param>
+		<init-param>
+			<param-name>redirect_url</param-name>
+			<param-value>/jsp/sys/admin/login.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>iffilter</param-name>
+			<param-value>Y</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SessionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	
+	
+   
+   <!-- index -->
+	<welcome-file-list>
+		<welcome-file>jsp/sys/admin/login.jsp</welcome-file>
+	</welcome-file-list>
+    
+	<!-- runqian report deploy start -->	
+	<servlet>
+	    <servlet-name>SetContextServlet</servlet-name>
+	    <servlet-class>com.runqian.util.webutil.SetContextServlet</servlet-class>
+	    <load-on-startup>2</load-on-startup>
+	  </servlet>
+	  <servlet>
+	    <servlet-name>reportServlet</servlet-name>
+	    <servlet-class>com.runqian.report4.view.ReportServlet</servlet-class>
+	    <init-param>
+	      <param-name>configFile</param-name>
+	      <param-value>/WEB-INF/reportConfig.xml</param-value>
+	    </init-param>
+	    <load-on-startup>1</load-on-startup>
+	  </servlet>
+	  <servlet>
+	    <servlet-name>DMServlet</servlet-name>
+	    <servlet-class>com.raq.web.view.DMServlet</servlet-class>
+	    <init-param>
+	      <param-name>configFile</param-name>
+	      <param-value>/WEB-INF/dmConfig.xml</param-value>
+	    </init-param>
+	    <load-on-startup>10</load-on-startup>
+	  </servlet>
+	  <servlet-mapping>
+	    <servlet-name>reportServlet</servlet-name>
+	    <url-pattern>/reportServlet</url-pattern>
+	  </servlet-mapping>
+	  <servlet-mapping>
+	    <servlet-name>DMServlet</servlet-name>
+	    <url-pattern>/DMServlet</url-pattern>
+	  </servlet-mapping>
+	  <servlet-mapping>
+	    <servlet-name>DMServlet</servlet-name>
+	    <url-pattern>/DMServletAjax</url-pattern>
+	  </servlet-mapping>
+	  <servlet>
+	    <servlet-name>weatherServlet</servlet-name>
+  		<servlet-class>com.dispatch.spider.WeatherSpiderServlet</servlet-class>
+  		</servlet>
+  	<servlet-mapping>
+  		<servlet-name>weatherServlet</servlet-name>
+  		<url-pattern>/weather</url-pattern>
+  	</servlet-mapping>
+  	
+  	<!-- 硕人数据抓取程序配置  start-->
+	
+	<!-- 
+	<listener>  
+        <listener-class>com.dispatch.dataTrasfer.database.DataTraferHistoryJob</listener-class>  
+    </listener>  
+    --> 
+	
+	  <jsp-config>
+	  <taglib>
+	    <taglib-uri>/WEB-INF/runqianReport4.tld</taglib-uri>
+	    <taglib-location>/WEB-INF/runqianReport4.tld</taglib-location>
+	  </taglib>
+	  </jsp-config>
+	<!-- runqian report deploy end -->    
+</web-app>

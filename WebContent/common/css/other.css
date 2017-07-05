@@ -1,0 +1,5 @@
+*	{ margin:0px auto; padding:0px auto;}
+.box	{ width:100%; margin-top:1%;} 
+.box > div	{ background:#fff; border:1px solid #aecfe7; float:left; height:320px; width:48.5%; margin-left:1%; box-sizing: border-box; margin-bottom:1%; text-align:center; }
+.box > div.box50	{ width:23.75%;}
+.box_tit	{ font-size:14px; color:#1169b6; position: absolute; margin-left: 10px; margin-top: 5px;}

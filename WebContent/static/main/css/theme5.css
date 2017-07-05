@@ -1,0 +1,92 @@
+/**
+* 活力橙
+**/
+#box_top .floor-btm{
+	background-color: #f6f7f9;
+}
+/*公司logo*/
+#box_top .floor-btm .logo{
+	background: url(../images/logo_black.png) no-repeat;
+}
+/*天气、消息、退出 等按钮*/
+#box_top .floor-btm .info-box{
+	border-right: 1px solid #333333;
+}
+#box_top .floor-btm .info-box a{
+	color: #333333;
+}
+/*左侧菜单区域 大背景底色*/
+#box_mid .left-part{
+	background-color: #f6f7f9;
+}
+	/*左侧菜单栏背景底色*/
+	.left-part-container{
+		background-color: #fff;
+	}
+/*用户信息 姓名*/
+.left-part-container .avatar-box .uname{
+	border-bottom: 1px solid #f6f7f9;
+	color: #333333;
+}
+
+	/*菜单项*/
+	.left-part-container ul.menu>li{
+		border-bottom: 1px solid #e1e1e1;
+	}
+	/*菜单项 字体颜色*/
+	.left-part-container ul li a{
+		color: #333333;
+	}
+	/*鼠标滑过菜单项*/
+	.left-part-container ul.menu li:hover{
+		background-color: #f6f7f9;
+	}
+	
+	/*下拉菜单*/
+	.vcon ul {
+		border-bottom: 1px solid #e1e1e1;
+	}
+	.vcon ul li {
+		background-color: #eff0f3;
+	}
+	.vcon ul li:hover {
+		background-color: #fff;
+	}
+
+	/*箭头*/
+	.v {
+		background: url(../images/arrow-right-black.png) no-repeat 2px 7px;
+	}
+	/*普通箭头*/
+	.v01 {
+		background: url(../images/arrow-right-black.png) no-repeat 2px 7px;
+	}
+	/*激活箭头*/
+	.v02 {
+		background: url(../images/arrow-down-black.png) no-repeat 0 10px;
+	}
+	/*激活的菜单*/
+	.menu-active{
+		background-color: #f6f7f9;
+	}
+	
+
+
+	.weather{
+		background: url(../images/weather_black.png) no-repeat;
+	}
+	.mail{
+		background: url(../images/mail_black.png) no-repeat;
+	}
+	.shutdown{
+		background: url(../images/shutdown_black.png) no-repeat;
+	}
+	.skin{
+		background: url(../images/skin_black.png) no-repeat 0 -1px;
+	}
+
+
+
+
+
+

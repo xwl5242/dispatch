@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings>
+  <legend>
+    <enabled>true</enabled>
+  </legend>
+  <connect>true</connect>
+  <text_size>12</text_size>
+  <decimals_separator>.</decimals_separator>
+  <redraw>true</redraw>
+  <plot_area>
+    <margins>
+      <top>40</top>
+      <bottom>40</bottom>
+    </margins>
+  </plot_area>
+  <grid>
+    <x>
+      <approx_count>6</approx_count>
+    </x>
+    <y_left>
+      <approx_count>6</approx_count>
+    </y_left>
+    <y_right>
+      <approx_count>6</approx_count>
+    </y_right>
+  </grid>
+  <strings>
+    <collecting_data>正在导出...</collecting_data>
+  </strings>
+  <zoom_out_button>
+    <text>返回</text>
+  </zoom_out_button>
+  <scroller>
+    <color>FF0000</color>
+  </scroller>
+  <values>
+    <x>
+      <skip_first>false</skip_first>
+    </x>
+  </values>
+  <values>
+    <x>
+      <skip_last>false</skip_last>
+    </x>
+  </values>
+  <graphs/>
+  <labels>
+    <label>
+      <y>0</y>
+      <align>center</align>
+      <text>&lt;b&gt;热源历史工况曲线图&lt;/b&gt;</text>
+    </label>
+  </labels>
+</settings>
