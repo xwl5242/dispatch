@@ -1,6 +1,7 @@
 package com.dispatch.runningCon.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,14 @@ public class EAController extends BaseController {
 			String startDate,String endDate,String type){
 		Map<String,Object> map =new HashMap<String,Object>();
 		map = eaService.airTongbi1(startDate,endDate,type);
+		super.returnObjectJson(map, response);
+	}
+	
+	@RequestMapping(value = "/airsystem/air/pricePie.do")
+	@ResponseBody
+	public void pricePie(HttpServletRequest request, HttpServletResponse response,
+			String startDate,String endDate) throws Exception{
+		List<Map<String,String>> map = eaService.pricePie(startDate,endDate);
 		super.returnObjectJson(map, response);
 	}
 	

@@ -171,4 +171,24 @@ public class EAServiceImpl implements EAService{
 		return result;
 	}
 
+	@Override
+	public List<Map<String,String>> pricePie(String startDate, String endDate) throws Exception{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		endDate=null!=endDate&&!"".equals(endDate)?endDate:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		a.setTime(sdf.parse(endDate));
+		a.add(Calendar.DATE, -6);
+		startDate=null!=startDate&&!"".equals(startDate)?startDate:sdf.format(a.getTime());
+		
+		List<Map<String,Object>> epList = eaDao.getEnergyPrice();
+		List<Map<String,Object>> listMap = eaDao.pricePie(startDate,endDate,epList);
+		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		for(Map<String,Object> map:listMap){
+			Map<String,String> tm = new HashMap<String,String>();
+			tm.put("name", map.get("NAME")+""); 
+			tm.put("value", map.get("VALUE")+""); 
+		}
+		return list;
+	}
+
 }

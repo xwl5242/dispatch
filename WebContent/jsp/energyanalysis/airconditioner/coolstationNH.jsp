@@ -452,31 +452,30 @@ function renderEcharts(){
             	watertrend.setOption(mywatertrend);
             },'json');
             
-            mywaterpower = {
-           		tooltip : {
-           	        trigger: 'item',
-           	        formatter: "{a} <br/>{b} : {c} ({d}%)"
-           	    },
-           	    legend: {
-           	        data:['A座水','A座电','B座水','B座电']
-           	    },
-           	    calculable : true,
-           	    series : [
-           	        {
-           	            type:'pie',
-           	            radius : '55%',
-           	            center: ['50%', '60%'],
-           	            data:[
-           	                {value:335, name:'A座水'},
-           	                {value:234, name:'A座电'},
-           	                {value:543, name:'B座水'},
-           	                {value:397, name:'B座电'}
-           	            ]
-           	        }
-           	    ]
-           	};
-			
-			waterpower.setOption(mywaterpower);
+            $.post('<%=path %>/ea/airsystem/air/pricePie.do',{
+            	startDate : $('#startDate').datebox('getValue'),
+            	endDate : $('#endDate').datebox('getValue')
+            },function(data){
+            	mywaterpower = {
+                   		tooltip : {
+                   	        trigger: 'item',
+                   	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                   	    },
+                   	    legend: {
+                   	        data:['A座水','A座电','B座水','B座电']
+                   	    },
+                   	    calculable : true,
+                   	    series : [
+                   	        {
+                   	            type:'pie',
+                   	            radius : '55%',
+                   	            center: ['50%', '60%'],
+                   	            data:data
+                   	        }
+                   	    ]
+                   	};
+        			waterpower.setOption(mywaterpower);
+            },'json');
 		});
 }
 </script>
