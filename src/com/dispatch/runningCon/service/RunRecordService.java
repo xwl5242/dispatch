@@ -12,7 +12,7 @@ public interface RunRecordService {
 	 * @return
 	 */
 	Map<String, Object> queryRunRecord(int currentPage, int pageSize,
-			String nodeId);
+			String sTime,String eTime,String dName);
 
 	/**
 	 * 查询日志分页信息
@@ -23,4 +23,11 @@ public interface RunRecordService {
 	 */
 	Map<String, Object> queryLogList(int currentPage, int pageSize,
 			Map<String, String> param);
+
+	Map<String, Object> weatherJson(int currentPage, int pageSize,
+			String param);
+
+	Map<String, Object> avgTemp(String curDate);
+
+	Map<String, Object> tempTrend(String startDate, String endDate) throws Exception;
 }

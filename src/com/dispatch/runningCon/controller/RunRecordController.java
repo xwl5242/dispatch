@@ -1,5 +1,7 @@
 package com.dispatch.runningCon.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +33,9 @@ public class RunRecordController extends BaseController {
 	 */
 	@RequestMapping("/query.do")
 	@ResponseBody
-	public void queryRunRecord(HttpServletRequest request,HttpServletResponse response,Page page,String nodeId){
+	public void queryRunRecord(HttpServletRequest request,HttpServletResponse response,Page page,String sTime,String eTime,String dName){
 		getPageInfo(request);
-		Map<String,Object> result = rrService.queryRunRecord(super.getCurrentPage(),super.getPageSize(),nodeId);
+		Map<String,Object> result = rrService.queryRunRecord(super.getCurrentPage(),super.getPageSize(),sTime,eTime,dName);
 		super.returnObjectJson(result, response);
 	}
 	
@@ -45,4 +47,36 @@ public class RunRecordController extends BaseController {
 		Map<String,Object> result = rrService.queryLogList(super.getCurrentPage(),super.getPageSize(),param);
 		super.returnObjectJson(result, response);
 	}
+	
+	@RequestMapping("/weatherJson")
+	@ResponseBody
+	public void weatherJson(HttpServletRequest request,HttpServletResponse response, String curDate){
+		getPageInfo(request);
+		if(null==curDate||"".equals(curDate)){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			curDate = sdf.format(new Date());
+		}
+		Map<String,Object> result = rrService.weatherJson(super.getCurrentPage(),super.getPageSize(),curDate);
+		super.returnObjectJson(result, response);
+	}
+	
+	@RequestMapping("/avgTemp")
+	@ResponseBody
+	public void avgTemp(HttpServletRequest request,HttpServletResponse response, String curDate){
+		if(null==curDate||"".equals(curDate)){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			curDate = sdf.format(new Date());
+		}
+		Map<String,Object> result = rrService.avgTemp(curDate);
+		super.returnObjectJson(result, response);
+	}
+	
+	@RequestMapping("/tempTrend")
+	@ResponseBody
+	public void tempTrend(HttpServletRequest request,HttpServletResponse response, String startDate,
+			String endDate) throws Exception{
+		Map<String,Object> result = rrService.tempTrend(startDate,endDate);
+		super.returnObjectJson(result, response);
+	}
+	
 }

@@ -131,6 +131,10 @@
         $(".sjwd_cont").width(divW);
         //查询条件中的年份设置
         yearsSet();
+        renderEchart();
+	});
+    
+    function renderEchart(){
         //路径配置
         require.config({
             paths: {
@@ -154,129 +158,150 @@
                 tongbi = ec.init(document.getElementById('tongbi'), theme);
                 qushi = ec.init(document.getElementById('qushi'), theme);
                
-                //同比
-                mytongbi = {
-               		tooltip : {
-               	        trigger: 'axis'
-               	    },
-               	    legend: {
-               	        data:['A座','B座','总体']
-               	    },
-               	    calculable : true,
-               	    xAxis : [
-               	        {
-               	            type : 'category',
-               	            data : ['2015年','2016年','2017年']
-               	        }
-               	    ],
-               	    yAxis : [
-               	        {
-               	            type : 'value',
-               	            name : 'KWh'
-               	        }
-               	    ],
-               	    series : [
-               	        {
-               	            name:'A座',
-               	            type:'bar',
-               	            data:[2.0, 4.9, 7.0],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'B座',
-               	            type:'bar',
-               	            data:[2.6, 5.9, 9.0],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'总体',
-               	            type:'bar',
-               	            data:[4.6, 10.8, 16.0],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        }
-               	    ]
-				};
+                $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
+                	ys : $('#years').combo('getText'),
+                	type : "'5'"
+                },function(data){
+                	//同比
+                    mytongbi = {
+                   		tooltip : {
+                   	        trigger: 'axis'
+                   	    },
+                   	    legend: {
+                   	        data:['A座','B座','总体']
+                   	    },
+                   	    calculable : true,
+                   	    xAxis : [
+                   	        {
+                   	            type : 'category',
+//                    	            data : ['2015年','2016年','2017年']
+                   	            data : data.yearList
+                   	        }
+                   	    ],
+                   	    yAxis : [
+                   	        {
+                   	            type : 'value',
+                   	            name : 'KWh'
+                   	        }
+                   	    ],
+                   	    series : [
+                   	        {
+                   	            name:'A座',
+                   	            type:'bar',
+//                    	            data:[2.0, 4.9, 7.0],
+                   	            data:data.A,
+                   	         	itemStyle:{normal:{label:{show:true}}},
+                   	            markLine : {
+                   	                data : [
+                   	                    {type : 'average', name: '平均值'}
+                   	                ]
+                   	            }
+                   	        },
+                   	        {
+                   	            name:'B座',
+                   	            type:'bar',
+//                    	            data:[2.6, 5.9, 9.0],
+                   	            data:data.B,
+                   	            itemStyle:{normal:{label:{show:true}}},
+                   	            markLine : {
+                   	                data : [
+                   	                    {type : 'average', name: '平均值'}
+                   	                ]
+                   	            }
+                   	        },
+                   	        {
+                   	            name:'总体',
+                   	            type:'bar',
+//                    	            data:[4.6, 10.8, 16.0],
+                   	            data:data.T,
+                   	            itemStyle:{normal:{label:{show:true}}},
+                   	            markLine : {
+                   	                data : [
+                   	                    {type : 'average', name: '平均值'}
+                   	                ]
+                   	            }
+                   	        }
+                   	    ]
+    				};
+                    tongbi.setOption(mytongbi);
+            	},'json');
                 
-                //趋势
-                myqushi = {
-               		tooltip : {
-               	        trigger: 'axis'
-               	    },
-               	    legend: {
-               	        data:['A座','B座','总体']
-               	    },
-               	    calculable : true,
-               	    xAxis : [
-               	        {
-               	            type : 'category',
-               	            boundaryGap : false,
-               	            data : ['2017-04-01','2017-04-02','2017-04-03','2017-04-04','2017-04-05','2017-04-06','2017-04-07']
-               	        }
-               	    ],
-               	    yAxis : [
-               	        {
-               	            type : 'value',
-               	            axisLabel : {
-               	                formatter: '{value} KWh'
-               	            }
-               	        }
-               	    ],
-               	    series : [
-               	        {
-               	            name:'A座',
-               	            type:'line',
-               	            data:[11, 11, 15, 13, 12, 13, 10],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'B座',
-               	            type:'line',
-               	            data:[1, 2, 2, 5, 3, 2, 0],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'总体',
-               	            type:'line',
-               	            data:[11, 13, 17, 18, 15, 15, 10],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        }
-               	    ]
-   				};
-                
-				tongbi.setOption(mytongbi);
-				qushi.setOption(myqushi);
+                $.post('<%=path %>/ea/airsystem/air/qushi.do',{
+                	startDate : $('#startDate').datebox('getValue'),
+                	endDate : $('#endDate').datebox('getValue'),
+                	type : "'5'"
+                },function(data){
+	                //趋势
+	                myqushi = {
+	               		tooltip : {
+	               	        trigger: 'axis'
+	               	    },
+	               	    legend: {
+	               	        data:['A座','B座','总体']
+	               	    },
+	               	    calculable : true,
+	               	    xAxis : [
+	               	        {
+	               	            type : 'category',
+	               	            boundaryGap : false,
+	               	            data : data.yearList
+	               	        }
+	               	    ],
+	               	    yAxis : [
+	               	        {
+	               	            type : 'value',
+	               	            axisLabel : {
+	               	                formatter: '{value} KWh'
+	               	            }
+	               	        }
+	               	    ],
+	               	    series : [
+	               	        {
+	               	            name:'A座',
+	               	            type:'line',
+// 	               	            data:[11, 11, 15, 13, 12, 13, 10],
+	               	            data:data.A,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'B座',
+	               	            type:'line',
+// 	               	            data:[1, 2, 2, 5, 3, 2, 0],
+	               	            data:data.B,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'总体',
+	               	            type:'line',
+// 	               	            data:[11, 13, 17, 18, 15, 15, 10],
+	               	            data:data.T,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        }
+	               	    ]
+	   				};
+					qushi.setOption(myqushi);
+                },'json');
 			});
-	});
+    }
+    
+    function searchLineTrend(){
+    	renderEchart();
+    }
 </script>
 </body>
 </html>

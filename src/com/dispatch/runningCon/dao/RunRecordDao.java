@@ -1,5 +1,6 @@
 package com.dispatch.runningCon.dao;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RunRecordDao {
@@ -12,7 +13,7 @@ public interface RunRecordDao {
 	 * @return
 	 */
 	Map<String, Object> queryRunRecord(int currentPage, int pageSize,
-			String nodeId);
+			String sTime,String eTime,String dName);
 
 	/**
 	 * 查询日志分页信息
@@ -23,4 +24,8 @@ public interface RunRecordDao {
 	 */
 	Map<String, Object> queryLogList(int currentPage, int pageSize,
 			Map<String, String> param);
+
+	List<Map<String, Object>> weatherJson(String param);
+
+	List<Map<String, Object>> tempTrend(String startDate, String endDate);
 }

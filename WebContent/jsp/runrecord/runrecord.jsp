@@ -7,6 +7,7 @@
 </head>
 <body> 
 	<div>
+		<form id="RCForm">
 		<table style="height: 40px">  
 			<tr>
 	            <td class="tbl_td_label" width="10%">运行时间：</td>  
@@ -17,14 +18,21 @@
 					
 				<td class="tbl_td_label"  width="5%">设备名称：</td> 
 				<td  width="20%">
-					<input id='dId' name='dId' class="easyui-combobox" data-options="editable:false"/>
+					<select id='dName' name='dName' class="easyui-combobox" data-options="editable:false">
+						<option value=''></option>
+						<option value='A1'>A座标层</option>
+						<option value='A2'>A座非标层</option>
+						<option value='B1'>B座标层</option>
+						<option value='B2'>B座非标层</option>
+					</select>
 				</td>
 				<td colspan="12" width="25%"> 
-				   <a id="searchLineTrend" onclick='searchLineTrend();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
-				   <a id="clearLineTrendSearch"  onclick='formClear();' class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>
+				   <a id="searchLineTrend" onclick='searchRC();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
+				   <a id="clearLineTrendSearch"  onclick="formClear('RCForm');" class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>
 				</td> 
 	        </tr>
 		</table> 
+		</form>
 	</div> 
  	<table id='rrListGrid' style="width：100%;" ></table> 
 	<script type="text/javascript"> 
@@ -49,41 +57,39 @@
 				pagination : true,
 				singleSelect:true,
 			    columns:[[
-						{field:'ID',checkbox:true}, 
-						{field:'DID',hidden:true}, 
 						{field:'SYSNAME',title:'系统名称',width:'10%',align:'center',
 							formatter: function(value,row,index){
-								var str = row.REMARK;
-								var i = str.lastIndexOf("\\");
-								str = str.substring(0,i);
-								str = str.substring(str.lastIndexOf("\\")+1);
-								if(str=="abc"){
-									str = "A座标层"+"\\"+row.DNAME.toUpperCase();
-								}else if(str=="afbc"){
-									str = "A座非标层"+"\\"+row.DNAME.toUpperCase();
-								}else if(str=="bbc"){
-									str = "B座标层"+"\\"+row.DNAME.toUpperCase();
-								}else if(str=="bfbc"){
-									str = "B座非标层"+"\\"+row.DNAME.toUpperCase();
+								var at = row.AT;
+								var ab = row.AB;
+								var pre = '';var sub = '';
+								if(at=='1'){
+									sub = '标层';
+								}else if(at=='2'){
+									sub = '非标层';
 								}
-								return str;
+								if(ab=='A'){
+									pre = 'A座';
+								}else if(ab=='B'){
+									pre = 'B座';
+								}
+								return pre+sub;
 							}
 						},
 						{field:'DNAME',title:'设备名称',width:'10%',align:'center'},
 						{field:'STARTTIME',title:'启动时间',width:'15%',align:'center',
 							formatter: function(value,row,index){
 								if (row.YXSTATUS=='1'){
-									return dateFormat(row.TIME);
+									return dateFormat(row.T);
 								} 
 							}
 						},
 						{field:'STOPTIME',title:'停止时间',width:'15%',align:'center',
 							formatter: function(value,row,index){
 								if (row.YXSTATUS=='0'){
-									return dateFormat(row.TIME);
+									return dateFormat(row.T);
 								}
 							}
-						},
+						}
 // 						{field:'DURATION',title:'启动时长',width:'15%',align:'center',
 // 							formatter: function(value,row,index){
 // 								if (row.YXSTATUS=='1'){
@@ -91,7 +97,7 @@
 // 								} 
 // 							}
 // 						},
-				        {field:'REMARK',title:'备注',width:'10%',align:'center'}
+				        
 			    ]]
 			});
 		});
@@ -100,16 +106,14 @@
 		 * 列表查询
 		 * 根据查询条件刷新列表数据
 		 */
-		function searchWarnListGrid(){
+		function searchRC(){
 			var sTime =$('#sTime').datetimebox('getValue');
 			var eTime =$('#eTime').datetimebox('getValue');
-			var dId = $("#dId").combobox("getText");
+			var dName = $("#dName").combobox("getValue");
 			$('#rrListGrid').datagrid('load',{
-				unitId:unitid,
 				sTime:sTime,
 				eTime:eTime,
-				unitName:unitName,
-				status:status
+				dName:dName
 			});
 		}
 		
