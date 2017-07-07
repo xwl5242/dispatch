@@ -23,7 +23,7 @@ public class EAServiceImpl implements EAService{
 	private EADao eaDao;
 
 	@Override
-	public Map<String, Object> tongbi(String ys,String type) {
+	public Map<String, Object> tongbi(String ys,String type,String eaType) {
 		Map<String,Object> result =new HashMap<String,Object>();
 		List<String> yearList = new ArrayList<String>();
 		if(null==ys || "".equals(ys)){
@@ -35,7 +35,7 @@ public class EAServiceImpl implements EAService{
 		}else{
 			yearList = Arrays.asList(ys.split("\\|"));
 		}
-		List<Map<String, Object>> listMap = eaDao.tongbi(type);
+		List<Map<String, Object>> listMap = eaDao.tongbi(type,eaType);
 		
 		if(null!=listMap&&listMap.size()>0){
 			List<String> A = new ArrayList<String>();
@@ -75,9 +75,9 @@ public class EAServiceImpl implements EAService{
 	}
 
 	@Override
-	public Map<String, Object> airTongbi1(String startDate, String endDate) {
+	public Map<String, Object> airTongbi1(String startDate, String endDate,String utype) {
 		Map<String,Object> result =new HashMap<String,Object>();
-		List<Map<String, Object>> listMap = eaDao.airTongbi1(startDate,endDate);
+		List<Map<String, Object>> listMap = eaDao.airTongbi1(startDate,endDate,utype);
 		String[] aitype = {"1","2"};
 		if(null!=listMap&&listMap.size()>0){
 			List<String> A = new ArrayList<String>();
@@ -111,7 +111,7 @@ public class EAServiceImpl implements EAService{
 	}
 
 	@Override
-	public Map<String, Object> qushi(String startDate, String endDate,String type) throws Exception {
+	public Map<String, Object> qushi(String startDate, String endDate,String type,String eaType) throws Exception {
 		Map<String,Object> result =new HashMap<String,Object>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		List<String> yearList = new ArrayList<String>();
@@ -132,7 +132,7 @@ public class EAServiceImpl implements EAService{
 		yearList.add(endDate);
 		defaultList.add("0");
 		
-		List<Map<String, Object>> listMap = eaDao.qushi(startDate,endDate,type);
+		List<Map<String, Object>> listMap = eaDao.qushi(startDate,endDate,type,eaType);
 		
 		if(null!=listMap&&listMap.size()>0){
 			List<String> A = new ArrayList<String>();

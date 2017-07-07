@@ -50,7 +50,7 @@
                  ~ <input id='endDate' name="startDate" class="easyui-datebox" style="width: 155px" data-options="editable:false"/>
             </td>
             <td colspan="12" width="20%"> 
-			   <a id="searchLineTrend" onclick='searchLineTrend();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
+			   <a id="searchLineTrend" onclick='searchNHTrend();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
 			   <a id="clearLineTrendSearch"  onclick='formClear();' class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>
 			</td> 
         </tr>
@@ -151,240 +151,334 @@
         $("#piediv").width(ww-50);
         //查询条件中的年份设置
         yearsSet();
-        //路径配置
-        require.config({
-            paths: {
-                echarts: 'http://echarts.baidu.com/build/dist'
-            }
-        });
-        var power,water,powertrend,watertrend,waterpower;
-        var mypower,mywater,mypowertrend,mywatertrend,mywaterpower;
-        // 使用
-        require(
-            [
-                'echarts',
-                'echarts/theme/macarons',
-                'echarts/chart/pie',
-                'echarts/chart/bar',
-                'echarts/chart/line' 
-            ],
-            function (ec, theme) {
-                // 基于准备好的dom，初始化echarts图表
-                power = ec.init(document.getElementById('power'), theme);
-                water = ec.init(document.getElementById('water'), theme);
-                powertrend = ec.init(document.getElementById('powertrend'), theme);
-                watertrend = ec.init(document.getElementById('watertrend'), theme);
-                waterpower = ec.init(document.getElementById('waterpower'), theme);
-               
-                mypower = {
-					tooltip : {
-						trigger : 'axis'
-					},
-					legend : {
-						data : [ '电能耗' ]
-					},
-					calculable : true,
-					xAxis : [ {
-						type : 'category',
-						data : [ '2015年', '2016年', '2017年' ]
-					} ],
-					yAxis : [ {
-						name : 'KWh/万㎡',
-						type : 'value'
-					} ],
-					series : [ {
-						name : '电能耗',
-						type : 'bar',
-						data : [ 8000, 6000, 4000 ],
-						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-					} ]
-				};
-                
-                mywater = {
-   					tooltip : {
-   						trigger : 'axis'
-   					},
-   					legend : {
-   						data : [ '水能耗' ]
-   					},
-   					calculable : true,
-   					xAxis : [ {
-   						type : 'category',
-   						data : [ '2015年', '2016年', '2017年' ]
-   					} ],
-   					yAxis : [ {
-   						name : 't/万㎡',
-   						type : 'value'
-   					} ],
-   					series : [ {
-   						name : '水能耗',
-   						type : 'bar',
-   						data : [ 8000, 6000, 4000 ],
-   						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-   					} ]
-   				};
-                
-                mypowertrend = {
-               		tooltip : {
-               	        trigger: 'axis'
-               	    },
-               	    legend: {
-               	        data:['A座','B座','总体']
-               	    },
-               	    calculable : true,
-               	    xAxis : [
-               	        {
-               	            type : 'category',
-               	            boundaryGap : false,
-               	            data : ['2017-04-01','2017-04-02','2017-04-03','2017-04-04','2017-04-05','2017-04-06','2017-04-07']
-               	        }
-               	    ],
-               	    yAxis : [
-               	        {
-               	            type : 'value',
-               	            axisLabel : {
-               	                formatter: '{value} KWh/万㎡'
-               	            }
-               	        }
-               	    ],
-               	    series : [
-               	        {
-               	            name:'A座',
-               	            type:'line',
-               	            data:[11, 11, 15, 13, 12, 13, 10],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'B座',
-               	            type:'line',
-               	            data:[1, 2, 2, 5, 3, 2, 0],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'总体',
-               	            type:'line',
-               	            data:[11, 13, 17, 18, 15, 15, 10],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        }
-               	    ]
-   				};
-              
-                mywatertrend = {
-               		tooltip : {
-               	        trigger: 'axis'
-               	    },
-               	    legend: {
-               	        data:['A座','B座','总体']
-               	    },
-               	    calculable : true,
-               	    xAxis : [
-               	        {
-               	            type : 'category',
-               	            boundaryGap : false,
-               	            data : ['2017-04-01','2017-04-02','2017-04-03','2017-04-04','2017-04-05','2017-04-06','2017-04-07']
-               	        }
-               	    ],
-               	    yAxis : [
-               	        {
-               	            type : 'value',
-               	            axisLabel : {
-               	                formatter: '{value} t/万㎡'
-               	            }
-               	        }
-               	    ],
-               	    series : [
-               	        {
-               	            name:'A座',
-               	            type:'line',
-               	            data:[11, 11, 15, 13, 12, 13, 10],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'B座',
-               	            type:'line',
-               	            data:[1, -2, 2, 5, 3, 2, 0],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'总体',
-               	            type:'line',
-               	            data:[11, 9, 17, 18, 15, 15, 10],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        }
-               	    ]
-   				};
-                
-                mywaterpower = {
-               		tooltip : {
-               	        trigger: 'item',
-               	        formatter: "{a} <br/>{b} : {c} ({d}%)"
-               	    },
-               	    legend: {
-               	        data:['A座水','A座电','B座水','B座电']
-               	    },
-               	    calculable : true,
-               	    series : [
-               	        {
-               	            type:'pie',
-               	            radius : '55%',
-               	            center: ['50%', '60%'],
-               	            data:[
-               	                {value:335, name:'A座水'},
-               	                {value:234, name:'A座电'},
-               	                {value:543, name:'B座水'},
-               	                {value:397, name:'B座电'}
-               	            ]
-               	        }
-               	    ]
-               	};
-                
-				power.setOption(mypower);
-				water.setOption(mywater);
-				powertrend.setOption(mypowertrend);
-				watertrend.setOption(mywatertrend);
-				waterpower.setOption(mywaterpower);
-			});
+        renderEcharts();
 	});
+function searchNHTrend(){
+	renderEcharts();
+}
+function renderEcharts(){
+	//路径配置
+    require.config({
+        paths: {
+            echarts: 'http://echarts.baidu.com/build/dist'
+        }
+    });
+    var power,water,powertrend,watertrend,waterpower;
+    var mypower,mywater,mypowertrend,mywatertrend,mywaterpower;
+    // 使用
+    require(
+        [
+            'echarts',
+            'echarts/theme/macarons',
+            'echarts/chart/pie',
+            'echarts/chart/bar',
+            'echarts/chart/line' 
+        ],
+        function (ec, theme) {
+            // 基于准备好的dom，初始化echarts图表
+            power = ec.init(document.getElementById('power'), theme);
+            water = ec.init(document.getElementById('water'), theme);
+            powertrend = ec.init(document.getElementById('powertrend'), theme);
+            watertrend = ec.init(document.getElementById('watertrend'), theme);
+            waterpower = ec.init(document.getElementById('waterpower'), theme);
+           
+            $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
+            	ys : $('#years').combo('getText'),
+            	type : "'2','3','4','5','6'",
+            	eaType:'NH'
+            },function(data){
+            	mypower = {
+        				tooltip : {
+        					trigger : 'axis'
+        				},
+        				legend : {
+        					data:['A座','B座','总体']
+        				},
+        				calculable : true,
+        				xAxis : [ {
+        					type : 'category',
+//         					data : [ '2015年', '2016年', '2017年' ]
+        					data : data.yearList
+        				} ],
+        				yAxis : [ {
+        					name : 'KW',
+        					type : 'value'
+        				} ],
+        				series : [
+                      	        {
+                         	            name:'A座',
+                         	            type:'bar',
+//                          	            data:[2.0, 4.9, 7.0],
+                         	            data:data.A,
+                         	         	itemStyle:{normal:{label:{show:true}}},
+                         	            markLine : {
+                         	                data : [
+                         	                    {type : 'average', name: '平均值'}
+                         	                ]
+                         	            }
+                         	        },
+                         	        {
+                         	            name:'B座',
+                         	            type:'bar',
+//                          	            data:[2.6, 5.9, 9.0],
+                         	            data:data.B,
+                         	            itemStyle:{normal:{label:{show:true}}},
+                         	            markLine : {
+                         	                data : [
+                         	                    {type : 'average', name: '平均值'}
+                         	                ]
+                         	            }
+                         	        },
+                         	        {
+                         	            name:'总体',
+                         	            type:'bar',
+//                          	            data:[4.6, 10.8, 16.0],
+                         	            data:data.T,
+                         	            itemStyle:{normal:{label:{show:true}}},
+                         	            markLine : {
+                         	                data : [
+                         	                    {type : 'average', name: '平均值'}
+                         	                ]
+                         	            }
+                         	        }
+                         	    ]
+        			};
+            	power.setOption(mypower);
+            },'json');
+            
+            $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
+            	ys : $('#years').combo('getText'),
+            	type : "'8'",
+            	eaType:'NH'
+            },function(data){
+            	mywater = {
+            			tooltip : {
+        					trigger : 'axis'
+        				},
+        				legend : {
+        					data:['A座','B座','总体']
+        				},
+        				calculable : true,
+        				xAxis : [ {
+        					type : 'category',
+//         					data : [ '2015年', '2016年', '2017年' ]
+        					data : data.yearList
+        				} ],
+        				yAxis : [ {
+        					name : 'KW',
+        					type : 'value'
+        				} ],
+        				series : [
+                      	        {
+                         	            name:'A座',
+                         	            type:'bar',
+//                          	            data:[2.0, 4.9, 7.0],
+                         	            data:data.A,
+                         	         	itemStyle:{normal:{label:{show:true}}},
+                         	            markLine : {
+                         	                data : [
+                         	                    {type : 'average', name: '平均值'}
+                         	                ]
+                         	            }
+                         	        },
+                         	        {
+                         	            name:'B座',
+                         	            type:'bar',
+//                          	            data:[2.6, 5.9, 9.0],
+                         	            data:data.B,
+                         	            itemStyle:{normal:{label:{show:true}}},
+                         	            markLine : {
+                         	                data : [
+                         	                    {type : 'average', name: '平均值'}
+                         	                ]
+                         	            }
+                         	        },
+                         	        {
+                         	            name:'总体',
+                         	            type:'bar',
+//                          	            data:[4.6, 10.8, 16.0],
+                         	            data:data.T,
+                         	            itemStyle:{normal:{label:{show:true}}},
+                         	            markLine : {
+                         	                data : [
+                         	                    {type : 'average', name: '平均值'}
+                         	                ]
+                         	            }
+                         	        }
+                         	    ]
+    				};
+            	water.setOption(mywater);
+            },'json');
+            
+            $.post('<%=path %>/ea/airsystem/air/qushi.do',{
+            	startDate : $('#startDate').datebox('getValue'),
+            	endDate : $('#endDate').datebox('getValue'),
+            	type : "'2','3','4','5','6'",
+            	eaType:'NH'
+            },function(data){
+            	mypowertrend = {
+            			tooltip : {
+	               	        trigger: 'axis'
+	               	    },
+	               	    legend: {
+	               	        data:['A座','B座','总体']
+	               	    },
+	               	    calculable : true,
+	               	    xAxis : [
+	               	        {
+	               	            type : 'category',
+	               	            boundaryGap : false,
+	               	            data : data.yearList
+	               	        }
+	               	    ],
+	               	    yAxis : [
+	               	        {
+	               	            type : 'value',
+	               	            axisLabel : {
+	               	                formatter: '{value} KWh'
+	               	            }
+	               	        }
+	               	    ],
+	               	    series : [
+	               	        {
+	               	            name:'A座',
+	               	            type:'line',
+// 	               	            data:[11, 11, 15, 13, 12, 13, 10],
+	               	            data:data.A,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'B座',
+	               	            type:'line',
+// 	               	            data:[1, 2, 2, 5, 3, 2, 0],
+	               	            data:data.B,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'总体',
+	               	            type:'line',
+// 	               	            data:[11, 13, 17, 18, 15, 15, 10],
+	               	            data:data.T,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        }
+	               	    ]
+        			};
+            	powertrend.setOption(mypowertrend);
+            },'json');
+            
+            $.post('<%=path %>/ea/airsystem/air/qushi.do',{
+            	startDate : $('#startDate').datebox('getValue'),
+            	endDate : $('#endDate').datebox('getValue'),
+            	type : "'8'",
+            	eaType:'NH'
+            },function(data){
+            	mywatertrend = {
+            			tooltip : {
+	               	        trigger: 'axis'
+	               	    },
+	               	    legend: {
+	               	        data:['A座','B座','总体']
+	               	    },
+	               	    calculable : true,
+	               	    xAxis : [
+	               	        {
+	               	            type : 'category',
+	               	            boundaryGap : false,
+	               	            data : data.yearList
+	               	        }
+	               	    ],
+	               	    yAxis : [
+	               	        {
+	               	            type : 'value',
+	               	            axisLabel : {
+	               	                formatter: '{value} KWh'
+	               	            }
+	               	        }
+	               	    ],
+	               	    series : [
+	               	        {
+	               	            name:'A座',
+	               	            type:'line',
+// 	               	            data:[11, 11, 15, 13, 12, 13, 10],
+	               	            data:data.A,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'B座',
+	               	            type:'line',
+// 	               	            data:[1, 2, 2, 5, 3, 2, 0],
+	               	            data:data.B,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'总体',
+	               	            type:'line',
+// 	               	            data:[11, 13, 17, 18, 15, 15, 10],
+	               	            data:data.T,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        }
+	               	    ]
+        			};
+            	watertrend.setOption(mywatertrend);
+            },'json');
+            
+            mywaterpower = {
+           		tooltip : {
+           	        trigger: 'item',
+           	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+           	    },
+           	    legend: {
+           	        data:['A座水','A座电','B座水','B座电']
+           	    },
+           	    calculable : true,
+           	    series : [
+           	        {
+           	            type:'pie',
+           	            radius : '55%',
+           	            center: ['50%', '60%'],
+           	            data:[
+           	                {value:335, name:'A座水'},
+           	                {value:234, name:'A座电'},
+           	                {value:543, name:'B座水'},
+           	                {value:397, name:'B座电'}
+           	            ]
+           	        }
+           	    ]
+           	};
+			
+			waterpower.setOption(mywaterpower);
+		});
+}
 </script>
 </body>
 </html>

@@ -123,7 +123,8 @@
                
                 $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
                 	ys : $('#years').combo('getText'),
-                	type : "'3','4'"
+                	type : "'3','4'",
+                	eaType:'NH'
                 },function(data){
                 	//同比
                     mytongbi = {
@@ -191,7 +192,8 @@
                 
                 $.post('<%=path %>/ea/airsystem/air/biaozhun.do',{
                 	startDate : $('#startDate').datebox('getValue'),
-                	endDate : $('#endDate').datebox('getValue')
+                	endDate : $('#endDate').datebox('getValue'),
+                	type:"'3','4'"
                 },function(data){
 	                //标准
 	                mybiaozhun = {
@@ -205,7 +207,7 @@
 	               	    xAxis : [
 	               	        {
 	               	            type : 'category',
-	               	            data : ['标层','非标层']
+	               	            data : ['冷冻泵','冷却泵']
 	               	        }
 	               	    ],
 	               	    yAxis : [
@@ -247,7 +249,8 @@
                 $.post('<%=path %>/ea/airsystem/air/qushi.do',{
                 	startDate : $('#startDate').datebox('getValue'),
                 	endDate : $('#endDate').datebox('getValue'),
-                	type : "'3','4'"
+                	type : "'3','4'",
+                	eaType:'NH'
                 },function(data){
 	                //趋势
 	                myqushi = {

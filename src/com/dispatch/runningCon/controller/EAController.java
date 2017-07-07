@@ -23,26 +23,28 @@ public class EAController extends BaseController {
 	
 	@RequestMapping(value = "/airsystem/air/tongbi.do")
 	@ResponseBody
-	public void airTongbi(HttpServletRequest request, HttpServletResponse response,String ys,String type){
+	public void airTongbi(HttpServletRequest request, HttpServletResponse response,
+			String ys,String type,String eaType){
 		Map<String,Object> map =new HashMap<String,Object>();
-		map = eaService.tongbi(ys,type);
+		map = eaService.tongbi(ys,type,eaType);
 		super.returnObjectJson(map, response);
 	}
 	
 	@RequestMapping(value = "/airsystem/air/qushi.do")
 	@ResponseBody
 	public void airLine(HttpServletRequest request, HttpServletResponse response,
-			String startDate,String endDate,String type) throws Exception{
+			String startDate,String endDate,String type,String eaType) throws Exception{
 		Map<String,Object> map =new HashMap<String,Object>();
-		map = eaService.qushi(startDate,endDate,type);
+		map = eaService.qushi(startDate,endDate,type,eaType);
 		super.returnObjectJson(map, response);
 	}
 	
 	@RequestMapping(value = "/airsystem/air/biaozhun.do")
 	@ResponseBody
-	public void airTongbi1(HttpServletRequest request, HttpServletResponse response,String startDate,String endDate){
+	public void airTongbi1(HttpServletRequest request, HttpServletResponse response,
+			String startDate,String endDate,String type){
 		Map<String,Object> map =new HashMap<String,Object>();
-		map = eaService.airTongbi1(startDate,endDate);
+		map = eaService.airTongbi1(startDate,endDate,type);
 		super.returnObjectJson(map, response);
 	}
 	

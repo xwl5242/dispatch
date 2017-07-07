@@ -160,7 +160,8 @@
                
                 $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
                 	ys : $('#years').combo('getText'),
-                	type : "'5'"
+                	type : "'5'",
+                	eaType:'NH'
                 },function(data){
                 	//同比
                     mytongbi = {
@@ -229,7 +230,8 @@
                 $.post('<%=path %>/ea/airsystem/air/qushi.do',{
                 	startDate : $('#startDate').datebox('getValue'),
                 	endDate : $('#endDate').datebox('getValue'),
-                	type : "'5'"
+                	type : "'5'",
+                	eaType:'NH'
                 },function(data){
 	                //趋势
 	                myqushi = {

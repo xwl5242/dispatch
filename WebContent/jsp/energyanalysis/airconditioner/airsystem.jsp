@@ -114,7 +114,8 @@
                
                 $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
                 	ys : $('#years').combo('getText'),
-                	type : "'1','2'"
+                	type : "'1','2'",
+                	eaType:'NH'
                 },function(data){
                 	//同比
                     mytongbi = {
@@ -182,7 +183,8 @@
                 
                 $.post('<%=path %>/ea/airsystem/air/biaozhun.do',{
                 	startDate : $('#startDate').datebox('getValue'),
-                	endDate : $('#endDate').datebox('getValue')
+                	endDate : $('#endDate').datebox('getValue'),
+                	type:"'1','2'"
                 },function(data){
 	                //标准
 	                mybiaozhun = {
@@ -238,7 +240,8 @@
                 $.post('<%=path %>/ea/airsystem/air/qushi.do',{
                 	startDate : $('#startDate').datebox('getValue'),
                 	endDate : $('#endDate').datebox('getValue'),
-                	type : "'1','2'"
+                	type : "'1','2'",
+                	eaType:'NH'
                 },function(data){
 	                //趋势
 	                myqushi = {

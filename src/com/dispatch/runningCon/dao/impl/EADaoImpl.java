@@ -12,8 +12,14 @@ import com.frames.jdbc.PageListJdbcTemplate;
 public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 
 	@Override
-	public List<Map<String, Object>> tongbi(String type) {
-		String sql = "SELECT SUBSTR(D.YD, 1, 4) AS Y, D.AB, SUM(D.DL) AS DL FROM (SELECT B.YD, B.AB, B.POINTNAME, "
+	public List<Map<String, Object>> tongbi(String type,String eaType) {
+		String sql = "SELECT SUBSTR(D.YD, 1, 4) AS Y, D.AB, ";
+		if("DH".equals(eaType)){
+			sql += "ROUND(SUM (D .DL)/(select AREA from unitarea where unitcode = 'AB'),2) ";
+		}else if("NH".equals(eaType)){
+			sql += "SUM(D.DL) ";
+		}
+		sql += " AS DL FROM (SELECT B.YD, B.AB, B.POINTNAME, "
 				+ "ROUND(B.TOTAL - NVL(C.TTVV, 0), 2) AS DL FROM (SELECT A.YD, A.AB, A.POINTNAME, MAX(A.TOTAL) AS TOTAL "
 				+ "FROM (SELECT TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') AS YD, MAX(KV.POINTVALUE) AS TOTAL, KV.POINTNAME, KV.AITYPE, "
 				+ "KV.AB FROM AIKV KV GROUP BY TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd'), KV.POINTNAME, KV.AITYPE, KV.AB HAVING "
@@ -25,11 +31,11 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 	}
 
 	@Override
-	public List<Map<String, Object>> airTongbi1(String startDate, String endDate) {
+	public List<Map<String, Object>> airTongbi1(String startDate, String endDate,String type) {
 		String sql = "SELECT D.AITYPE, D.AB, SUM(D.DL) AS DL FROM (SELECT B.AITYPE, B.YD, B.AB, B.POINTNAME, "
 				+ "ROUND(B.TOTAL - NVL(C.TTVV, 0), 2) AS DL FROM (SELECT TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') AS YD, "
 				+ "MAX(KV.POINTVALUE) AS TOTAL, KV.POINTNAME, KV.AITYPE, KV.AB FROM AIKV KV GROUP BY "
-				+ "TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd'), KV.POINTNAME, KV.AITYPE, KV.AB HAVING KV.AITYPE IN ('1', '2') ";
+				+ "TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd'), KV.POINTNAME, KV.AITYPE, KV.AB HAVING KV.AITYPE IN ("+type+") ";
 				if(null!=startDate&&!"".equals(startDate)){
 					sql += " AND TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') >= '"+startDate+"'";
 				}
@@ -43,8 +49,14 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 	}
 
 	@Override
-	public List<Map<String, Object>> qushi(String startDate, String endDate,String type) {
-		String sql = "SELECT D.YD, D.AB, SUM(D.DL) AS DL FROM (SELECT B.YD, B.AB, B.POINTNAME, "
+	public List<Map<String, Object>> qushi(String startDate, String endDate,String type,String eaType) {
+		String sql = "SELECT D.YD, D.AB, ";
+		if("DH".equals(eaType)){
+			sql += "ROUND(SUM (D .DL)/(select AREA from unitarea where unitcode = 'AB'),2) ";
+		}else if("NH".equals(eaType)){
+			sql += "SUM(D.DL) ";
+		}
+		sql	 += " AS DL FROM (SELECT B.YD, B.AB, B.POINTNAME, "
 				+ "ROUND(B.TOTAL - NVL(C.TTVV, 0), 2) AS DL FROM (SELECT A.YD, A.AB, A.POINTNAME, MAX(A.TOTAL) AS TOTAL "
 				+ "FROM (SELECT TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') AS YD, MAX(KV.POINTVALUE) AS TOTAL, KV.POINTNAME, KV.AITYPE, "
 				+ "KV.AB FROM AIKV KV GROUP BY TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd'), KV.POINTNAME, KV.AITYPE, KV.AB HAVING "
