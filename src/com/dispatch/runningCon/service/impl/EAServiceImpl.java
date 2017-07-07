@@ -60,7 +60,7 @@ public class EAServiceImpl implements EAService{
 					A.add("0");
 					B.add("0");
 				}
-				T.add(Double.valueOf(ta)+Double.valueOf(tb)+"");
+				T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
 			}
 			result.put("A", A);
 			result.put("B", B);
@@ -157,7 +157,7 @@ public class EAServiceImpl implements EAService{
 					A.add("0");
 					B.add("0");
 				}
-				T.add(Double.valueOf(ta)+Double.valueOf(tb)+"");
+				T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
 			}
 			result.put("A", A);
 			result.put("B", B);

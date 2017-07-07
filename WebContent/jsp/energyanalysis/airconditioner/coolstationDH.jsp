@@ -50,7 +50,7 @@
                  ~ <input id='endDate' name="startDate" class="easyui-datebox" style="width: 155px" data-options="editable:false"/>
             </td>
             <td colspan="12" width="20%"> 
-			   <a id="searchLineTrend" onclick='searchLineTrend();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
+			   <a id="searchLineTrend" onclick='searchDHTrend();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
 			   <a id="clearLineTrendSearch"  onclick='formClear();' class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>
 			</td> 
         </tr>
@@ -144,9 +144,9 @@
         
         //查询条件中的年份设置
         yearsSet();
-        searchNHTrend();
+        renderEcharts();
 	});
-    function searchNHTrend(){
+    function searchDHTrend(){
     	renderEcharts();
     }
     function renderEcharts(){
@@ -156,8 +156,8 @@
                 echarts: 'http://echarts.baidu.com/build/dist'
             }
         });
-        var power,water,powertrend,watertrend,waterpower;
-        var mypower,mywater,mypowertrend,mywatertrend,mywaterpower;
+        var power,water,powertrend,watertrend;
+        var mypower,mywater,mypowertrend,mywatertrend;
         // 使用
         require(
             [
@@ -173,7 +173,6 @@
                 water = ec.init(document.getElementById('water'), theme);
                 powertrend = ec.init(document.getElementById('powertrend'), theme);
                 watertrend = ec.init(document.getElementById('watertrend'), theme);
-                waterpower = ec.init(document.getElementById('waterpower'), theme);
                
                 $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
                 	ys : $('#years').combo('getText'),
