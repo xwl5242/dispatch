@@ -187,6 +187,7 @@ public class EAServiceImpl implements EAService{
 			Map<String,String> tm = new HashMap<String,String>();
 			tm.put("name", map.get("NAME")+""); 
 			tm.put("value", map.get("VALUE")+""); 
+			list.add(tm);
 		}
 		return list;
 	}
