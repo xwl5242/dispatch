@@ -131,6 +131,12 @@
         $(".sjwd_cont").width(divW);
         //查询条件中的年份设置
         yearsSet();
+		
+		$('[name="2017"]').attr("checked",true);
+		$('#years').combo('setText','2017');
+		$('#endDate').datebox('setText',getDate(0));
+		$('#startDate').datebox('setText',getDate(6*24*60*60*1000));
+		
         renderEchart();
 	});
     
@@ -233,6 +239,7 @@
                 	type : "'5'",
                 	eaType:'NH'
                 },function(data){
+					console.log(data.B);
 	                //趋势
 	                myqushi = {
 	               		tooltip : {
@@ -300,7 +307,21 @@
                 },'json');
 			});
     }
-    
+    function getDate(lt) {
+		var longtime = new Date().getTime()-lt;
+		var date = new Date(longtime);
+		var seperator1 = "-";
+		var month = date.getMonth() + 1;
+		var strDate = date.getDate();
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
+		}
+		if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+		}
+		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		return currentdate;
+	}
     function searchLineTrend(){
     	renderEchart();
     }

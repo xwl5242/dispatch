@@ -89,14 +89,16 @@
 									return dateFormat(row.T);
 								}
 							}
-						}
-// 						{field:'DURATION',title:'启动时长',width:'15%',align:'center',
-// 							formatter: function(value,row,index){
-// 								if (row.YXSTATUS=='1'){
-// 									return dateFormat(row.TIME);
-// 								} 
-// 							}
-// 						},
+						},
+ 						{field:'DURATION',title:'累计运行时长',width:'15%',align:'center',
+ 							formatter: function(value,row,index){
+ 								if (row.YXSTATUS=='1'){
+									var curDate = new Date().getTime();
+									var date = new Date(row.T).getTime();
+ 									return formatDuration((curDate-date));
+ 								} 
+ 							}
+ 						}
 				        
 			    ]]
 			});

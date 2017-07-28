@@ -14,64 +14,115 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 
 	@Override
 	public List<Map<String, Object>> tongbi(String type,String eaType) {
-		String sql = "SELECT SUBSTR(D.YD, 1, 4) AS Y, D.AB, ";
+		String sql = "SELECT C.Y,C.AB,";
 		if("DH".equals(eaType)){
-			sql += "ROUND(SUM (D .DL)/(select AREA from unitarea where unitcode = 'AB'),2) ";
+			sql += "ROUND(NVL(SUM (C .DL),0)/(select AREA from unitarea where unitcode = 'AB'),2) DL ";
 		}else if("NH".equals(eaType)){
-			sql += "SUM(D.DL) ";
+			sql += "NVL(SUM(C.DL),0) DL ";
 		}
-		sql += " AS DL FROM (SELECT B.YD, B.AB, B.POINTNAME, "
-				+ "ROUND(B.TOTAL - NVL(C.TTVV, 0), 2) AS DL FROM (SELECT A.YD, A.AB, A.POINTNAME, MAX(A.TOTAL) AS TOTAL "
-				+ "FROM (SELECT TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') AS YD, MAX(KV.POINTVALUE) AS TOTAL, KV.POINTNAME, KV.AITYPE, "
-				+ "KV.AB FROM AIKV KV GROUP BY TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd'), KV.POINTNAME, KV.AITYPE, KV.AB HAVING "
-				+ "KV.AITYPE IN ("+type+") ) A GROUP BY A.YD, A.AB, A.POINTNAME ) B LEFT JOIN (SELECT TO_CHAR(\"TIME\", "
-				+ "'yyyy-MM-dd') AS TT, POINTNAME, MAX(POINTVALUE) AS TTVV FROM AIKV GROUP BY POINTNAME, TO_CHAR(\"TIME\", "
-				+ "'yyyy-MM-dd') ) C ON TO_DATE(C.TT, 'yyyy-MM-dd') = TO_DATE(B.YD, 'yyyy-MM-dd') - 1 AND B.POINTNAME = "
-				+ "C.POINTNAME ) D GROUP BY SUBSTR(D.YD, 1, 4), D.AB";
+		sql += " FROM (                                   "
+		+"  SELECT                                       "
+		+"    A.Y,A.AB,ROUND(A.TOTAL-NVL(B.TTVV,0),2) DL "
+		+"  FROM (                                       "
+		+"    SELECT TD, Y, \"K\", AB, MAX(V) TOTAL      "
+		+"    FROM AI_KV                                 "
+		+"    WHERE \"TYPE\" IN ("+type+")               "
+		+"    GROUP BY TD, Y, \"K\", AB                  "
+		+"  ) A LEFT JOIN (                              "
+		+"    SELECT TD,\"K\",MAX(V) TTVV                "
+		+"    FROM AI_KV                                 "
+		+"    GROUP BY TD,\"K\"                          "
+		+"  ) B ON B.TD = A.TD-1 AND A.\"K\"=B.\"K\"     "
+		+") C                                            "
+		+"GROUP BY C.Y,C.AB                              ";
 		return super.queryForList(sql);
 	}
 
 	@Override
 	public List<Map<String, Object>> airTongbi1(String startDate, String endDate,String type) {
-		String sql = "SELECT D.AITYPE, D.AB, SUM(D.DL) AS DL FROM (SELECT B.AITYPE, B.YD, B.AB, B.POINTNAME, "
-				+ "ROUND(B.TOTAL - NVL(C.TTVV, 0), 2) AS DL FROM (SELECT TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') AS YD, "
-				+ "MAX(KV.POINTVALUE) AS TOTAL, KV.POINTNAME, KV.AITYPE, KV.AB FROM AIKV KV GROUP BY "
-				+ "TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd'), KV.POINTNAME, KV.AITYPE, KV.AB HAVING KV.AITYPE IN ("+type+") ";
-				if(null!=startDate&&!"".equals(startDate)){
-					sql += " AND TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') >= '"+startDate+"'";
-				}
-				if(null!=endDate&&!"".equals(endDate)){
-					sql += " AND TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') <= '"+endDate+"'";
-				}
-				sql += ") B LEFT JOIN (SELECT TO_CHAR(\"TIME\", 'yyyy-MM-dd') AS TT, POINTNAME, MAX(POINTVALUE) AS TTVV "
-				+ "FROM AIKV GROUP BY POINTNAME, TO_CHAR(\"TIME\", 'yyyy-MM-dd') ) C ON B.POINTNAME = C.POINTNAME "
-				+ "AND TO_DATE(C.TT, 'yyyy-MM-dd') = TO_DATE(B.YD, 'yyyy-MM-dd') - 1 ) D GROUP BY D.AB, D.AITYPE";
+		String sql = "SELECT                                    "
+		+"  D.\"TYPE\" AITYPE,D.AB,                                    "
+		+"  NVL(SUM(D.DL),0) DL                                 "
+		+"FROM                                                  "
+		+"  (                                                   "
+		+"  SELECT                                              "
+		+"    A.\"D\",A.AB,A.\"K\",A.\"TYPE\",                  "
+		+"    ROUND(A.TOTAL - NVL(B.TTVV, 0), 2) DL             "
+		+"  FROM                                                "
+		+"    (                                                 "
+		+"      SELECT                                          "
+		+"        \"D\",TD,\"K\",AB,\"TYPE\",                   "
+		+"        MAX (V) TOTAL                                 "
+		+"      FROM                                            "
+		+"        AI_KV                                         "
+		+"      WHERE \"TYPE\" IN("+type+")                     ";
+		if(null!=startDate&&!"".equals(startDate)){
+			sql += " AND \"D\" >= '"+startDate+"'";
+		}
+		if(null!=endDate&&!"".equals(endDate)){
+			sql += " AND \"D\" <= '"+endDate+"'";
+		}
+		sql += "      GROUP BY                                  "
+		+"        \"D\",TD,\"K\",AB,\"TYPE\"                    "
+		+"    ) A                                               "
+		+"    LEFT JOIN (                                       "
+		+"        SELECT                                        "
+		+"          TD,\"K\",                                   "
+		+"          MAX (V) AS TTVV                             "
+		+"        FROM                                          "
+		+"          AI_KV                                       "
+		+"        GROUP BY                                      "
+		+"          TD,\"K\"                                    "
+		+"    ) B ON B.TD = A.TD - 1 AND A.\"K\" = B.\"K\"      "
+		+") D                                                   "
+		+"GROUP BY                                              "
+		+"  D.\"TYPE\",D.AB		                                ";
 		return super.queryForList(sql);
 	}
 
 	@Override
 	public List<Map<String, Object>> qushi(String startDate, String endDate,String type,String eaType) {
-		String sql = "SELECT D.YD, D.AB, ";
+		String sql = "SELECT                                  "
+		+"  D.\"D\" YD,D.AB,                                     ";
 		if("DH".equals(eaType)){
-			sql += "ROUND(SUM (D .DL)/(select AREA from unitarea where unitcode = 'AB'),2) ";
+			sql += " ROUND(NVL(SUM (D .DL),0)/(select AREA from unitarea where unitcode = 'AB'),2) DL ";
 		}else if("NH".equals(eaType)){
-			sql += "SUM(D.DL) ";
+			sql += " NVL(SUM(D.DL),0) DL ";
 		}
-		sql	 += " AS DL FROM (SELECT B.YD, B.AB, B.POINTNAME, "
-				+ "ROUND(B.TOTAL - NVL(C.TTVV, 0), 2) AS DL FROM (SELECT A.YD, A.AB, A.POINTNAME, MAX(A.TOTAL) AS TOTAL "
-				+ "FROM (SELECT TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') AS YD, MAX(KV.POINTVALUE) AS TOTAL, KV.POINTNAME, KV.AITYPE, "
-				+ "KV.AB FROM AIKV KV GROUP BY TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd'), KV.POINTNAME, KV.AITYPE, KV.AB HAVING "
-				+ "KV.AITYPE IN ("+type+") ";
-				if(null!=startDate&&!"".equals(startDate)){
-					sql += " AND TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') >= '"+startDate+"'";
-				}
-				if(null!=endDate&&!"".equals(endDate)){
-					sql += " AND TO_CHAR(KV.\"TIME\", 'yyyy-MM-dd') <= '"+endDate+"'";
-				}
-				sql += ") A GROUP BY A.YD, A.AB, A.POINTNAME ) B LEFT JOIN (SELECT TO_CHAR(\"TIME\", 'yyyy-MM-dd') AS TT, "
-				+ "POINTNAME, MAX(POINTVALUE) AS TTVV FROM AIKV GROUP BY POINTNAME, TO_CHAR(\"TIME\", 'yyyy-MM-dd') ) C "
-				+ "ON TO_DATE(C.TT, 'yyyy-MM-dd') = TO_DATE(B.YD, 'yyyy-MM-dd') - 1 AND B.POINTNAME = C.POINTNAME ) D "
-				+ "GROUP BY D.YD, D.AB";
+		sql += " FROM                                       "
+		+"  (                                               "
+		+"  SELECT                                          "
+		+"    A.\"D\",A.AB,A.\"K\",                         "
+		+"    ROUND(A.TOTAL - NVL(B.TTVV, 0),2) DL          "
+		+"  FROM                                            "
+		+"    (                                             "
+		+"      SELECT                                      "
+		+"        \"D\",TD,\"K\",AB,                        "
+		+"        MAX(V) TOTAL                              "
+		+"      FROM                                        "
+		+"        AI_KV                                     "
+		+"      WHERE \"TYPE\" IN("+type+")                 ";
+		if(null!=startDate&&!"".equals(startDate)){
+			sql += " AND \"D\" >= '"+startDate+"'";
+		}
+		if(null!=endDate&&!"".equals(endDate)){
+			sql += " AND \"D\" <= '"+endDate+"'";
+		}
+		sql += "      GROUP BY                              "
+		+"        \"D\",TD,\"K\",AB                         "
+		+"    ) A                                           "
+		+"    LEFT JOIN (                                   "
+		+"        SELECT                                    "
+		+"          TD,\"K\",                               "
+		+"          MAX(V) AS TTVV                          "
+		+"        FROM                                      "
+		+"          AI_KV                                   "
+		+"        GROUP BY                                  "
+		+"          TD,\"K\"                                "
+		+"    ) B ON B.TD = A.TD-1 AND A.\"K\" = B.\"K\"    "
+		+") D                                               "
+		+" GROUP BY                                         "
+		+"  D.\"D\",D.AB                                    ";
 		return super.queryForList(sql);
 	}
 
@@ -82,22 +133,76 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 			kv.put(map.get("ET")+"",Double.valueOf(map.get("P")+""));
 		}
 		
-		String sql = "SELECT ( CASE WHEN D .AB = 'A' AND D .AITYPE = 'E' THEN 'A座电' WHEN D .AB = 'A' "
-				+ "AND D .AITYPE = 'W' THEN 'A座水' WHEN D .AB = 'B' AND D .AITYPE = 'E' THEN 'B座电' "
-				+ "WHEN D .AB = 'B' AND D .AITYPE = 'W' THEN 'B座水' END ) NAME, D.P VALUE FROM ( "
-				+ "SELECT B.AB, B.AITYPE, ROUND ( ( CASE B.AITYPE WHEN 'E' THEN ( SUM (B.TOTAL - NVL(C.TTVV, 0)) * "+kv.get("elec")
-				+ " ) WHEN 'W' THEN ( SUM (B.TOTAL - NVL(C.TTVV, 0)) * "+kv.get("water")
-				+" ) END ), 2 ) P FROM "
-				+ "( SELECT A .AITYPE, A .YD, A .AB, A .POINTNAME, MAX (A .TOTAL) TOTAL FROM ( "
-				+ "SELECT TO_CHAR (KV.\"TIME\", 'yyyy-MM-dd') AS YD, MAX (KV.POINTVALUE) AS TOTAL, "
-				+ "KV.POINTNAME, ( CASE WHEN KV.AITYPE BETWEEN '1' AND '6' THEN 'E' WHEN KV.AITYPE = '8' "
-				+ "THEN 'W' END ) AITYPE, KV.AB FROM AIKV KV GROUP BY TO_CHAR (KV.\"TIME\", 'yyyy-MM-dd'), "
-				+ "KV.POINTNAME, KV.AITYPE, KV.AB HAVING KV.AITYPE BETWEEN '1' AND '8' ) A GROUP BY "
-				+ "A .YD, A .AB, A .AITYPE, A .POINTNAME HAVING A.YD>='"+startDate+"' AND A.YD<='"+endDate+"' ) B "
-				+ "LEFT JOIN ( SELECT TO_CHAR (\"TIME\", 'yyyy-MM-dd') AS TT, POINTNAME, MAX (POINTVALUE) "
-				+ "AS TTVV FROM AIKV GROUP BY POINTNAME, TO_CHAR (\"TIME\", 'yyyy-MM-dd') ) C ON "
-				+ "TO_DATE (C.TT, 'yyyy-MM-dd') = TO_DATE (B.YD, 'yyyy-MM-dd') - 1 "
-				+ "AND B.POINTNAME = C.POINTNAME GROUP BY B.AB, B.AITYPE ) D";
+		String sql = "SELECT                                "
+		+"	(                                               "
+		+"		CASE                                        "
+		+"		WHEN D .AB = 'A'                            "
+		+"		AND D .\"TYPE\" = 'E' THEN                  "
+		+"			'A座电'                                 "
+		+"		WHEN D .AB = 'A'                            "
+		+"		AND D .\"TYPE\" = 'W' THEN                  "
+		+"			'A座水'                                 "
+		+"		WHEN D .AB = 'B'                            "
+		+"    AND D .\"TYPE\" = 'E' THEN                    "
+		+"      'B座电'                                     "
+		+"    WHEN D .AB = 'B'                              "
+		+"    AND D .\"TYPE\" = 'W' THEN                    "
+		+"      'B座水'                                     "
+		+"    END                                           "
+		+"  ) NAME,                                         "
+		+"  D.P VALUE                                       "
+		+" FROM                                             "
+		+"  (                                               "
+		+"    SELECT                                        "
+		+"      A.AB,A.\"TYPE\",                            "
+		+"      ROUND (                                     "
+		+"        (                                         "
+		+"          CASE A.\"TYPE\"                         "
+		+"          WHEN 'E' THEN                           "
+		+"            (                                     "
+		+"              SUM (A.TOTAL - NVL(B.TTVV, 0)) * "+kv.get("elec")
+		+"            )                                     "
+		+"          WHEN 'W' THEN                           "
+		+"            (                                     "
+		+"              SUM (A.TOTAL - NVL(B.TTVV, 0)) * "+kv.get("water")
+		+"            )                                     "
+		+"          END                                     "
+		+"        ),                                        "
+		+"        2                                         "
+		+"      ) P                                         "
+		+"    FROM (                                        "
+		+"      SELECT                                      "
+		+"        TD,\"K\",                                 "
+		+"        MAX(V) AS TOTAL,                          "
+		+"        (                                         "
+		+"          CASE                                    "
+		+"          WHEN \"TYPE\" BETWEEN '1' AND '6' THEN  "
+		+"            'E'                                   "
+		+"          WHEN \"TYPE\" = '8' THEN                "
+		+"            'W'                                   "
+		+"          END                                     "
+		+"        ) \"TYPE\",                               "
+		+"        AB                                        "
+		+"      FROM                                        "
+		+"        AI_KV AA                                  "
+		+"      WHERE \"TYPE\" BETWEEN '1' AND '8'          "
+		+"			AND \"D\" >='"+startDate+"' AND \"D\" <= '"+endDate+"'"
+		+"      GROUP BY                                    "
+		+"        TD,\"K\",AB,\"TYPE\"                      "
+		+"    ) A                                           "
+		+"    LEFT JOIN (                                   "
+		+"      SELECT                                      "
+		+"        TD,\"K\",MAX(V) AS TTVV                   "
+		+"      FROM                                        "
+		+"        AI_KV                                     "
+		+"      GROUP BY                                    "
+		+"        TD,\"K\"                                  "
+		+"    ) B ON B.TD = A.TD - 1                        "
+		+"    AND A.\"K\" = B.\"K\"                         "
+		+"    GROUP BY                                      "
+		+"      A.AB,                                       "
+		+"      A.\"TYPE\"                                  "
+		+") D                                               ";
 		return super.queryForList(sql);
 	}
 

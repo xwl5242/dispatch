@@ -71,6 +71,7 @@ $(document).ready(function(){
 	$("#dg").height(divH);
 	$("#dg").width(ww);
 	
+	$('#weatherDate').datebox('setText',getDate(0));
 	renderEcharts();
 	
 	var $table = $('#dg'),
@@ -209,6 +210,21 @@ function formClear(){
 	$('#weatherDate').datebox('setValue','');
 	$('#weatherDate').datebox('setText','');
 }
+function getDate(lt) {
+		var longtime = new Date().getTime()-lt;
+		var date = new Date(longtime);
+		var seperator1 = "-";
+		var month = date.getMonth() + 1;
+		var strDate = date.getDate();
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
+		}
+		if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+		}
+		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		return currentdate;
+	}
 </script>
 </body>
 </html>

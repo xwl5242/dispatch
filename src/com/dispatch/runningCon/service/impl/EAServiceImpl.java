@@ -43,21 +43,25 @@ public class EAServiceImpl implements EAService{
 			List<String> T = new ArrayList<String>();
 			for(String y:yearList){
 				String ta = "0",tb="0";
-				boolean flag = false;
+				boolean aflag = false;
+				boolean bflag = false;
 				for(Map<String,Object> map:listMap){
 					if(map.get("Y").toString().equals(y)){
-						flag = true;
 						String AB = map.get("AB").toString();
 						String DL = map.get("DL").toString();
 						if(AB.equals("A")){
+							aflag = true;
 							A.add(DL);ta = DL;
 						}else if(AB.equals("B")){
+							bflag = true;
 							B.add(DL);tb = DL;
 						}
 					}
 				}
-				if(!flag){
+				if(!aflag){
 					A.add("0");
+				}
+				if(!bflag){
 					B.add("0");
 				}
 				T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
@@ -83,21 +87,25 @@ public class EAServiceImpl implements EAService{
 			List<String> A = new ArrayList<String>();
 			List<String> B = new ArrayList<String>();
 			for(String type:aitype){
-				boolean flag = false;
+				boolean aflag = false;
+				boolean bflag = false;
 				for(Map<String,Object> map:listMap){
 					if(map.get("AITYPE").toString().equals(type)){
-						flag = true;
 						String AB = map.get("AB").toString();
 						String DL = map.get("DL").toString();
 						if(AB.equals("A")){
+							aflag = true;
 							A.add(DL);
 						}else if(AB.equals("B")){
+							bflag = true;
 							B.add(DL);
 						}
 					}
 				}
-				if(!flag){
+				if(!aflag){
 					A.add("0");
+				}
+				if(!bflag){
 					B.add("0");
 				}
 			}
@@ -140,21 +148,25 @@ public class EAServiceImpl implements EAService{
 			List<String> T = new ArrayList<String>();
 			for(String y:yearList){
 				String ta = "0",tb="0";
-				boolean flag = false;
+				boolean aflag = false;
+				boolean bflag = false;
 				for(Map<String,Object> map:listMap){
 					if(map.get("YD").toString().equals(y)){
-						flag = true;
 						String AB = map.get("AB").toString();
 						String DL = map.get("DL").toString();
 						if(AB.equals("A")){
+							aflag = true;
 							A.add(DL);ta = DL;
 						}else if(AB.equals("B")){
+							bflag = true;
 							B.add(DL);tb = DL;
 						}
 					}
 				}
-				if(!flag){
+				if(!aflag){
 					A.add("0");
+				}
+				if(!bflag){
 					B.add("0");
 				}
 				T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));

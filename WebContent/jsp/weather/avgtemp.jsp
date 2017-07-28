@@ -57,6 +57,9 @@ $(document).ready(function(){
 	$("#avgtemp").width(ww);
 	$(".box > div").height(hh);
 	$(".box > div").width(ww);
+	
+	$('#endDate').datebox('setText',getDate(0));
+	$('#startDate').datebox('setText',getDate(6*24*60*60*1000));
 	renderEcharts();
 });
 function searchWeatherTrend(){
@@ -141,6 +144,21 @@ function formClear(){
 	$('#endDate').datebox('setValue','');
 	$('#endDate').datebox('setText','');
 }
+function getDate(lt) {
+		var longtime = new Date().getTime()-lt;
+		var date = new Date(longtime);
+		var seperator1 = "-";
+		var month = date.getMonth() + 1;
+		var strDate = date.getDate();
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
+		}
+		if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+		}
+		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		return currentdate;
+	}
 </script>
 </body>
 </html>
