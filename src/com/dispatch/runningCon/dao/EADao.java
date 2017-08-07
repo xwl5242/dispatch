@@ -16,4 +16,10 @@ public interface EADao {
 
 	List<Map<String, Object>> getEnergyPrice();
 
+	List<Map<String, Object>> getArea(String string);
+
+	List<Map<String, Object>> copLine(String startDate, String endDate);
+
+	List<Map<String, Object>> drsh();
+
 }

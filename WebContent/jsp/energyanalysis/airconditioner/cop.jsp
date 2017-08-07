@@ -58,16 +58,10 @@
 </div>
 <div id="parentId" class="box">
     <div>
-        <div class="box_tit">A座COP同期比</div>
-        <div class="sjwd_cont" id="ACOP">
+        <div class="box_tit">度日数同期比</div>
+        <div class="sjwd_cont" id="DRSH">
         </div>
     </div>
-    <div>
-        <div class="box_tit">B座COP同期比</div>
-        <div class="sjwd_cont" id="BCOP">
-        </div>
-    </div>
-
     <div>
         <div class="box_tit">A座COP趋势</div>
         <div class="sjwd_cont" id="ACOPtrend">
@@ -141,10 +135,19 @@
         var divW = (ww-65)/2;
         $("#parentId > div").width(divW);
         $(".sjwd_cont").width(divW);
-        
+        $("#DRSH").width(divW*2);
         //查询条件中的年份设置
         yearsSet();
-        //路径配置
+        
+        $('[name="2017"]').attr("checked",true);
+		$('#years').combo('setText','2017');
+		$('#endDate').datebox('setText',getDate(0));
+		$('#startDate').datebox('setText',getDate(6*24*60*60*1000));
+        
+	});
+    
+    function renderEchart(){
+    	//路径配置
         require.config({
             paths: {
                 echarts: 'http://echarts.baidu.com/build/dist'
@@ -163,175 +166,97 @@
             ],
             function (ec, theme) {
                 // 基于准备好的dom，初始化echarts图表
-                ACOP = ec.init(document.getElementById('ACOP'), theme);
-                BCOP = ec.init(document.getElementById('BCOP'), theme);
+                DRSH = ec.init(document.getElementById('DRSH'), theme);
                 ACOPtrend = ec.init(document.getElementById('ACOPtrend'), theme);
                 BCOPtrend = ec.init(document.getElementById('BCOPtrend'), theme);
                
-                myACOP = {
-					tooltip : {
-						trigger : 'axis'
-					},
-					legend : {
-						data : [ 'A1','A2','A3' ]
-					},
-					calculable : true,
-					xAxis : [ {
-						type : 'category',
-						data : [ '2015年', '2016年', '2017年' ]
-					} ],
-					yAxis : [ {
-						name : '',
-						type : 'value'
-					} ],
-					series : [ {
-						name : 'A1',
-						type : 'bar',
-						data : [ 0.15, 0.18, 0.12 ],
-						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-					},{
-						name : 'A2',
-						type : 'bar',
-						data : [ 0.14,0.19,0.10 ],
-						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-					},{
-						name : 'A3',
-						type : 'bar',
-						data : [ 0.18,0.13,0.16 ],
-						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-					} ]
-				};
-                
-                myBCOP = {
-   					tooltip : {
-   						trigger : 'axis'
-   					},
-   					legend : {
-   						data : [ 'B1','B2','B3' ]
-   					},
-   					calculable : true,
-   					xAxis : [ {
-   						type : 'category',
-   						data : [ '2015年', '2016年', '2017年' ]
-   					} ],
-   					yAxis : [ {
-   						name : '',
-   						type : 'value'
-   					} ],
-   					series : [ {
-   						name : 'B1',
-   						type : 'bar',
-   						data : [ 0.16,0.11,0.19 ],
-   						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-   					},{
-   						name : 'B2',
-   						type : 'bar',
-   						data : [ 0.12,0.16,0.13 ],
-   						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-   					},{
-   						name : 'B3',
-   						type : 'bar',
-   						data : [ 0.17,0.15,0.10 ],
-   						itemStyle:{normal:{label:{show:true}}},
-           	            markLine : {
-           	                data : [
-           	                    {type : 'average', name: '平均值'}
-           	                ]
-           	            }
-   					} ]
-   				};
-                
-                myACOPtrend = {
-               		tooltip : {
-               	        trigger: 'axis'
-               	    },
-               	    legend: {
-               	        data:['A1','A2','A3','度日数']
-               	    },
-               	    calculable : true,
-               	    xAxis : [
-               	        {
-               	            type : 'category',
-               	            boundaryGap : false,
-               	            data : ['2017-04-01','2017-04-02','2017-04-03','2017-04-04','2017-04-05','2017-04-06','2017-04-07']
-               	        }
-               	    ],
-               	    yAxis : [
-               	        {
-               	        	name:'cop',
-               	            type : 'value',
-               	            max:0.2
-               	        },
-               	     	{
-               	        	name:'度日数',
-               	            type : 'value',
-               	            max:2
-               	        }
-               	    ],
-               	    series : [
-               	        {
-               	            name:'A1',
-               	            type:'line',
-               	            data:[0.1,0.13,0.14,0.18,0.15,0.19,0.12],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'A2',
-               	            type:'line',
-               	            data:[0.16,0.13,0.19,0.13,0.18,0.13,0.14],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'A3',
-               	            type:'line',
-               	            data:[0.15,0.18,0.17,0.14,0.11,0.1,0.17],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        },
-	               	     {
-	               	            name:'度日数',
+                $.post('<%=path %>/ea/airsystem/air/drsh.do',{
+                	ys : $('#years').combo('getText')
+                },function(data){
+	                myDRSH = {
+						tooltip : {
+							trigger : 'axis'
+						},
+						legend : {
+							data : [ '度日数' ]
+						},
+						calculable : true,
+						xAxis : [ {
+							type : 'category',
+							data : data.yearList
+						} ],
+						yAxis : [ {
+							name : '',
+							type : 'value'
+						} ],
+						series : [ {
+							name : '度日数',
+							type : 'bar',
+							data : data.drsh,
+							itemStyle:{normal:{label:{show:true}}},
+	           	            markLine : {
+	           	                data : [
+	           	                    {type : 'average', name: '平均值'}
+	           	                ]
+	           	            }
+						}]
+					};
+	                
+	                DRSH.setOption(myDRSH);
+                },'json');
+                $.post('<%=path %>/ea/airsystem/air/copLine.do',{
+                	startDate : $('#startDate').datebox('getValue'),
+                	endDate : $('#endDate').datebox('getValue')
+                },function(data){
+	                myACOPtrend = {
+	               		tooltip : {
+	               	        trigger: 'axis'
+	               	    },
+	               	    legend: {
+	               	        data:['A1','A2','A3']
+	               	    },
+	               	    calculable : true,
+	               	    xAxis : [
+	               	        {
+	               	            type : 'category',
+	               	            boundaryGap : false,
+	               	            data : data.yearList
+	               	        }
+	               	    ],
+	               	    yAxis : [
+	               	        {
+	               	        	name:'cop',
+	               	            type : 'value',
+	               	            max:0.2
+	               	        }
+	               	    ],
+	               	    series : [
+	               	        {
+	               	            name:'A1',
 	               	            type:'line',
-	               	        	yAxisIndex:1,
-	               	            data:[0.95,1.2,1.8,1.5,0.99,1.1,1.6],
+	               	            data:data.A1,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'A2',
+	               	            type:'line',
+	               	            data:data.A2,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'A3',
+	               	            type:'line',
+	               	            data:data.A3,
 	               	            itemStyle:{normal:{label:{show:true}}},
 	               	            markLine : {
 	               	                data : [
@@ -339,91 +264,91 @@
 	               	                ]
 	               	            }
 	               	        }
-               	    ]
-   				};
-              
-                myBCOPtrend = {
-               		tooltip : {
-               	        trigger: 'axis'
-               	    },
-               	    legend: {
-               	        data:['B1','B2','B3','度日数']
-               	    },
-               	    calculable : true,
-               	    xAxis : [
-               	        {
-               	            type : 'category',
-               	            boundaryGap : false,
-               	            data : ['2017-04-01','2017-04-02','2017-04-03','2017-04-04','2017-04-05','2017-04-06','2017-04-07']
-               	        }
-               	    ],
-               	    yAxis : [
-               	        {
-               	        	name:'cop',
-               	            type : 'value',
-               	            max:0.2
-               	        },
-               	     	{
-               	        	name:'度日数',
-               	            type : 'value',
-               	            max:2
-               	        }
-               	    ],
-               	    series : [
-               	        {
-               	            name:'B1',
-               	            type:'line',
-               	            data:[0.1,0.13,0.14,0.18,0.15,0.19,0.12],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name: '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'B2',
-               	            type:'line',
-               	            data:[0.16,0.13,0.19,0.13,0.18,0.13,0.14],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        },
-               	        {
-               	            name:'B3',
-               	            type:'line',
-               	            data:[0.15,0.18,0.17,0.14,0.11,0.1,0.17],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        },
-               	     	{
-               	            name:'度日数',
-               	            type:'line',
-               	         	yAxisIndex:1,
-               	            data:[0.95,1.2,1.8,1.5,0.99,1.1,1.6],
-               	            itemStyle:{normal:{label:{show:true}}},
-               	            markLine : {
-               	                data : [
-               	                    {type : 'average', name : '平均值'}
-               	                ]
-               	            }
-               	        }
-               	    ]
-   				};
-                
-                ACOP.setOption(myACOP);
-                BCOP.setOption(myBCOP);
-                ACOPtrend.setOption(myACOPtrend);
-                BCOPtrend.setOption(myBCOPtrend);
+	               	    ]
+	   				};
+	              
+	                myBCOPtrend = {
+	               		tooltip : {
+	               	        trigger: 'axis'
+	               	    },
+	               	    legend: {
+	               	        data:['B1','B2','B3']
+	               	    },
+	               	    calculable : true,
+	               	    xAxis : [
+	               	        {
+	               	            type : 'category',
+	               	            boundaryGap : false,
+	               	            data : data.yearList
+	               	        }
+	               	    ],
+	               	    yAxis : [
+	               	        {
+	               	        	name:'cop',
+	               	            type : 'value',
+	               	            max:0.2
+	               	        }
+	               	    ],
+	               	    series : [
+	               	        {
+	               	            name:'B1',
+	               	            type:'line',
+	               	            data:data.B1,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'B2',
+	               	            type:'line',
+	               	            data:data.B2,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	        {
+	               	            name:'B3',
+	               	            type:'line',
+	               	            data:data.B3,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name : '平均值'}
+	               	                ]
+	               	            }
+	               	        }
+	               	    ]
+	   				};
+	                ACOPtrend.setOption(myACOPtrend);
+	                BCOPtrend.setOption(myBCOPtrend);
+                },'json');
 			});
-	});
+    }
+    
+    function getDate(lt) {
+		var longtime = new Date().getTime()-lt;
+		var date = new Date(longtime);
+		var seperator1 = "-";
+		var month = date.getMonth() + 1;
+		var strDate = date.getDate();
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
+		}
+		if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+		}
+		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		return currentdate;
+	}
+    function searchLineTrend(){
+    	renderEchart();
+    }
 </script>
 </body>
 </html>

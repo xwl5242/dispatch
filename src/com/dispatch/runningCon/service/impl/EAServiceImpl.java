@@ -43,18 +43,23 @@ public class EAServiceImpl implements EAService{
 			List<String> T = new ArrayList<String>();
 			for(String y:yearList){
 				String ta = "0",tb="0";
+				String ata = "0",atb="0";
 				boolean aflag = false;
 				boolean bflag = false;
 				for(Map<String,Object> map:listMap){
 					if(map.get("Y").toString().equals(y)){
 						String AB = map.get("AB").toString();
 						String DL = map.get("DL").toString();
+						String AVGDL = map.get("DL").toString();
+						if("DH".equals(eaType)){
+							DL = String.format("%.2f", Double.parseDouble(DL)/getABArea("AB"));
+						}
 						if(AB.equals("A")){
 							aflag = true;
-							A.add(DL);ta = DL;
+							A.add(DL);ta = DL;ata=AVGDL;
 						}else if(AB.equals("B")){
 							bflag = true;
-							B.add(DL);tb = DL;
+							B.add(DL);tb = DL;atb=AVGDL;
 						}
 					}
 				}
@@ -64,7 +69,11 @@ public class EAServiceImpl implements EAService{
 				if(!bflag){
 					B.add("0");
 				}
-				T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
+				if("DH".equals(eaType)){
+					T.add(String.format("%.2f", (Double.valueOf(ata)+Double.valueOf(atb)/(getABArea("AB")*2))));
+				}else{
+					T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
+				}
 			}
 			result.put("A", A);
 			result.put("B", B);
@@ -148,18 +157,23 @@ public class EAServiceImpl implements EAService{
 			List<String> T = new ArrayList<String>();
 			for(String y:yearList){
 				String ta = "0",tb="0";
+				String ata = "0",atb="0";
 				boolean aflag = false;
 				boolean bflag = false;
 				for(Map<String,Object> map:listMap){
 					if(map.get("YD").toString().equals(y)){
 						String AB = map.get("AB").toString();
 						String DL = map.get("DL").toString();
+						String AVGDL = map.get("DL").toString();
+						if("DH".equals(eaType)){
+							DL = String.format("%.2f", Double.parseDouble(DL)/getABArea("AB"));
+						}
 						if(AB.equals("A")){
 							aflag = true;
-							A.add(DL);ta = DL;
+							A.add(DL);ta = DL;ata=AVGDL;
 						}else if(AB.equals("B")){
 							bflag = true;
-							B.add(DL);tb = DL;
+							B.add(DL);tb = DL;atb=AVGDL;
 						}
 					}
 				}
@@ -169,7 +183,11 @@ public class EAServiceImpl implements EAService{
 				if(!bflag){
 					B.add("0");
 				}
-				T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
+				if("DH".equals(eaType)){
+					T.add(String.format("%.2f", (Double.valueOf(ata)+Double.valueOf(atb)/(getABArea("AB")*2))));
+				}else{
+					T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
+				}
 			}
 			result.put("A", A);
 			result.put("B", B);
@@ -204,4 +222,115 @@ public class EAServiceImpl implements EAService{
 		return list;
 	}
 
+	private double getABArea(String type){
+		List<Map<String,Object>> abArea = eaDao.getArea(type);
+		if(abArea!=null&&abArea.size()>0){
+			Double area = Double.parseDouble(abArea.get(0).get("AREA").toString());
+			return area;
+		}
+		return 0;
+	}
+
+	@Override
+	public Map<String, Object> copLine(String startDate, String endDate)throws Exception {
+		Map<String,Object> result =new HashMap<String,Object>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		List<String> yearList = new ArrayList<String>();
+		List<String> defaultList = new ArrayList<String>();
+		
+		endDate=null!=endDate&&!"".equals(endDate)?endDate:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		a.setTime(sdf.parse(endDate));
+		a.add(Calendar.DATE, -6);
+		startDate=null!=startDate&&!"".equals(startDate)?startDate:sdf.format(a.getTime());
+		
+		String sd = startDate;
+		while(!sd.equals(endDate)){
+			for(int h=0;h<24;h++){
+				String hStr = sd + " " +(h<=9?"0"+h:h+"");
+				yearList.add(hStr);
+			}
+			defaultList.add("0");
+			sd = sdf.format(sdf.parse(sd).getTime()+24*60*60*1000);
+		}
+		for(int h=0;h<24;h++){
+			String hStr = endDate + " " +(h<=9?"0"+h:h+"");
+			yearList.add(hStr);
+		}
+		defaultList.add("0");
+		
+		List<Map<String, Object>> listMap = eaDao.copLine(startDate,endDate);
+		if(null!=listMap&&listMap.size()>0){
+			List<String> A1 = new ArrayList<String>();
+			List<String> A2 = new ArrayList<String>();
+			List<String> A3 = new ArrayList<String>();
+			List<String> B1 = new ArrayList<String>();
+			List<String> B2 = new ArrayList<String>();
+			List<String> B3 = new ArrayList<String>();
+			for(String y:yearList){
+				for(Map<String,Object> map:listMap){
+					if(map.get("HH").toString().equals(y)){
+						String a1 = map.get("A1").toString();
+						String a2 = map.get("A2").toString();
+						String a3 = map.get("A3").toString();
+						String b1 = map.get("B1").toString();
+						String b2 = map.get("B2").toString();
+						String b3 = map.get("B3").toString();
+						A1.add(a1);A2.add(a2);A3.add(a3);
+						B1.add(b1);B2.add(b2);B3.add(b3);
+					}
+				}
+			}
+			result.put("A1", A1);
+			result.put("A2", A1);
+			result.put("A3", A1);
+			result.put("B1", B1);
+			result.put("B2", B1);
+			result.put("B3", B1);
+		}else{
+			result.put("A1", defaultList);
+			result.put("A2", defaultList);
+			result.put("A3", defaultList);
+			result.put("B1", defaultList);
+			result.put("B2", defaultList);
+			result.put("B3", defaultList);
+		}
+		result.put("yearList", yearList);
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> drsh(String ys) {
+		Map<String,Object> result =new HashMap<String,Object>();
+		List<String> yearList = new ArrayList<String>();
+		if(null==ys || "".equals(ys)){
+			Calendar a = Calendar.getInstance();
+			int year = a.get(Calendar.YEAR);
+			yearList.add(year-2+"");
+			yearList.add(year-1+"");
+			yearList.add(year+"");
+		}else{
+			yearList = Arrays.asList(ys.split("\\|"));
+		}
+		List<Map<String, Object>> listMap = eaDao.drsh();
+		if(null!=listMap&&listMap.size()>0){
+			List<String> A = new ArrayList<String>();
+			for(String y:yearList){
+				boolean flag = false;
+				for(Map<String,Object> map:listMap){
+					if(map.get("Y").toString().equals(y)){
+						flag = true;
+						String value = map.get("DRSH").toString();
+						A.add(value);
+					}
+				}
+				if(!flag){
+					A.add("0");
+				}
+			}
+			result.put("drsh", A);
+		}
+		result.put("yearList", yearList);
+		return result;
+	}
 }

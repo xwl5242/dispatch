@@ -14,4 +14,8 @@ public interface EAService {
 
 	List<Map<String,String>> pricePie(String startDate, String endDate) throws Exception;
 
+	Map<String, Object> copLine(String startDate, String endDate) throws Exception;
+
+	Map<String, Object> drsh(String ys);
+
 }

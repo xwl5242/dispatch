@@ -14,12 +14,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 
 	@Override
 	public List<Map<String, Object>> tongbi(String type,String eaType) {
-		String sql = "SELECT C.Y,C.AB,";
-		if("DH".equals(eaType)){
-			sql += "ROUND(NVL(SUM (C .DL),0)/(select AREA from unitarea where unitcode = 'AB'),2) DL ";
-		}else if("NH".equals(eaType)){
-			sql += "NVL(SUM(C.DL),0) DL ";
-		}
+		String sql = "SELECT C.Y,C.AB,NVL(SUM(C.DL),0) DL ";
 		sql += " FROM (                                   "
 		+"  SELECT                                       "
 		+"    A.Y,A.AB,ROUND(A.TOTAL-NVL(B.TTVV,0),2) DL "
@@ -82,13 +77,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 
 	@Override
 	public List<Map<String, Object>> qushi(String startDate, String endDate,String type,String eaType) {
-		String sql = "SELECT                                  "
-		+"  D.\"D\" YD,D.AB,                                     ";
-		if("DH".equals(eaType)){
-			sql += " ROUND(NVL(SUM (D .DL),0)/(select AREA from unitarea where unitcode = 'AB'),2) DL ";
-		}else if("NH".equals(eaType)){
-			sql += " NVL(SUM(D.DL),0) DL ";
-		}
+		String sql = "SELECT D.\"D\" YD,D.AB, NVL(SUM(D.DL),0) DL";
 		sql += " FROM                                       "
 		+"  (                                               "
 		+"  SELECT                                          "
@@ -209,6 +198,65 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 	@Override
 	public List<Map<String, Object>> getEnergyPrice() {
 		String sql = "select ETYPE et,PRICE p from  E_PRICE";
+		return super.queryForList(sql);
+	}
+
+	@Override
+	public List<Map<String, Object>> getArea(String string) {
+		String sql = "select NVL(AREA,0) from unitarea where unitcode = '"+string+"'";
+		return super.queryForList(sql);
+	}
+
+	@Override
+	public List<Map<String, Object>> copLine(String startDate, String endDate) {
+		String sql = "SELECT                                       "
+		+"	A.HH,                                                  "
+		+"	MAX(DECODE(A.F,'al_1',A.V)) A1,                        "
+		+"	MAX(DECODE(A.F,'al_2',A.V)) A2,                        "
+		+"	MAX(DECODE(A.F,'al_3',A.V)) A3,                        "
+		+"	MAX(DECODE(A.F,'bl_1',A.V)) B1,                        "
+		+"	MAX(DECODE(A.F,'bl_2',A.V)) B2,                        "
+		+"	MAX(DECODE(A.F,'bl_3',A.V)) B3                         "
+		+"FROM                                                     "
+		+"	(                                                      "
+		+"		SELECT                                             "
+		+"			TO_CHAR (\"T\", 'yyyy-mm-dd hh24') HH,         "
+		+"			\"K\",                                         "
+		+"			SUBSTR (\"K\", INSTR(\"K\", '\\' ,- 1) + 1,4) F,"
+		+"			DECODE(SIGN(MAX(V)),-1,0,MAX(V)) V             "
+		+"		FROM                                               "
+		+"			AI_KV                                          "
+		+"		WHERE 1=1                                          ";
+		if(null!=startDate&&!"".equals(startDate)){
+			sql += " AND \"D\" >= '"+startDate+"'";
+		}
+		if(null!=endDate&&!"".equals(endDate)){
+			sql += " AND \"D\" <= '"+endDate+"'";
+		}
+		sql+="		AND \"TYPE\" = 'c'                             "
+		+"		GROUP BY                                           "
+		+"			TO_CHAR (\"T\", 'yyyy-mm-dd hh24'),            "
+		+"			\"K\"                                          "
+		+"	) A                                                    "
+		+"GROUP BY A.HH                                            "
+		+"ORDER BY A.HH                                            ";
+		return super.queryForList(sql);
+	}
+
+	@Override
+	public List<Map<String, Object>> drsh() {
+		String sql = "SELECT A.Y,SUM(A.V) DRSH FROM (SELECT   "
+		+"	\"D\",Y,                                          "
+		+"	ROUND (AVG(NVL(V, 0))-26, 2) V                    "
+		+"FROM                                                "
+		+"	AI_KV                                             "
+		+"WHERE                                               "
+		+"	1 = 1                                             "
+		+"AND SUBSTR (\"K\", INSTR(\"K\", '\\' ,-1) + 1) = 'tq_wd'"
+		+"AND \"TYPE\" = 'tq' AND V>0                         "
+		+"GROUP BY                                            "
+		+"	\"D\",Y ) A                                       "
+		+"GROUP BY A.Y                                        ";
 		return super.queryForList(sql);
 	}
 

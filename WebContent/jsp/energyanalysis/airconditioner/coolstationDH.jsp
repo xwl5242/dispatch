@@ -199,7 +199,7 @@
             					data : data.yearList
             				} ],
             				yAxis : [ {
-            					name : 'KW/m²',
+            					name : 'KWh/m²',
             					type : 'value'
             				} ],
             				series : [

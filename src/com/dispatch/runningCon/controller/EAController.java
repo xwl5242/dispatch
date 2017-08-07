@@ -42,7 +42,7 @@ public class EAController extends BaseController {
 	
 	@RequestMapping(value = "/airsystem/air/biaozhun.do")
 	@ResponseBody
-	public void airTongbi1(HttpServletRequest request, HttpServletResponse response,
+	public void biaozhun(HttpServletRequest request, HttpServletResponse response,
 			String startDate,String endDate,String type){
 		Map<String,Object> map =new HashMap<String,Object>();
 		map = eaService.airTongbi1(startDate,endDate,type);
@@ -57,4 +57,18 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	@RequestMapping(value = "/airsystem/air/copLine.do")
+	@ResponseBody
+	public void copLines(HttpServletRequest request, HttpServletResponse response,
+			String startDate,String endDate) throws Exception{
+		Map<String, Object> map = eaService.copLine(startDate,endDate);
+		super.returnObjectJson(map, response);
+	}
+	
+	@RequestMapping(value = "/airsystem/air/drsh.do")
+	@ResponseBody
+	public void drsh(HttpServletRequest request, HttpServletResponse response,String ys) throws Exception{
+		Map<String, Object> map = eaService.drsh(ys);
+		super.returnObjectJson(map, response);
+	}
 }
