@@ -15,76 +15,27 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 	@Override
 	public Map<String, Object> queryRunRecord(int currentPage, int pageSize,
 			String sTime,String eTime,String dName) {
-		String sql = "SELECT                                                         "
-		+"	B.KGLPRE DNAME,B.\"T\",B.\"TYPE\" AT,B.AB,                                  "
-		+"	(                                                                        "
-		+"		CASE                                                                 "
-		+"		WHEN B.BPYX = '1'                                                    "
-		+"		OR B.GPYX = '1' THEN                                                 "
-		+"      '1'                                                                  "
-		+"    ELSE                                                                   "
-		+"      '0'                                                                  "
-		+"    END                                                                    "
-		+"  ) YXSTATUS,                                                              "
-		+"  (                                                                        "
-		+"    CASE                                                                   "
-		+"    WHEN B.BPGZ = '1'                                                      "
-		+"    AND B.GPGZ = '1' THEN                                                  "
-		+"      '1'                                                                  "
-		+"    ELSE                                                                   "
-		+"      '0'                                                                  "
-		+"    END                                                                    "
-		+"  ) GZSTATUS                                                               "
-		+"FROM                                                                       "
-		+"  (                                                                        "
-		+"    SELECT                                                                 "
-		+"      A.KGLPRE,A.\"T\",A.\"TYPE\",A.AB,                                    "
-		+"      MAX (                                                                "
-		+"        DECODE (A .YX, 'bpgz', A .V, '0')                                  "
-		+"      ) BPGZ,                                                              "
-		+"      MAX (                                                                "
-		+"        DECODE (A .YX, 'bpyx', A .V, '0')                                  "
-		+"      ) BPYX,                                                              "
-		+"      MAX (                                                                "
-		+"        DECODE (A .YX, 'gpgz', A .V, '0')                                  "
-		+"      ) GPGZ,                                                              "
-		+"      MAX (                                                                "
-		+"        DECODE (A .YX, 'gpyx', A .V, '0')                                  "
-		+"      ) GPYX                                                               "
-		+"    FROM                                                                   "
-		+"      (                                                                    "
-		+"        SELECT                                                             "
-		+"          (                                                                "
-		+"            CASE SUBSTR (\"K\",INSTR (\"K\", 'fj', 1, 1) + 2,1)            "
-		+"            WHEN 'b' THEN                                                  "
-		+"              'bp' || SUBSTR (\"K\", LENGTH(\"K\") - 1)                    "
-		+"            WHEN 'g' THEN                                                  "
-		+"              'gp' || SUBSTR (\"K\", LENGTH(\"K\") - 1)                    "
-		+"            END                                                            "
-		+"          ) yx,                                                            "
-		+"          SUBSTR (\"K\", 0, INSTR(\"K\", '_' ,- 1) - 1) kglpre,            "
-		+"          \"T\",\"K\",V,\"TYPE\",AB                                        "
-		+"        FROM                                                               "
-		+"          DI_KV                                                            "
-		+"      ) A                                                                  "
-		+"    WHERE 1=1                                                              ";
-		if(null!=sTime&&!"".equals(sTime)){
-			sql+=" and TO_CHAR(A.\"T\",'yyyy-MM-dd hh24:mm:ss')>='"+sTime+"'";
-		}
-		if(null!=sTime&&!"".equals(sTime)){
-			sql+=" and TO_CHAR(A.\"T\",'yyyy-MM-dd hh24:mm:ss')<='"+eTime+"'";
-		}
+		
+		String sql = 
+		 "SELECT       "
+		+"	DNAME,     "
+		+"	AB,        "
+		+"	\"TYPE\" AT, "
+		+"	ST,        "
+		+"	ET         "
+		+"FROM         "
+		+"	DI_S_E_TIME"
+		+" WHERE       "
+		+"	1 = 1      ";
 		if(null!=dName&&!"".equals(dName)){
-			sql += "and A.AB = '"+dName.substring(0,1)+"' and A.\"TYPE\" = '"+dName.substring(1,2)+"'";
+			sql += " and AB = '"+dName.substring(0,1)+"' and \"TYPE\" = '"+dName.substring(1,2)+"'";
 		}
-		sql += "    GROUP BY                                                         "
-		+"      A.KGLPRE,                                                            "
-		+"      A.\"T\",                                                             "
-		+"      A.\"TYPE\",                                                          "
-		+"      A.AB                                                                 "
-		+"  ) B                                                                      "
-		+"ORDER BY                                                                   "
-		+"  B.\"T\" DESC		                                                     ";
+		if(null!=sTime&&!"".equals(sTime)){
+			sql+=" and TO_CHAR(ET,'yyyy-mm-dd hh24:mi:ss')>='"+sTime+"'";
+		}
+		if(null!=sTime&&!"".equals(sTime)){
+			sql+=" and TO_CHAR(ET,'yyyy-mm-dd hh24:mi:ss')<='"+eTime+"'";
+		}
 		return super.queryGridist(sql, "", currentPage, pageSize);                   
 	}
 	

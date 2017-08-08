@@ -76,27 +76,19 @@
 							}
 						},
 						{field:'DNAME',title:'设备名称',width:'10%',align:'center'},
-						{field:'STARTTIME',title:'启动时间',width:'15%',align:'center',
-							formatter: function(value,row,index){
-								if (row.YXSTATUS=='1'){
-									return dateFormat(row.T);
-								} 
+						{field:'ST',title:'启动时间',width:'15%',align:'center',
+							formatter:function(value,row,index){
+								return dateFormat(value);
 							}
 						},
-						{field:'STOPTIME',title:'停止时间',width:'15%',align:'center',
-							formatter: function(value,row,index){
-								if (row.YXSTATUS=='0'){
-									return dateFormat(row.T);
-								}
+						{field:'ET',title:'停止时间',width:'15%',align:'center',
+							formatter:function(value,row,index){
+								return dateFormat(value);
 							}
 						},
  						{field:'DURATION',title:'累计运行时长',width:'15%',align:'center',
  							formatter: function(value,row,index){
- 								if (row.YXSTATUS=='1'){
-									var curDate = new Date().getTime();
-									var date = new Date(row.T).getTime();
- 									return formatDuration((curDate-date));
- 								} 
+ 								return formatDuration((new Date(row.ET)-new Date(row.ST)));
  							}
  						}
 				        
