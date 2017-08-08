@@ -203,7 +203,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 
 	@Override
 	public List<Map<String, Object>> getArea(String string) {
-		String sql = "select NVL(AREA,0) from unitarea where unitcode = '"+string+"'";
+		String sql = "select NVL(AREA,0) AREA from unitarea where unitcode = '"+string+"'";
 		return super.queryForList(sql);
 	}
 
