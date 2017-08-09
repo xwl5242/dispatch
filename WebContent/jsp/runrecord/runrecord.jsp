@@ -10,14 +10,14 @@
 		<form id="RCForm">
 		<table style="height: 40px">  
 			<tr>
-	            <td class="tbl_td_label" width="10%">运行时间：</td>  
-				<td width="40%"><input id="sTime" name='sTime'
+	            <td class="tbl_td_label" width="6%">运行时间：</td>  
+				<td width="30%"><input id="sTime" name='sTime'
 					class="easyui-datetimebox" style="width:30%" data-options="editable:false" />
 				~<input id="eTime" name='eTime'
 					class="easyui-datetimebox" style="width:30%" data-options="editable:false" /></td>
 					
-				<td class="tbl_td_label"  width="5%">设备名称：</td> 
-				<td  width="20%">
+				<td class="tbl_td_label"  width="6%">系统名称：</td> 
+				<td  width="10%">
 					<select id='dName' name='dName' class="easyui-combobox" data-options="editable:false">
 						<option value=''></option>
 						<option value='A1'>A座标层</option>
@@ -26,7 +26,11 @@
 						<option value='B2'>B座非标层</option>
 					</select>
 				</td>
-				<td colspan="12" width="25%"> 
+				<td class="tbl_td_label"  width="6%">设备名称：</td> 
+				<td  width="15%">
+					<input id="kName" name="kName" class="easyui-textbox" />
+				</td>
+				<td colspan="12" width="20%"> 
 				   <a id="searchLineTrend" onclick='searchRC();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
 				   <a id="clearLineTrendSearch"  onclick="formClear('RCForm');" class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>
 				</td> 
@@ -104,10 +108,12 @@
 			var sTime =$('#sTime').datetimebox('getValue');
 			var eTime =$('#eTime').datetimebox('getValue');
 			var dName = $("#dName").combobox("getValue");
+			var kName = $("#kName").textbox("getText");
 			$('#rrListGrid').datagrid('load',{
 				sTime:sTime,
 				eTime:eTime,
-				dName:dName
+				dName:dName,
+				kName:kName
 			});
 		}
 		

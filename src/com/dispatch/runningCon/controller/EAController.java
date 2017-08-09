@@ -67,8 +67,9 @@ public class EAController extends BaseController {
 	
 	@RequestMapping(value = "/airsystem/air/drsh.do")
 	@ResponseBody
-	public void drsh(HttpServletRequest request, HttpServletResponse response,String ys) throws Exception{
-		Map<String, Object> map = eaService.drsh(ys);
+	public void drsh(HttpServletRequest request, HttpServletResponse response,String ys,
+			String startDate,String endDate) throws Exception{
+		Map<String, Object> map = eaService.drsh(ys,startDate,endDate);
 		super.returnObjectJson(map, response);
 	}
 }

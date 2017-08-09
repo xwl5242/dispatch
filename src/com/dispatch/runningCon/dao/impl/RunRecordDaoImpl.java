@@ -14,7 +14,7 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 
 	@Override
 	public Map<String, Object> queryRunRecord(int currentPage, int pageSize,
-			String sTime,String eTime,String dName) {
+			String sTime,String eTime,String dName,String kName) {
 		
 		String sql = 
 		 "SELECT       "
@@ -31,11 +31,15 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 			sql += " and AB = '"+dName.substring(0,1)+"' and \"TYPE\" = '"+dName.substring(1,2)+"'";
 		}
 		if(null!=sTime&&!"".equals(sTime)){
-			sql+=" and TO_CHAR(ET,'yyyy-mm-dd hh24:mi:ss')>='"+sTime+"'";
+			sql+=" and TO_CHAR(ET,'yyyy-mm-dd hh24:mi:ss')>='"+sTime+"' ";
 		}
 		if(null!=sTime&&!"".equals(sTime)){
-			sql+=" and TO_CHAR(ET,'yyyy-mm-dd hh24:mi:ss')<='"+eTime+"'";
+			sql+=" and TO_CHAR(ET,'yyyy-mm-dd hh24:mi:ss')<='"+eTime+"' ";
 		}
+		if(null!=kName&&!"".equals(kName)){
+			sql+=" and DNAME LIKE '%"+kName+"%' ";
+		}
+		sql+=" ORDER BY AB,DNAME ASC";
 		return super.queryGridist(sql, "", currentPage, pageSize);                   
 	}
 	

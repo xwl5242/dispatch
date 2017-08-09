@@ -13,7 +13,7 @@ public interface RunRecordDao {
 	 * @return
 	 */
 	Map<String, Object> queryRunRecord(int currentPage, int pageSize,
-			String sTime,String eTime,String dName);
+			String sTime,String eTime,String dName,String kName);
 
 	/**
 	 * 查询日志分页信息

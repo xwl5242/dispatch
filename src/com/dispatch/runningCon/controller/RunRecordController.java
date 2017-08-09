@@ -33,9 +33,9 @@ public class RunRecordController extends BaseController {
 	 */
 	@RequestMapping("/query.do")
 	@ResponseBody
-	public void queryRunRecord(HttpServletRequest request,HttpServletResponse response,Page page,String sTime,String eTime,String dName){
+	public void queryRunRecord(HttpServletRequest request,HttpServletResponse response,Page page,String sTime,String eTime,String dName,String kName){
 		getPageInfo(request);
-		Map<String,Object> result = rrService.queryRunRecord(super.getCurrentPage(),super.getPageSize(),sTime,eTime,dName);
+		Map<String,Object> result = rrService.queryRunRecord(super.getCurrentPage(),super.getPageSize(),sTime,eTime,dName,kName);
 		super.returnObjectJson(result, response);
 	}
 	

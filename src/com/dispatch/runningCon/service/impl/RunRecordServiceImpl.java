@@ -25,8 +25,8 @@ public class RunRecordServiceImpl implements RunRecordService {
 	 */
 	@Override
 	public Map<String, Object> queryRunRecord(int currentPage, int pageSize,
-			String sTime,String eTime,String dName) {
-		return rrDao.queryRunRecord(currentPage,pageSize,sTime,eTime,dName);
+			String sTime,String eTime,String dName,String kName) {
+		return rrDao.queryRunRecord(currentPage,pageSize,sTime,eTime,dName,kName);
 	}
 	
 	/**

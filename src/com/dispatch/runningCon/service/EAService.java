@@ -16,6 +16,6 @@ public interface EAService {
 
 	Map<String, Object> copLine(String startDate, String endDate) throws Exception;
 
-	Map<String, Object> drsh(String ys);
+	Map<String, Object> drsh(String ys,String startDate,String endDate)throws Exception ;
 
 }

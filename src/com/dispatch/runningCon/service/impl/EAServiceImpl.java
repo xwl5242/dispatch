@@ -282,11 +282,11 @@ public class EAServiceImpl implements EAService{
 				}
 			}
 			result.put("A1", A1);
-			result.put("A2", A1);
-			result.put("A3", A1);
+			result.put("A2", A2);
+			result.put("A3", A3);
 			result.put("B1", B1);
-			result.put("B2", B1);
-			result.put("B3", B1);
+			result.put("B2", B2);
+			result.put("B3", B3);
 		}else{
 			result.put("A1", defaultList);
 			result.put("A2", defaultList);
@@ -300,7 +300,7 @@ public class EAServiceImpl implements EAService{
 	}
 
 	@Override
-	public Map<String, Object> drsh(String ys) {
+	public Map<String, Object> drsh(String ys,String startDate,String endDate)throws Exception {
 		Map<String,Object> result =new HashMap<String,Object>();
 		List<String> yearList = new ArrayList<String>();
 		if(null==ys || "".equals(ys)){
@@ -312,7 +312,15 @@ public class EAServiceImpl implements EAService{
 		}else{
 			yearList = Arrays.asList(ys.split("\\|"));
 		}
-		List<Map<String, Object>> listMap = eaDao.drsh();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		endDate=null!=endDate&&!"".equals(endDate)?endDate:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		a.setTime(sdf.parse(endDate));
+		a.add(Calendar.DATE, -6);
+		startDate=null!=startDate&&!"".equals(startDate)?startDate:sdf.format(a.getTime());
+		
+		List<Map<String, Object>> listMap = eaDao.drsh(startDate,endDate);
 		if(null!=listMap&&listMap.size()>0){
 			List<String> A = new ArrayList<String>();
 			for(String y:yearList){
