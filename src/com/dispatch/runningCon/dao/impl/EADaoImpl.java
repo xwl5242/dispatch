@@ -223,7 +223,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		+"			TO_CHAR (\"T\", 'yyyy-mm-dd hh24') HH,         "
 		+"			\"K\",                                         "
 		+"			SUBSTR (\"K\", INSTR(\"K\", '\\' ,- 1) + 1,4) F,"
-		+"			DECODE(SIGN(MAX(V)),-1,0,MAX(V)) V             "
+		+"	ROUND(NVL(DECODE(SIGN(MAX(V)),-1,0,MAX(V)),0),2) V     "
 		+"		FROM                                               "
 		+"			AI_KV                                          "
 		+"		WHERE 1=1                                          ";
