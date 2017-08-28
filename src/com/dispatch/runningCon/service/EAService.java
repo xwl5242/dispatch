@@ -18,4 +18,6 @@ public interface EAService {
 
 	Map<String, Object> drsh(String ys,String startDate,String endDate)throws Exception ;
 
+	Map<String, Object> DRSHtrend(String ys, String startDate, String endDate)throws Exception;
+
 }

@@ -63,6 +63,11 @@
         </div>
     </div>
     <div>
+        <div class="box_tit">度日数趋势</div>
+        <div class="sjwd_cont" id="DRSHtrend">
+        </div>
+    </div>
+    <div>
         <div class="box_tit">A座COP趋势</div>
         <div class="sjwd_cont" id="ACOPtrend">
         </div>
@@ -128,14 +133,13 @@
         $(document.body).height(hh-10);
         $(document.body).width(ww-20);
         
-        var divH = (hh-90)/1.5;
+        var divH = (hh-90);
         $("#parentId > div").height(divH);
         $(".sjwd_cont").height(divH);
         
-        var divW = (ww-65)/2;
+        var divW = (ww-65);
         $("#parentId > div").width(divW);
         $(".sjwd_cont").width(divW);
-        $("#DRSH").width(divW*2);
         //查询条件中的年份设置
         yearsSet();
         
@@ -143,7 +147,7 @@
 		$('#years').combo('setText','2017');
 		$('#endDate').datebox('setText',getDate(0));
 		$('#startDate').datebox('setText',getDate(6*24*60*60*1000));
-        
+		renderEchart();
 	});
     
     function renderEchart(){
@@ -160,18 +164,21 @@
             [
                 'echarts',
                 'echarts/theme/macarons',
-                'echarts/chart/pie',
                 'echarts/chart/bar',
-                'echarts/chart/line' 
+                'echarts/chart/line',
+                'echarts/chart/scatter'
             ],
             function (ec, theme) {
                 // 基于准备好的dom，初始化echarts图表
                 DRSH = ec.init(document.getElementById('DRSH'), theme);
+                DRSHtrend = ec.init(document.getElementById('DRSHtrend'), theme);
                 ACOPtrend = ec.init(document.getElementById('ACOPtrend'), theme);
                 BCOPtrend = ec.init(document.getElementById('BCOPtrend'), theme);
                
                 $.post('<%=path %>/ea/airsystem/air/drsh.do',{
-                	ys : $('#years').combo('getText')
+                	ys : $('#years').combo('getText'),
+                	startDate : $('#startDate').datebox('getValue'),
+                	endDate : $('#endDate').datebox('getValue')
                 },function(data){
 	                myDRSH = {
 						tooltip : {
@@ -204,6 +211,73 @@
 	                
 	                DRSH.setOption(myDRSH);
                 },'json');
+                
+                $.post('<%=path %>/ea/airsystem/air/DRSHtrend.do',{
+                	startDate : $('#startDate').datebox('getValue'),
+                	endDate : $('#endDate').datebox('getValue')
+                },function(data){
+	                myDRSHtrend = {
+	               		tooltip : {
+	               	        trigger: 'axis'
+	               	    },
+	               	    legend: {
+	               	        data:data.yearList
+	               	    },
+	               	    calculable : true,
+	               	    xAxis : [
+	               	        {
+	               	            type : 'category',
+	               	            boundaryGap : false,
+	               	            data : data.yearDateList
+	               	        }
+	               	    ],
+	               	    yAxis : [
+	               	        {
+	               	            type : 'value'
+	               	        }
+	               	    ],
+	               	    series : [
+	               	        {
+	               	            name:data.yearList[0],
+	               	            type:'line',
+	               	         	symbol:'none',
+	               	            data:data.trend1,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	     {
+	               	            name:data.yearList[1],
+	               	            type:'line',
+	               	         	symbol:'none',
+	               	            data:data.trend2,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	     {
+	               	            name:data.yearList[2],
+	               	            type:'line',
+	               	         	symbol:'none',
+	               	            data:data.trend3,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        }
+	               	    ]
+	   				};
+	                DRSHtrend.setOption(myDRSHtrend);
+                },'json');
+                
                 $.post('<%=path %>/ea/airsystem/air/copLine.do',{
                 	startDate : $('#startDate').datebox('getValue'),
                 	endDate : $('#endDate').datebox('getValue')
@@ -220,22 +294,35 @@
 	               	        {
 	               	            type : 'category',
 	               	            boundaryGap : false,
-	               	            data : data.yearList
+	               	            data : data.yearList,
+	               	         	axisLabel:{  
+								 interval:24,//横轴信息全部显示  
+								 //rotate:-30,//-30度角倾斜显示  
+								 formatter:function(value){
+									 return value.substring(0,value.length-3);
+								 }
+								}
 	               	        }
 	               	    ],
 	               	    yAxis : [
 	               	        {
-	               	        	name:'cop',
-	               	            type : 'value',
-	               	            max:0.2
+	               	            type : 'value'
 	               	        }
 	               	    ],
 	               	    series : [
 	               	        {
 	               	            name:'A1',
 	               	            type:'line',
+	               	         	symbol:'none',
 	               	            data:data.A1,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#00FF00'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name: '平均值'}
@@ -245,8 +332,16 @@
 	               	        {
 	               	            name:'A2',
 	               	            type:'line',
+	               	         	symbol:'none',
 	               	            data:data.A2,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#FFFF00'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}
@@ -256,8 +351,16 @@
 	               	        {
 	               	            name:'A3',
 	               	            type:'line',
+	               	         	symbol:'none',
 	               	            data:data.A3,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#00EEEE'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}
@@ -279,22 +382,35 @@
 	               	        {
 	               	            type : 'category',
 	               	            boundaryGap : false,
-	               	            data : data.yearList
+	               	            data : data.yearList,
+		               	        axisLabel:{  
+									 interval:24,//横轴信息全部显示  
+									 //rotate:-30,//-30度角倾斜显示  
+									 formatter:function(value){
+										 return value.substring(0,value.length-3);
+									 }
+								}
 	               	        }
 	               	    ],
 	               	    yAxis : [
 	               	        {
-	               	        	name:'cop',
-	               	            type : 'value',
-	               	            max:0.2
+	               	            type : 'value'
 	               	        }
 	               	    ],
 	               	    series : [
 	               	        {
 	               	            name:'B1',
 	               	            type:'line',
+	               	         	symbol:'none',
 	               	            data:data.B1,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#00FF00'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name: '平均值'}
@@ -304,8 +420,16 @@
 	               	        {
 	               	            name:'B2',
 	               	            type:'line',
+	               	         	symbol:'none',
 	               	            data:data.B2,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#FFFF00'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}
@@ -315,8 +439,16 @@
 	               	        {
 	               	            name:'B3',
 	               	            type:'line',
+	               	         	symbol:'none',
 	               	            data:data.B3,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#00EEEE'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}

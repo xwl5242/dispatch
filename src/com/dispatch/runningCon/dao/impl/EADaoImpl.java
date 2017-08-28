@@ -261,4 +261,21 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		return super.queryForList(sql);
 	}
 
+	@Override
+	public List<Map<String, Object>> DRSHtrend(String startDate, String endDate) {
+		String sql = "SELECT   "
+				+"	\"D\",Y,                                          "
+				+"	ROUND (AVG(NVL(V, 0))-26, 2) V                    "
+				+"FROM                                                "
+				+"	AI_KV                                             "
+				+"WHERE                                               "
+				+"	1 = 1                                             "
+				+"AND SUBSTR (\"K\", INSTR(\"K\", '\\' ,-1) + 1) = 'tq_wd'"
+				+"AND \"TYPE\" = 'tq' AND V>0                         "
+				+"AND SUBSTR(\"D\",6)>='"+startDate.substring(5)+"' AND SUBSTR(\"D\",6)<='"+endDate.substring(5)+"'"
+				+"GROUP BY                                            "
+				+"	\"D\",Y                                        ";
+				return super.queryForList(sql);
+	}
+
 }

@@ -22,4 +22,6 @@ public interface EADao {
 
 	List<Map<String, Object>> drsh(String startDate,String endDate);
 
+	List<Map<String, Object>> DRSHtrend(String startDate, String endDate);
+
 }

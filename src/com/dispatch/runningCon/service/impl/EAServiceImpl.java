@@ -70,7 +70,7 @@ public class EAServiceImpl implements EAService{
 					B.add("0");
 				}
 				if("DH".equals(eaType)){
-					T.add(String.format("%.2f", (Double.valueOf(ata)+Double.valueOf(atb)/(getABArea("AB")*2))));
+					T.add(String.format("%.2f", ((Double.valueOf(ata)+Double.valueOf(atb))/(getABArea("AB")*2))));
 				}else{
 					T.add(String.format("%.2f", (Double.valueOf(ta)+Double.valueOf(tb))));
 				}
@@ -91,7 +91,8 @@ public class EAServiceImpl implements EAService{
 	public Map<String, Object> airTongbi1(String startDate, String endDate,String utype) {
 		Map<String,Object> result =new HashMap<String,Object>();
 		List<Map<String, Object>> listMap = eaDao.airTongbi1(startDate,endDate,utype);
-		String[] aitype = {"1","2"};
+		utype = utype.replace("'", "");
+		String[] aitype = utype.split(",");
 		if(null!=listMap&&listMap.size()>0){
 			List<String> A = new ArrayList<String>();
 			List<String> B = new ArrayList<String>();
@@ -339,6 +340,68 @@ public class EAServiceImpl implements EAService{
 			result.put("drsh", A);
 		}
 		result.put("yearList", yearList);
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> DRSHtrend(String ys, String startDate,
+			String endDate)throws Exception {
+		Map<String,Object> result =new HashMap<String,Object>();
+		List<String> yearList = new ArrayList<String>();
+		if(null==ys || "".equals(ys)){
+			Calendar a = Calendar.getInstance();
+			int year = a.get(Calendar.YEAR);
+			yearList.add(year-2+"");
+			yearList.add(year-1+"");
+			yearList.add(year+"");
+		}else{
+			yearList = Arrays.asList(ys.split("\\|"));
+		}
+		
+		List<String> yearDateList = new ArrayList<String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		List<String> defaultList = new ArrayList<String>();
+		
+		endDate=null!=endDate&&!"".equals(endDate)?endDate:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		a.setTime(sdf.parse(endDate));
+		a.add(Calendar.DATE, -6);
+		startDate=null!=startDate&&!"".equals(startDate)?startDate:sdf.format(a.getTime());
+		
+		String sd = startDate;
+		while(!sd.equals(endDate)){
+			yearDateList.add(sd);
+			defaultList.add("0");
+			sd = sdf.format(sdf.parse(sd).getTime()+24*60*60*1000);
+		}
+		yearDateList.add(endDate);
+		defaultList.add("0");
+		
+		
+		List<Map<String, Object>> listMap = eaDao.DRSHtrend(startDate,endDate);
+		if(null!=listMap&&listMap.size()>0){
+			int num=1;
+			for(String y:yearList){
+				List<String> A = new ArrayList<String>();
+				for(String yd:yearDateList){
+					boolean flag = false;
+					for(Map<String,Object> map:listMap){
+						if(map.get("Y").toString().equals(y)&&map.get("D").toString().equals(yd)){
+							flag = true;
+							String value = map.get("V").toString();
+							A.add(value);
+						}
+					}
+					if(!flag){
+						A.add("0");
+					}
+				}
+				result.put("trend"+num, A);
+				num++;
+			}
+		}
+		result.put("yearList", yearList);
+		result.put("yearDateList", yearDateList);
 		return result;
 	}
 }

@@ -246,7 +246,7 @@ public class LoginController extends BaseController{
 	@RequestMapping("/login/systemHome.do")
 	public ModelAndView systemHome(HttpServletRequest request, HttpServletResponse response){
 		ModelAndView mv=this.getModelAndView();
-		mv.setViewName("index");
+		mv.setViewName("index2jieshao");
 		return mv;
 	}
 	

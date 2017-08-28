@@ -125,13 +125,14 @@
 	}
 	$(function(){
 		
-		$.post('<%=path%>/warning/queryWarnDataList.do?cmd=queryWarnDataList',{'isMessager':false},
+		$.post('<%=path%>/warning/warnCount.do?cmd=warnCount',{},
 				function(result){
-					$("#warnNum").text(result.length);
+					$("#warnNum").text(result.WARNCOUNT);
 				},'json');
 		
 		$("#warnDataDetail").click(function(){
-			changeSystem('d86ce17c4c7346d7866ce214942d50a8','/jsp/warn/manager/manager.jsp','2','报警管理')
+// 			changeSystem('0001003,0002003,0003003,0004003,0005003','/jsp/warn/warnTotal.jsp','2','报警统计')
+			siMenu('z0001003','lm','报警统计','/jsp/warn/warnTotal.jsp','');
 		});
 		//绑定菜单显示隐藏
 		$("#left_sq").click(function (){
@@ -164,7 +165,7 @@
 <div class="index_top">
    	<div>
        	<div class="index_logo"></div>
-           <div id="warnDataDetail" class="alert">
+           <div id="warnDataDetail" class="alert" style="cursor: pointer;">
            	<div id="warnNum">10</div>
            </div>
            <div class="top_right font_shadow">

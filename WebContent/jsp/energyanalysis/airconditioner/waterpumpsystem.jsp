@@ -288,7 +288,14 @@
 	               	            type:'line',
 // 	               	            data:[11, 11, 15, 13, 12, 13, 10],
 	               	            data:data.A,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#00FF00'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name: '平均值'}
@@ -300,7 +307,14 @@
 	               	            type:'line',
 // 	               	            data:[1, 2, 2, 5, 3, 2, 0],
 	               	            data:data.B,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#FFFF00'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}
@@ -312,7 +326,14 @@
 	               	            type:'line',
 // 	               	            data:[11, 13, 17, 18, 15, 15, 10],
 	               	            data:data.T,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	         	itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#00EEEE'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}

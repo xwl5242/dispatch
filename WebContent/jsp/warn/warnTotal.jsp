@@ -10,21 +10,22 @@
 		<form id="warnFromSearc">
 			<table  cellpadding="0" cellspacing="0" class="tbl_search_bg" width="100%">  
 				<tr>	
-					<td class="tbl_td_label" width="5%">报警开始时间：</td>
+					<td class="tbl_td_label" width="15%">报警开始时间：</td>
 					<td width="40%"><input id="sTime" name='sTime'
 						class="easyui-datetimebox" style="width:30%" data-options="editable:false" />
 					~<input id="eTime" name='eTime'
 						class="easyui-datetimebox" style="width:30%" data-options="editable:false" /></td>
 						
-					<td class="tbl_td_label"  width="5%">站点名称：</td> 
+					<td class="tbl_td_label"  width="5%">点名称：</td> 
 					<td  width="20%">
-						<input id='unitId' name="unitId" class="easyui-combobox" data-options="editable:false"/>
+						<input id='pointName' name="pointName" class="easyui-textbox" />
 					</td>
 					
 					<td class="tbl_td_label"  width="5%">报警状态：</td> 
 					<td  width="20%">
 						<select id="status" name="status" class="easyui-combobox" style="width: 133px;">
-							<option value="0">已结束</option>
+							<option value=""></option>
+							<option value="2">已结束</option>
 							<option value="1">报警中</option>
 						</select>
 					</td>
@@ -40,31 +41,9 @@
 	</div> 
  	<table id='warnListGrid' style="width：100%;" ></table> 
 	<script type="text/javascript"> 
-		var unitid='<%=request.getParameter("unitid")%>';
-		var gridHeight = parent.$("#page").height()-83;
+		var gridHeight = parent.$("#page").height()-110;
 		$(function(){
-			
-			//从运行监控子级菜单具体站进入报警记录页面是 unitid为具体的站的ID；从运行监控子级菜单报警记录进入时unitid为null
-			if(unitid!=null&&unitid!="null"){
-				$('#unitId').combobox({disabled: true});//从具体站进入报警设置页面时，站不能再被选择，需禁用
-			}else{
-				$('#unitId').combobox({disabled: false});
-			}
-			
-			$('#unitId').combobox({ 
-				 url:'<%= request.getContextPath()%>/warning/queryUnit.do?cmd=queryUnit',
-				 valueField:'ID',
-				 textField:'UNITNAME',
-				 onLoadSuccess:function (){
-					//从运行监控子级菜单具体站进入报警记录页面是 unitid为具体的站的ID；从运行监控子级菜单报警记录进入时unitid为null
-					 if(unitid!=null&&unitid!="null"){
-						$('#unitId').combobox('setValues', unitid);
-						searchWarnListGrid();
-					 }
-				 }
-			 }); 
-			
-			var ww = parent.$("#page").width();
+			var ww = parent.$("#page").width()-10;
 			/**
 			 * 初始化查询Panel
 			 */
@@ -79,56 +58,45 @@
 			 */
 			$('#warnListGrid').datagrid({    
 				url : '<%= request.getContextPath()%>/warning/listWarnData.do?cmd=listWarnData',
-				width:'100%',
+				width:ww,
 				pageNumber:1,
 				pageSize:pageNum,
 				fit:false,
 				height:gridHeight,   
 				method:'post',  
 				title:'报警记录信息列表',
-				idField:"ID",
+				idField:"ALARMID",
 				ctrlSelect:true,
 				rownumbers:true,
 				fitColumns: true,   
 				pagination : true,
 				singleSelect:true,
 			    columns:[[
-						{field:'ID',checkbox:true}, 
-						{field:'COLLID',hidden:true},
-						{field:'UNITNAME',title:'单位名称',width:'10%',align:'center'},
-						{field:'NAME',title:'报警名称',width:'10%',align:'center'},
-						{field:'STARTTIME',title:'开始时间',width:'15%',align:'center',
+			              //点名，点描述，报警值，开始时间，结束时间，报警时长
+						{field:'AlarmId',checkbox:true}, 
+						{field:'POINTNAME',title:'点名称',width:'20%',align:'center'},
+						{field:'AlarmContent',title:'点描述',width:'25%',align:'center'},
+						{field:'AlarmStartTime',title:'开始时间',width:'15%',align:'center'},
+						{field:'AlarmEndTime',title:'结束时间',width:'15%',align:'center',
 							formatter: function(value,row,index){
-				        		return dateFormat(value);
-				        	}
-						},
-						{field:'ENDTIME',title:'结束时间',width:'15%',align:'center',
-							formatter: function(value,row,index){
-				        		return dateFormat(value);
-				        	}
-						},
-						{field:'DURATION',title:'报警时长',width:'7%',align:'center',
-							formatter: function(value,row,index){
-								var s = new Date(row.STARTTIME).getTime();
-								var e = new Date(row.ENDTIME).getTime();
-								if(dateFormat(row.STARTTIME)=="" || dateFormat(row.ENDTIME)==""){
-									e = new Date().getTime();
+								if(row.STATUS=='1'){
+									return "";
+								}else{
+									return value;
 								}
-				        		return formatDuration(e-s);
-				        	}
+							}
 						},
-						{field:'COLLNAME',title:'采集点名称',width:'15%',align:'center'},
-				        {field:'COLLTIME',title:'采集时间',width:'15%',align:'center',
-				        	formatter: function(value,row,index){
-				        		return dateFormat(value);
-				        	}
-						}, 
-						{field:'COLLVALUE',title:'采集值',width:'5%',align:'center',
+						{field:'DURATION',title:'报警时长',width:'10%',align:'center',
 							formatter: function(value,row,index){
-				        		return parseFloat(value).toFixed(2);
+								var s = new Date(row.AlarmStartTime).getTime();
+								var e = new Date(row.AlarmEndTime).getTime();
+								if(row.STATUS=='1'){
+									return "";
+								}else{
+				        			return formatDuration(e-s);
+								}
 				        	}
-						},
-				        {field:'WARNLEVEL',title:'报警等级',width:'5%',align:'center'}
+						}
 			    ]],
 			    onHeaderContextMenu: function(e, field){
 					 e.preventDefault();
@@ -150,13 +118,12 @@
 		function searchWarnListGrid(){
 			var sTime =$('#sTime').datetimebox('getValue');
 			var eTime =$('#eTime').datetimebox('getValue');
-			var unitName = $("#unitId").combobox("getText");
+			var pointName = $("#pointName").textbox("getText");
 			var status = $("#status").combobox("getValue");
 			$('#warnListGrid').datagrid('load',{
-				unitId:unitid,
 				sTime:sTime,
 				eTime:eTime,
-				unitName:unitName,
+				pointName:pointName,
 				status:status
 			});
 		}

@@ -72,4 +72,12 @@ public class EAController extends BaseController {
 		Map<String, Object> map = eaService.drsh(ys,startDate,endDate);
 		super.returnObjectJson(map, response);
 	}
+	
+	@RequestMapping(value = "/airsystem/air/DRSHtrend.do")
+	@ResponseBody
+	public void DRSHtrend(HttpServletRequest request, HttpServletResponse response,String ys,
+			String startDate,String endDate) throws Exception{
+		Map<String, Object> map = eaService.DRSHtrend(ys,startDate,endDate);
+		super.returnObjectJson(map, response);
+	}
 }
