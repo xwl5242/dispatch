@@ -43,6 +43,8 @@
 	<script type="text/javascript"> 
 		
 		$(function(){
+			$('#endEventTime').datebox('setText',getDate(0)+" 23:59:59");
+			$('#startEventTime').datebox('setText',getDate(6*24*60*60*1000)+" 00:00:00");
 			var hh = parent.parent.$("#page").height()-115;
 			var ww = parent.parent.$("#page").width();
 			//初始化列表组建
@@ -109,7 +111,21 @@
 			$('#logOnUser').textbox('setText','');
 			$('#pcName').textbox('setText','');
 		}
-		
+		function getDate(lt) {
+			var longtime = new Date().getTime()-lt;
+			var date = new Date(longtime);
+			var seperator1 = "-";
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+			return currentdate;
+		}
 	</script>
 </body> 
 </html>

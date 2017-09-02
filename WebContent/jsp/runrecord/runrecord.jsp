@@ -11,7 +11,7 @@
 		<table style="height: 40px">  
 			<tr>
 	            <td class="tbl_td_label" width="6%">运行时间：</td>  
-				<td width="30%"><input id="sTime" name='sTime'
+				<td width="45%"><input id="sTime" name='sTime'
 					class="easyui-datetimebox" style="width:30%" data-options="editable:false" />
 				~<input id="eTime" name='eTime'
 					class="easyui-datetimebox" style="width:30%" data-options="editable:false" /></td>
@@ -30,7 +30,7 @@
 				<td  width="15%">
 					<input id="kName" name="kName" class="easyui-textbox" />
 				</td>
-				<td colspan="12" width="20%"> 
+				<td colspan="12" width="15%"> 
 				   <a id="searchLineTrend" onclick='searchRC();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
 				   <a id="clearLineTrendSearch"  onclick="formClear('RCForm');" class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>
 				</td> 
@@ -42,6 +42,8 @@
 	<script type="text/javascript"> 
 		
 		$(function(){
+			$('#eTime').datebox('setText',getDate(0)+" 23:59:59");
+			$('#sTime').datebox('setText',getDate(6*24*60*60*1000)+" 00:00:00");
 			var hh = parent.parent.$("#page").height()-95;
 			var ww = parent.parent.$("#page").width();
 			//初始化列表组建
@@ -157,7 +159,21 @@
 			}
 			return hour+":"+min+":"+second;
 		}
-
+		function getDate(lt) {
+			var longtime = new Date().getTime()-lt;
+			var date = new Date(longtime);
+			var seperator1 = "-";
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+			return currentdate;
+		}
 	</script>
 </body> 
 </html>

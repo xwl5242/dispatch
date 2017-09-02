@@ -1,5 +1,6 @@
 package com.dispatch.runningCon.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,6 +27,16 @@ public class RunRecordServiceImpl implements RunRecordService {
 	@Override
 	public Map<String, Object> queryRunRecord(int currentPage, int pageSize,
 			String sTime,String eTime,String dName,String kName) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		eTime=null!=eTime&&!"".equals(eTime)?eTime:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		try {
+			a.setTime(sdf.parse(eTime));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		a.add(Calendar.DATE, -6);
+		sTime=null!=sTime&&!"".equals(sTime)?sTime:sdf.format(a.getTime());
 		return rrDao.queryRunRecord(currentPage,pageSize,sTime,eTime,dName,kName);
 	}
 	
@@ -35,6 +46,21 @@ public class RunRecordServiceImpl implements RunRecordService {
 	@Override
 	public Map<String, Object> queryLogList(int currentPage, int pageSize,
 			Map<String, String> param) {
+		String startEventTime = param.get("startEventTime");
+		String endEventTime = param.get("endEventTime");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		endEventTime=null!=endEventTime&&!"".equals(endEventTime)?endEventTime:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		try {
+			a.setTime(sdf.parse(endEventTime));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		a.add(Calendar.DATE, -6);
+		startEventTime=null!=startEventTime&&!"".equals(startEventTime)?startEventTime:sdf.format(a.getTime());
+		param.put("startEventTime", startEventTime+" 00:00:00");
+		param.put("endEventTime", endEventTime+" 23:59:59");
+		
 		return rrDao.queryLogList(currentPage,pageSize,param);
 	}
 

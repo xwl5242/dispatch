@@ -65,6 +65,7 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		if(StringUtils.isNotEmpty(param.get("pcName"))){
 			sql += " and PCNAME like '%"+param.get("pcName")+"%'";
 		}
+		sql+=" order by EVENTTIME DESC";
 		return super.queryGridist(sql, "", currentPage, pageSize);
 	}
 
