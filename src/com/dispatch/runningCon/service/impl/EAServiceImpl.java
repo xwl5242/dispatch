@@ -269,8 +269,10 @@ public class EAServiceImpl implements EAService{
 			List<String> B2 = new ArrayList<String>();
 			List<String> B3 = new ArrayList<String>();
 			for(String y:yearList){
+				boolean flag = false;
 				for(Map<String,Object> map:listMap){
 					if(map.get("HH").toString().equals(y)){
+						flag = true;
 						String a1 = map.get("A1").toString();
 						String a2 = map.get("A2").toString();
 						String a3 = map.get("A3").toString();
@@ -280,6 +282,10 @@ public class EAServiceImpl implements EAService{
 						A1.add(a1);A2.add(a2);A3.add(a3);
 						B1.add(b1);B2.add(b2);B3.add(b3);
 					}
+				}
+				if(!flag){
+					A1.add("0");A2.add("0");A3.add("0");
+					B1.add("0");B2.add("0");B3.add("0");
 				}
 			}
 			result.put("A1", A1);
