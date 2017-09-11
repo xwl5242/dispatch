@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.dispatch.runningCon.dao.EADao;
@@ -17,7 +18,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		String sql = "SELECT C.Y,C.AB,NVL(SUM(C.DL),0) DL ";
 		sql += " FROM (                                   "
 		+"  SELECT                                       "
-		+"    A.Y,A.AB,ROUND(A.TOTAL-NVL(B.TTVV,0),2) DL "
+		+"    A.Y,A.AB,(case when A.TOTAL<0 OR NVL(B.TTVV,0)<=0 then 0 WHEN A.TOTAL - NVL(B.TTVV, 0)<=0 THEN 0 else ROUND(A.TOTAL - NVL(B.TTVV, 0),2) end) DL "
 		+"  FROM (                                       "
 		+"    SELECT TD, Y, \"K\", AB, MAX(V) TOTAL      "
 		+"    FROM AI_KV                                 "
@@ -42,7 +43,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		+"  (                                                   "
 		+"  SELECT                                              "
 		+"    A.\"D\",A.AB,A.\"K\",A.\"TYPE\",                  "
-		+"    ROUND(A.TOTAL - NVL(B.TTVV, 0), 2) DL             "
+		+"  (case when A.TOTAL<0 OR NVL(B.TTVV,0)<=0 then 0 WHEN A.TOTAL - NVL(B.TTVV, 0)<=0 THEN 0 else ROUND(A.TOTAL - NVL(B.TTVV, 0),2) end) DL "
 		+"  FROM                                                "
 		+"    (                                                 "
 		+"      SELECT                                          "
@@ -82,7 +83,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		+"  (                                               "
 		+"  SELECT                                          "
 		+"    A.\"D\",A.AB,A.\"K\",                         "
-		+"    ROUND(A.TOTAL - NVL(B.TTVV, 0),2) DL          "
+		+" (case when A.TOTAL<0 OR NVL(B.TTVV,0)<=0 then 0 WHEN A.TOTAL - NVL(B.TTVV, 0)<=0 THEN 0 else ROUND(A.TOTAL - NVL(B.TTVV, 0),2) end) DL "
 		+"  FROM                                            "
 		+"    (                                             "
 		+"      SELECT                                      "
@@ -149,11 +150,11 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		+"          CASE A.\"TYPE\"                         "
 		+"          WHEN 'E' THEN                           "
 		+"            (                                     "
-		+"              SUM (A.TOTAL - NVL(B.TTVV, 0)) * "+kv.get("elec")
+		+"              SUM ((case when A.TOTAL<0 OR NVL(B.TTVV,0)<=0 then 0 WHEN A.TOTAL - NVL(B.TTVV, 0)<=0 THEN 0 else ROUND(A.TOTAL - NVL(B.TTVV, 0),2) end)) * "+kv.get("elec")
 		+"            )                                     "
 		+"          WHEN 'W' THEN                           "
 		+"            (                                     "
-		+"              SUM (A.TOTAL - NVL(B.TTVV, 0)) * "+kv.get("water")
+		+"              SUM ((case when A.TOTAL<0 OR NVL(B.TTVV,0)<=0 then 0 WHEN A.TOTAL - NVL(B.TTVV, 0)<=0 THEN 0 else ROUND(A.TOTAL - NVL(B.TTVV, 0),2) end)) * "+kv.get("water")
 		+"            )                                     "
 		+"          END                                     "
 		+"        ),                                        "
@@ -276,6 +277,29 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 				+"GROUP BY                                            "
 				+"	\"D\",Y                                        ";
 				return super.queryForList(sql);
+	}
+
+	@Override
+	public Map<String, Object> editKV(int currentPage, int pageSize,
+			Map<String, String> param) {
+		String sql="select \"T\",\"K\",V from AI_KV WHERE 1=1 ";
+		if(StringUtils.isNotEmpty(param.get("startTime"))){
+			sql += " AND \"D\" >='"+param.get("startTime")+"'"; 
+		}
+		if(StringUtils.isNotEmpty(param.get("endTime"))){
+			sql += " AND \"D\" <='"+param.get("endTime")+"";
+		}
+		if(StringUtils.isNotEmpty(param.get("pname"))){
+			sql += " AND \"K\" LIKE '%"+param.get("pname")+"%'"; 
+		}
+		
+		return super.queryGridist(sql, "", currentPage, pageSize);
+	}
+
+	@Override
+	public List<Map<String, Object>> pnameListJson() {
+		String sql = "SELECT SUBSTR(COLUMN_NAME,instr(COLUMN_NAME,'\\',-1)+1) ID,SUBSTR(COLUMN_NAME,instr(COLUMN_NAME,'\\',-1)+1) TEXT FROM USER_TAB_COLUMNS WHERE TABLE_NAME = 'AI' AND COLUMN_name !='Time' ORDER BY COLUMN_ID";
+		return super.queryForList(sql);
 	}
 
 }

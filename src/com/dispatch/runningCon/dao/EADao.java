@@ -24,4 +24,9 @@ public interface EADao {
 
 	List<Map<String, Object>> DRSHtrend(String startDate, String endDate);
 
+	Map<String, Object> editKV(int currentPage, int pageSize,
+			Map<String, String> param);
+
+	List<Map<String, Object>> pnameListJson();
+
 }

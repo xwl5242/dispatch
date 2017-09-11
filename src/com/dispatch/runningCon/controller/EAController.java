@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dispatch.runningCon.service.EAService;
@@ -79,5 +80,21 @@ public class EAController extends BaseController {
 			String startDate,String endDate) throws Exception{
 		Map<String, Object> map = eaService.DRSHtrend(ys,startDate,endDate);
 		super.returnObjectJson(map, response);
+	}
+	
+	@RequestMapping("/editKV.do")
+	@ResponseBody
+	public void editKV(HttpServletRequest request,HttpServletResponse response,
+			@RequestParam Map<String,String> param){
+		getPageInfo(request);
+		Map<String,Object> result = eaService.editKV(super.getCurrentPage(),super.getPageSize(),param);
+		super.returnObjectJson(result, response);
+	}
+	
+	@RequestMapping("/pnameListJson.do")
+	@ResponseBody
+	public void pnameListJson(HttpServletRequest request,HttpServletResponse response){
+		List<Map<String,Object>> result = eaService.pnameListJson();
+		super.returnObjectJson(result, response);
 	}
 }

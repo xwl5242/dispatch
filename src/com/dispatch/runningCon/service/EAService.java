@@ -20,4 +20,9 @@ public interface EAService {
 
 	Map<String, Object> DRSHtrend(String ys, String startDate, String endDate)throws Exception;
 
+	Map<String, Object> editKV(int currentPage, int pageSize,
+			Map<String, String> param);
+
+	List<Map<String, Object>> pnameListJson();
+
 }

@@ -190,7 +190,7 @@ function renderEcharts(){
            
             $.post('<%=path %>/ea/airsystem/air/tongbi.do',{
             	ys : $('#years').combo('getText'),
-            	type : "'2','3','4','5','6'",
+            	type : "'3','4','5','6'",
             	eaType:'NH'
             },function(data){
             	mypower = {
@@ -319,7 +319,7 @@ function renderEcharts(){
             $.post('<%=path %>/ea/airsystem/air/qushi.do',{
             	startDate : $('#startDate').datebox('getValue'),
             	endDate : $('#endDate').datebox('getValue'),
-            	type : "'2','3','4','5','6'",
+            	type : "'3','4','5','6'",
             	eaType:'NH'
             },function(data){
             	mypowertrend = {

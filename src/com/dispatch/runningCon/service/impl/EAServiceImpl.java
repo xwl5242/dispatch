@@ -1,5 +1,6 @@
 package com.dispatch.runningCon.service.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -409,5 +410,16 @@ public class EAServiceImpl implements EAService{
 		result.put("yearList", yearList);
 		result.put("yearDateList", yearDateList);
 		return result;
+	}
+
+	@Override
+	public Map<String, Object> editKV(int currentPage, int pageSize,
+			Map<String, String> param) {
+		return eaDao.editKV(currentPage,pageSize,param);
+	}
+
+	@Override
+	public List<Map<String, Object>> pnameListJson() {
+		return eaDao.pnameListJson();
 	}
 }
