@@ -30,7 +30,7 @@
 				<td  width="15%">
 					<input id="kName" name="kName" class="easyui-textbox" />
 				</td>
-				<td colspan="12" width="15%"> 
+				<td colspan="12" width="13%"> 
 				   <a id="searchLineTrend" onclick='searchRC();' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
 				   <a id="clearLineTrendSearch"  onclick="formClear('RCForm');" class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>
 				</td> 
@@ -42,8 +42,40 @@
 	<script type="text/javascript"> 
 		
 		$(function(){
-			$('#eTime').datebox('setText',getDate(0)+" 23:59:59");
-			$('#sTime').datebox('setText',getDate(6*24*60*60*1000)+" 00:00:00");
+			$('#sTime').datetimebox({
+				onSelect:function(date){
+					var end = new Date($('#eTime').datetimebox('getValue')).getTime();
+					if(end!=null&&end!=''){
+						if(end<new Date(date).getTime()){
+							$.messager.alert('提醒', '开始时间不能大于结束时间,请重新选择!');  
+							$('#sTime').datetimebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
+			
+			$('#eTime').datetimebox({
+				onSelect:function(date){
+					if($('#sTime').datetimebox('getValue')==null||$('#sTime').datetimebox('getValue')==''){
+						$.messager.alert('提醒', '请先选择开始时间!'); 
+						$('#eTime').datetimebox('setValue','');
+						return ;
+					}
+					var start = new Date($('#sTime').datetimebox('getValue')).getTime();
+					if(start!=null&&start!=''){
+						if(start>new Date(date).getTime()){
+							$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
+							$('#eTime').datetimebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
+			$('#eTime').datetimebox('setText',getDate(0)+" 23:59:59");
+			$('#sTime').datetimebox('setText',getDate(6*24*60*60*1000)+" 00:00:00");
+			$('#eTime').datetimebox('setValue',getDate(0)+" 23:59:59");
+			$('#sTime').datetimebox('setValue',getDate(6*24*60*60*1000)+" 00:00:00");
 			var hh = parent.parent.$("#page").height()-95;
 			var ww = parent.parent.$("#page").width();
 			//初始化列表组建
@@ -160,20 +192,20 @@
 			return hour+":"+min+":"+second;
 		}
 		function getDate(lt) {
-			var longtime = new Date().getTime()-lt;
-			var date = new Date(longtime);
-			var seperator1 = "-";
-			var month = date.getMonth() + 1;
-			var strDate = date.getDate();
-			if (month >= 1 && month <= 9) {
-				month = "0" + month;
-			}
-			if (strDate >= 0 && strDate <= 9) {
-				strDate = "0" + strDate;
-			}
-			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-			return currentdate;
+		var longtime = new Date().getTime()-lt;
+		var date = new Date(longtime);
+		var seperator1 = "-";
+		var month = date.getMonth() + 1;
+		var strDate = date.getDate();
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
 		}
+		if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+		}
+		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		return currentdate;
+	}
 	</script>
 </body> 
 </html>

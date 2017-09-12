@@ -188,6 +188,7 @@ function renderEcharts(){
 		       	        {
 		       	            name:'平均气温',
 		       	            type:'line',
+							symbol:'none',
 		       	            data:data.y,
 		       	            itemStyle:{normal:{label:{show:true}}},
 		       	            markLine : {

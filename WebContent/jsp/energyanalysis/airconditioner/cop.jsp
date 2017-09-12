@@ -140,13 +140,47 @@
         var divW = (ww-65);
         $("#parentId > div").width(divW);
         $(".sjwd_cont").width(divW);
+		
+		$('#startDate').datebox({
+			onSelect:function(date){
+				var end = new Date($('#endDate').datebox('getValue')).getTime();
+				if(end!=null&&end!=''){
+					if(end<new Date(date).getTime()){
+						$.messager.alert('提醒', '开始时间不能大于结束时间,请重新选择!');  
+						$('#startDate').datebox('setValue','');
+						return ;
+					}
+				}
+			}
+		});
+		
+		$('#endDate').datebox({
+			onSelect:function(date){
+				if($('#startDate').datebox('getValue')==null||$('#startDate').datebox('getValue')==''){
+					$.messager.alert('提醒', '请先选择开始时间!'); 
+					$('#endDate').datebox('setValue','');
+					return ;
+				}
+				var start = new Date($('#startDate').datebox('getValue')).getTime();
+				if(start!=null&&start!=''){
+					if(start>new Date(date).getTime()){
+						$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
+						$('#endDate').datebox('setValue','');
+						return ;
+					}
+				}
+			}
+		});
+		
         //查询条件中的年份设置
         yearsSet();
         
         $('[name="2017"]').attr("checked",true);
 		$('#years').combo('setText','2017');
 		$('#endDate').datebox('setText',getDate(0));
+		$('#endDate').datebox('setValue',getDate(0));
 		$('#startDate').datebox('setText',getDate(6*24*60*60*1000));
+		$('#startDate').datebox('setValue',getDate(6*24*60*60*1000));
 		renderEchart();
 	});
     

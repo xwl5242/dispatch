@@ -58,8 +58,41 @@ $(document).ready(function(){
 	$(".box > div").height(hh);
 	$(".box > div").width(ww);
 	
+	$('#startDate').datebox({
+		onSelect:function(date){
+			var end = new Date($('#endDate').datebox('getValue')).getTime();
+			if(end!=null&&end!=''){
+				if(end<new Date(date).getTime()){
+					$.messager.alert('提醒', '开始时间不能大于结束时间,请重新选择!');  
+					$('#startDate').datebox('setValue','');
+					return ;
+				}
+			}
+		}
+	});
+	
+	$('#endDate').datebox({
+		onSelect:function(date){
+			if($('#startDate').datebox('getValue')==null||$('#startDate').datebox('getValue')==''){
+				$.messager.alert('提醒', '请先选择开始时间!'); 
+				$('#endDate').datebox('setValue','');
+				return ;
+			}
+			var start = new Date($('#startDate').datebox('getValue')).getTime();
+			if(start!=null&&start!=''){
+				if(start>new Date(date).getTime()){
+					$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
+					$('#endDate').datebox('setValue','');
+					return ;
+				}
+			}
+		}
+	});
+	
 	$('#endDate').datebox('setText',getDate(0));
+	$('#endDate').datebox('setValue',getDate(0));
 	$('#startDate').datebox('setText',getDate(6*24*60*60*1000));
+	$('#startDate').datebox('setValue',getDate(6*24*60*60*1000));
 	renderEcharts();
 });
 function searchWeatherTrend(){
@@ -131,18 +164,21 @@ function renderEcharts(){
 			       	        {
 			       	            name:'平均气温',
 			       	            type:'line',
+								symbol:'none',
 			       	            data:data.avg,
 			       	            itemStyle:{normal:{label:{show:true}}}
 			       	        },
 			       	        {
 			       	            name:'最高气温',
 			       	            type:'line',
+								symbol:'none',
 			       	            data:data.max,
 			       	            itemStyle:{normal:{label:{show:true}}}
 			       	        },
 			       	     	{
 			       	            name:'最低气温',
 			       	            type:'line',
+								symbol:'none',
 			       	            data:data.min,
 			       	            itemStyle:{normal:{label:{show:true}}}
 			       	        }

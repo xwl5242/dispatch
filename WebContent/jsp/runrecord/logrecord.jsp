@@ -43,8 +43,40 @@
 	<script type="text/javascript"> 
 		
 		$(function(){
-			$('#endEventTime').datebox('setText',getDate(0)+" 23:59:59");
-			$('#startEventTime').datebox('setText',getDate(6*24*60*60*1000)+" 00:00:00");
+			$('#startEventTime').datetimebox({
+				onSelect:function(date){
+					var end = new Date($('#endEventTime').datetimebox('getValue')).getTime();
+					if(end!=null&&end!=''){
+						if(end<new Date(date).getTime()){
+							$.messager.alert('提醒', '开始时间不能大于结束时间,请重新选择!');  
+							$('#startEventTime').datetimebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
+			
+			$('#endEventTime').datetimebox({
+				onSelect:function(date){
+					if($('#startEventTime').datetimebox('getValue')==null||$('#startEventTime').datetimebox('getValue')==''){
+						$.messager.alert('提醒', '请先选择开始时间!'); 
+						$('#endEventTime').datetimebox('setValue','');
+						return ;
+					}
+					var start = new Date($('#startEventTime').datetimebox('getValue')).getTime();
+					if(start!=null&&start!=''){
+						if(start>new Date(date).getTime()){
+							$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
+							$('#endEventTime').datetimebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
+			$('#endEventTime').datetimebox('setText',getDate(0)+" 23:59:59");
+			$('#startEventTime').datetimebox('setText',getDate(6*24*60*60*1000)+" 00:00:00");
+			$('#endEventTime').datetimebox('setValue',getDate(0)+" 23:59:59");
+			$('#startEventTime').datetimebox('setValue',getDate(6*24*60*60*1000)+" 00:00:00");
 			var hh = parent.parent.$("#page").height()-115;
 			var ww = parent.parent.$("#page").width();
 			//初始化列表组建
@@ -112,20 +144,20 @@
 			$('#pcName').textbox('setText','');
 		}
 		function getDate(lt) {
-			var longtime = new Date().getTime()-lt;
-			var date = new Date(longtime);
-			var seperator1 = "-";
-			var month = date.getMonth() + 1;
-			var strDate = date.getDate();
-			if (month >= 1 && month <= 9) {
-				month = "0" + month;
-			}
-			if (strDate >= 0 && strDate <= 9) {
-				strDate = "0" + strDate;
-			}
-			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-			return currentdate;
+		var longtime = new Date().getTime()-lt;
+		var date = new Date(longtime);
+		var seperator1 = "-";
+		var month = date.getMonth() + 1;
+		var strDate = date.getDate();
+		if (month >= 1 && month <= 9) {
+			month = "0" + month;
 		}
+		if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+		}
+		var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+		return currentdate;
+	}
 	</script>
 </body> 
 </html>

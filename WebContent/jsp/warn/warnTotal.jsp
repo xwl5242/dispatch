@@ -52,6 +52,37 @@
 				  width:ww,
 				  title:"查询"
 			}); 
+			
+			$('#sTime').datetimebox({
+				onSelect:function(date){
+					var end = new Date($('#eTime').datetimebox('getValue')).getTime();
+					if(end!=null&&end!=''){
+						if(end<new Date(date).getTime()){
+							$.messager.alert('提醒', '开始时间不能大于结束时间,请重新选择!');  
+							$('#sTime').datetimebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
+			
+			$('#eTime').datetimebox({
+				onSelect:function(date){
+					if($('#sTime').datetimebox('getValue')==null||$('#sTime').datetimebox('getValue')==''){
+						$.messager.alert('提醒', '请先选择开始时间!'); 
+						$('#eTime').datetimebox('setValue','');
+						return ;
+					}
+					var start = new Date($('#sTime').datetimebox('getValue')).getTime();
+					if(start!=null&&start!=''){
+						if(start>new Date(date).getTime()){
+							$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
+							$('#eTime').datetimebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
 		
 			/**
 			 * 初始化列表组建
@@ -74,8 +105,9 @@
 			    columns:[[
 			              //点名，点描述，报警值，开始时间，结束时间，报警时长
 						{field:'AlarmId',checkbox:true}, 
-						{field:'POINTNAME',title:'点名称',width:'20%',align:'center'},
-						{field:'AlarmContent',title:'点描述',width:'25%',align:'center'},
+						{field:'TagName',title:'点名称',width:'20%',align:'center'},
+						{field:'TagDesc',title:'点描述',width:'25%',align:'center'},
+						{field:'AlarmValue',title:'报警值',width:'10%',align:'center'},
 						{field:'AlarmStartTime',title:'开始时间',width:'15%',align:'center'},
 						{field:'AlarmEndTime',title:'结束时间',width:'15%',align:'center',
 							formatter: function(value,row,index){
@@ -88,8 +120,17 @@
 						},
 						{field:'DURATION',title:'报警时长',width:'10%',align:'center',
 							formatter: function(value,row,index){
-								var s = new Date(row.AlarmStartTime).getTime();
-								var e = new Date(row.AlarmEndTime).getTime();
+								var st = row.AlarmStartTime;
+								var et = row.AlarmEndTime;
+								
+								st = st.replace(/-/g,"/");
+								et = et.replace(/-/g,"/");
+								st = st.substring(0,st.length-4);
+								et = et.substring(0,et.length-4);
+								
+								var s = new Date(st).getTime();
+								var e = new Date(et).getTime();
+
 								if(row.STATUS=='1'){
 									return "";
 								}else{
