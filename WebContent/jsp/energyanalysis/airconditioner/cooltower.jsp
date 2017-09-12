@@ -152,7 +152,7 @@
 				}
 				var start = new Date($('#startDate').datebox('getValue')).getTime();
 				if(start!=null&&start!=''){
-					if(start>new Date(date).getTime()){
+					if(start>new Date(date).getTime()+24*60*60*1000){
 						$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
 						$('#endDate').datebox('setValue','');
 						return ;

@@ -64,7 +64,7 @@
 					}
 					var start = new Date($('#startTime').datebox('getValue')).getTime();
 					if(start!=null&&start!=''){
-						if(start>new Date(date).getTime()){
+						if(start>new Date(date).getTime()+24*60*60*1000){
 							$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
 							$('#endTime').datebox('setValue','');
 							return ;
@@ -72,6 +72,10 @@
 					}
 				}
 			});
+			$('#endTime').datebox('setText',getDate(0));
+			$('#endTime').datebox('setValue',getDate(0));
+			$('#startTime').datebox('setText',getDate(6*24*60*60*1000));
+			$('#startTime').datebox('setValue',getDate(6*24*60*60*1000));
 			
 			var editIndex = undefined;
 			function endEditing() {//该方法用于关闭上一个焦点的editing状态  
@@ -220,6 +224,21 @@
 				var s = date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds();
 				return y+"-"+m+"-"+d+" "+h+":"+min+":"+s;
 			}
+		}
+		function getDate(lt) {
+			var longtime = new Date().getTime()-lt;
+			var date = new Date(longtime);
+			var seperator1 = "-";
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			}
+			var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+			return currentdate;
 		}
 	</script>
 </body> 
