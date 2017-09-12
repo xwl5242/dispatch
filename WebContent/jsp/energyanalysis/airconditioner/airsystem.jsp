@@ -78,10 +78,16 @@
         var hh = parent.$("#page_seconde").height();
         var ww = parent.$("#page_seconde").width();
         $(document.body).height(hh-10);
-        var divH = (hh-90)/2;
+		$(document.body).width(ww-20);
+		
+        var divH = (hh-90)/1.5;
         $("#parentId > div").height(divH);
         $(".sjwd_cont").height(divH);
-        $("#qushidiv").width(ww-30);
+		
+		//var divW = (ww-65)/2;
+        //$("#parentId > div").width(divW);
+        //$(".sjwd_cont").width(divW);
+        $("#qushidiv").width(ww-47);
         //查询条件中的年份设置
         yearsSet();
         
@@ -254,9 +260,24 @@
 	               		tooltip : {
 	               	        trigger: 'axis'
 	               	    },
+						color:['#48cda6','#fd87ab','#00ff00'],
 	               	    legend: {
 	               	        data:['A座','B座','总体']
 	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 	               	    calculable : true,
 	               	    xAxis : [
 	               	        {
@@ -281,7 +302,7 @@
 								itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00FF00'  
+					                  color:'#48cda6'  
 					                },
 					                label:{show:true}
 					              }  
@@ -300,7 +321,7 @@
 								itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#FFFF00'  
+					                  color:'#fd87ab'  
 					                },
 					                label:{show:true}  
 					              }  
@@ -318,7 +339,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00EEEE'  
+					                  color:'#00ff00'  
 					                },
 					                label:{show:true}  
 					              }  

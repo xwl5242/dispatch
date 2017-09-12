@@ -29,4 +29,6 @@ public interface EADao {
 
 	List<Map<String, Object>> pnameListJson();
 
+	int edit(String t, String k, String v);
+
 }

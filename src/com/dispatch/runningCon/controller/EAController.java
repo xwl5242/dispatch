@@ -91,6 +91,16 @@ public class EAController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	@RequestMapping("/edit.do")
+	@ResponseBody
+	public void editKV(HttpServletRequest request,HttpServletResponse response,
+			String T,String K,String V){
+		int result = eaService.edit(T,K,V);
+		Map<String,Object> retMap = new HashMap<String,Object>();
+		retMap.put("flag", result==1);
+		super.returnObjectJson(retMap, response);
+	}
+	
 	@RequestMapping("/pnameListJson.do")
 	@ResponseBody
 	public void pnameListJson(HttpServletRequest request,HttpServletResponse response){

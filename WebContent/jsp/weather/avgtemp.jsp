@@ -97,6 +97,20 @@ function renderEcharts(){
 			       	    legend: {
 			       	        data:['平均气温','最高气温','最低气温']
 			       	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 			       	    calculable : true,
 			       	    xAxis : [
 			       	        {

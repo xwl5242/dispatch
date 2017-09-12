@@ -200,6 +200,7 @@
 							name : '度日数',
 							type : 'bar',
 							data : data.drsh,
+							barWidth: '60',
 							itemStyle:{normal:{label:{show:true}}},
 	           	            markLine : {
 	           	                data : [
@@ -223,6 +224,20 @@
 	               	    legend: {
 	               	        data:data.yearList
 	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 	               	    calculable : true,
 	               	    xAxis : [
 	               	        {
@@ -286,9 +301,24 @@
 	               		tooltip : {
 	               	        trigger: 'axis'
 	               	    },
+						color:['#48cda6','#fd87ab','#00ff00'],
 	               	    legend: {
 	               	        data:['A1','A2','A3']
 	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 	               	    calculable : true,
 	               	    xAxis : [
 	               	        {
@@ -318,7 +348,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00FF00'  
+					                  color:'#48cda6'  
 					                },
 					                label:{show:true}
 					              }  
@@ -337,7 +367,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#FFFF00'  
+					                  color:'#fd87ab'  
 					                },
 					                label:{show:true}
 					              }  
@@ -356,7 +386,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00EEEE'  
+					                  color:'#00ff00'  
 					                },
 					                label:{show:true}
 					              }  
@@ -374,9 +404,24 @@
 	               		tooltip : {
 	               	        trigger: 'axis'
 	               	    },
+						color:['#48cda6','#fd87ab','#00ff00'],
 	               	    legend: {
 	               	        data:['B1','B2','B3']
 	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 	               	    calculable : true,
 	               	    xAxis : [
 	               	        {
@@ -406,7 +451,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00FF00'  
+					                  color:'#48cda6'  
 					                },
 					                label:{show:true}
 					              }  
@@ -425,7 +470,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#FFFF00'  
+					                  color:'#fd87ab'  
 					                },
 					                label:{show:true}
 					              }  
@@ -444,7 +489,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00EEEE'  
+					                  color:'#00ff00'  
 					                },
 					                label:{show:true}
 					              }  

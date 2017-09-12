@@ -326,9 +326,25 @@ function renderEcharts(){
             			tooltip : {
 	               	        trigger: 'axis'
 	               	    },
+						color:['#48cda6','#fd87ab','#00ff00'],
+						grid:{x:100},
 	               	    legend: {
 	               	        data:['A座','B座','总体']
 	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 	               	    calculable : true,
 	               	    xAxis : [
 	               	        {
@@ -341,7 +357,11 @@ function renderEcharts(){
 	               	        {
 	               	            type : 'value',
 	               	            axisLabel : {
-	               	                formatter: '{value} KWh'
+	               	                formatter: function(value){
+											var n = new Number(value);
+											var ret = n.toExponential(1);
+											return ret+" KWh";
+										}
 	               	            }
 	               	        }
 	               	    ],
@@ -354,7 +374,7 @@ function renderEcharts(){
 	               	         itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00FF00'  
+					                  color:'#48cda6'  
 					                },
 					                label:{show:true}
 					              }  
@@ -373,7 +393,7 @@ function renderEcharts(){
 	               	         itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#FFFF00'  
+					                  color:'#fd87ab'  
 					                },
 					                label:{show:true}
 					              }  
@@ -392,7 +412,7 @@ function renderEcharts(){
 	               	         itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00EEEE'  
+					                  color:'#00ff00'  
 					                },
 					                label:{show:true}
 					              }  
@@ -418,9 +438,25 @@ function renderEcharts(){
             			tooltip : {
 	               	        trigger: 'axis'
 	               	    },
+						color:['#48cda6','#fd87ab','#00ff00'],
+						grid:{x:100},
 	               	    legend: {
 	               	        data:['A座','B座','总体']
 	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 	               	    calculable : true,
 	               	    xAxis : [
 	               	        {
@@ -443,7 +479,14 @@ function renderEcharts(){
 	               	            type:'line',
 // 	               	            data:[11, 11, 15, 13, 12, 13, 10],
 	               	            data:data.A,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#48cda6'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name: '平均值'}
@@ -455,7 +498,14 @@ function renderEcharts(){
 	               	            type:'line',
 // 	               	            data:[1, 2, 2, 5, 3, 2, 0],
 	               	            data:data.B,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#fd87ab'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}
@@ -467,7 +517,14 @@ function renderEcharts(){
 	               	            type:'line',
 // 	               	            data:[11, 13, 17, 18, 15, 15, 10],
 	               	            data:data.T,
-	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            itemStyle : {  
+					              normal : {  
+					                lineStyle:{  
+					                  color:'#00ff00'  
+					                },
+					                label:{show:true}
+					              }  
+					            },  
 	               	            markLine : {
 	               	                data : [
 	               	                    {type : 'average', name : '平均值'}

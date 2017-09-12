@@ -245,9 +245,24 @@
 	               		tooltip : {
 	               	        trigger: 'axis'
 	               	    },
+						color:['#48cda6','#fd87ab','#00ff00'],
 	               	    legend: {
 	               	        data:['A座','B座','总体']
 	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
 	               	    calculable : true,
 	               	    xAxis : [
 	               	        {
@@ -273,7 +288,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00FF00'  
+					                  color:'#48cda6'  
 					                },
 					                label:{show:true}
 					              }  
@@ -292,7 +307,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#FFFF00'  
+					                  color:'#fd87ab'  
 					                },
 					                label:{show:true}
 					              }  
@@ -311,7 +326,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00EEEE'  
+					                  color:'#00ff00'  
 					                },
 					                label:{show:true}
 					              }  

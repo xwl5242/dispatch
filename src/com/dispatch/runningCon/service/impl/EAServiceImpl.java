@@ -422,4 +422,9 @@ public class EAServiceImpl implements EAService{
 	public List<Map<String, Object>> pnameListJson() {
 		return eaDao.pnameListJson();
 	}
+
+	@Override
+	public int edit(String t, String k, String v) {
+		return eaDao.edit(t,k,v);
+	}
 }

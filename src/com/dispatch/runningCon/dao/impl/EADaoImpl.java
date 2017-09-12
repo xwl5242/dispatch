@@ -224,7 +224,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		+"			TO_CHAR (\"T\", 'yyyy-mm-dd hh24') HH,         "
 		+"			\"K\",                                         "
 		+"			SUBSTR (\"K\", INSTR(\"K\", '\\' ,- 1) + 1,4) F,"
-		+"	ROUND(NVL(DECODE(SIGN(MAX(V)),-1,0,MAX(V)),0),2) V     "
+		+"	(CASE WHEN NVL(DECODE(SIGN(MAX(V)),-1,0,MAX(V)),0)>10 THEN 10 ELSE ROUND(NVL(DECODE(SIGN(MAX(V)),-1,0,MAX(V)),0),2) END) V     "
 		+"		FROM                                               "
 		+"			AI_KV                                          "
 		+"		WHERE 1=1                                          ";
@@ -287,7 +287,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 			sql += " AND \"D\" >='"+param.get("startTime")+"'"; 
 		}
 		if(StringUtils.isNotEmpty(param.get("endTime"))){
-			sql += " AND \"D\" <='"+param.get("endTime")+"";
+			sql += " AND \"D\" <='"+param.get("endTime")+"'";
 		}
 		if(StringUtils.isNotEmpty(param.get("pname"))){
 			sql += " AND \"K\" LIKE '%"+param.get("pname")+"%'"; 
@@ -300,6 +300,12 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 	public List<Map<String, Object>> pnameListJson() {
 		String sql = "SELECT SUBSTR(COLUMN_NAME,instr(COLUMN_NAME,'\\',-1)+1) ID,SUBSTR(COLUMN_NAME,instr(COLUMN_NAME,'\\',-1)+1) TEXT FROM USER_TAB_COLUMNS WHERE TABLE_NAME = 'AI' AND COLUMN_name !='Time' ORDER BY COLUMN_ID";
 		return super.queryForList(sql);
+	}
+
+	@Override
+	public int edit(String t, String k, String v) {
+		String sql = "update AI_KV SET V='"+v+"' WHERE T=TO_DATE('"+t+"','yyyy-mm-dd hh24:mi:ss') and K='"+k+"'";
+		return super.update(sql);
 	}
 
 }
