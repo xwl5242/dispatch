@@ -292,7 +292,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		if(StringUtils.isNotEmpty(param.get("pname"))){
 			sql += " AND \"K\" LIKE '%"+param.get("pname")+"%'"; 
 		}
-		sql+=" order by \"T\" desc";
+		sql+=" order by \"T\" desc,\"K\"";
 		return super.queryGridist(sql, "", currentPage, pageSize);
 	}
 

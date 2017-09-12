@@ -100,7 +100,6 @@
 				height:hh,   
 				method:'post',  
 				title:'修改采集点数值',
-				idField:"ID",
 				ctrlSelect:true,
 				rownumbers:true,
 				fitColumns: true,   
