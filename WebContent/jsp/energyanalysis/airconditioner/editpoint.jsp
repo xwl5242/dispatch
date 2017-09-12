@@ -41,6 +41,38 @@
 			    valueField:'ID',
 			    textField:'TEXT'
 			});
+			
+			$('#startTime').datebox({
+				onSelect:function(date){
+					var end = new Date($('#endTime').datebox('getValue')).getTime();
+					if(end!=null&&end!=''){
+						if(end<new Date(date).getTime()){
+							$.messager.alert('提醒', '开始时间不能大于结束时间,请重新选择!');  
+							$('#startTime').datebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
+			
+			$('#endTime').datebox({
+				onSelect:function(date){
+					if($('#startTime').datebox('getValue')==null||$('#startTime').datebox('getValue')==''){
+						$.messager.alert('提醒', '请先选择开始时间!'); 
+						$('#endTime').datebox('setValue','');
+						return ;
+					}
+					var start = new Date($('#startTime').datebox('getValue')).getTime();
+					if(start!=null&&start!=''){
+						if(start>new Date(date).getTime()){
+							$.messager.alert('提醒', '结束时间不能小于开始时间,请重新选择!');  
+							$('#endTime').datebox('setValue','');
+							return ;
+						}
+					}
+				}
+			});
+			
 			var editIndex = undefined;
 			function endEditing() {//该方法用于关闭上一个焦点的editing状态  
 				if (editIndex == undefined) {  
@@ -85,7 +117,6 @@
 // 						}
 			    ]],
 			    onClickCell:function(index,field,value){
-					debugger;
 			    	if (endEditing()) {  
 			    		 if(field=="V"){ // 判断是否是field为six列，如果不是固定某列的话，不需要判断   
 			    		    $('#kvListGrid').datagrid('beginEdit', index);    
@@ -102,7 +133,6 @@
 			    		}  
 			    },
 			    onAfterEdit:function(index, row, changes){ // 关闭编辑器后触发  
-					debugger;
 			        var updated = $('#kvListGrid').datagrid('getChanges', 'updated');  // updated 是一个getChanges的属性，可以查看api  
 			        //alert("onAfterEdit。。"+updated.length);  
 			        if (updated.length < 1) {  // 如果编辑器中的数据已经修改，则length为1，否则为0，判断是否已经修改数据  
@@ -121,7 +151,6 @@
 		
 		//修改数据
 		function submitForm(index, row, changes) {   
-			debugger;
 		    var resultId=row.V;  // 当前行中修改的数据值  
 		    if(resultId==""){    
 		        $.messager.alert('提醒', '没有录入数据！');    
