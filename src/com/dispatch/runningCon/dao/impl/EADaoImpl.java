@@ -282,7 +282,7 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 	@Override
 	public Map<String, Object> editKV(int currentPage, int pageSize,
 			Map<String, String> param) {
-		String sql="select \"T\",\"K\",V from AI_KV WHERE 1=1 ";
+		String sql="select \"T\",\"K\",V,IMPV from AI_KV WHERE 1=1 ";
 		if(StringUtils.isNotEmpty(param.get("startTime"))){
 			sql += " AND \"D\" >='"+param.get("startTime")+"'"; 
 		}

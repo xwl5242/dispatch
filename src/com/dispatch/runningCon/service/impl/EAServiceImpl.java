@@ -415,6 +415,20 @@ public class EAServiceImpl implements EAService{
 	@Override
 	public Map<String, Object> editKV(int currentPage, int pageSize,
 			Map<String, String> param) {
+		String startEventTime = param.get("startTime");
+		String endEventTime = param.get("endTime");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		endEventTime=null!=endEventTime&&!"".equals(endEventTime)?endEventTime:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		try {
+			a.setTime(sdf.parse(endEventTime));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		a.add(Calendar.DATE, -7);
+		startEventTime=null!=startEventTime&&!"".equals(startEventTime)?startEventTime:sdf.format(a.getTime());
+		param.put("startTime", startEventTime+" 00:00:00");
+		param.put("endTime", endEventTime+" 23:59:59");
 		return eaDao.editKV(currentPage,pageSize,param);
 	}
 

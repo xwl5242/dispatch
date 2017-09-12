@@ -113,7 +113,8 @@
 							}	
 						},
 						{field:'K',title:'采集点名称',width:'25%',align:'center'},
-						{field:'V',title:'采集值',width:'25%',align:'center',editor:'text'}
+						{field:'IMPV',title:'导入值',width:'25%',align:'center'},
+						{field:'V',title:'计算值',width:'25%',align:'center',editor:'text'}
 // 						{field:'OPT',title:'操作',width:'20%',align:'center',
 // 							formatter:function(value,index,row){
 // 								return "<a style='color:blue' onclick='toEditDialog(0)'>修改</a>";
