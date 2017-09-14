@@ -105,7 +105,7 @@
 				if(data.flag){
 					$.messager.alert('info','保存成功！');
 					$('#editDialog').dialog('close');
-					$('#editDialog').dialog('destroy');
+					$('#editDialog').dialog('refresh');
 					$('#kvListGrid').datagrid('reload');
 				}
 			},'json');
@@ -113,7 +113,7 @@
 		
 		function closeED(){
 			$('#editDialog').dialog('close');
-			$('#editDialog').dialog('destroy');
+			$('#editDialog').dialog('refresh');
 		}
 		
 		
