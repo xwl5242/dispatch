@@ -308,4 +308,11 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		return super.update(sql);
 	}
 
+	@Override
+	public int batchSavePV(String pname, String startTime, String endTime,
+			String pvalue) {
+		String sql = "update AI_KV SET V='"+pvalue+"' WHERE T>=TO_DATE('"+(startTime+" 00:00:00")+"','yyyy-mm-dd hh24:mi:ss') and T<=TO_DATE('"+(endTime+" 23:59:59")+"','yyyy-mm-dd hh24:mi:ss') and K like '%"+pname+"%'";
+		return super.update(sql);
+	}
+
 }

@@ -360,7 +360,7 @@
 	               	            boundaryGap : false,
 	               	            data : data.yearList,
 	               	         	axisLabel:{  
-								 interval:24,//横轴信息全部显示  
+								 interval:Math.ceil(data.yearList.length/7),//横轴信息全部显示  
 								 //rotate:-30,//-30度角倾斜显示  
 								 formatter:function(value){
 									 return value.substring(0,value.length-3);
@@ -463,7 +463,7 @@
 	               	            boundaryGap : false,
 	               	            data : data.yearList,
 		               	        axisLabel:{  
-									 interval:24,//横轴信息全部显示  
+									 interval:Math.ceil(data.yearList.length/7),//横轴信息全部显示  
 									 //rotate:-30,//-30度角倾斜显示  
 									 formatter:function(value){
 										 return value.substring(0,value.length-3);

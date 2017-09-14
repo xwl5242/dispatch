@@ -26,7 +26,7 @@
 		</table> 
 	</div> 
  	<table id='kvListGrid' style="width：100%;" ></table> 
-<!--  	<div id="editDialog"></div> -->
+ 	<div id="editDialog"></div>
 	<script type="text/javascript"> 
 		
 		$(function(){
@@ -105,6 +105,25 @@
 				fitColumns: true,   
 				pagination : true,
 				singleSelect:true,
+				toolbar: [{
+					text:'快速修改',
+					iconCls:'icon-add',
+					handler:function(){
+						$.messager.confirm('操作确认','此操作用来修改某一个采集点在某一个时间段内的数据！是否确认操作？',function(r){
+						    if (r){
+						    	$('#editDialog').dialog({
+						    	    title: '快速修改',
+						    	    width: 800,
+						    	    height: 200,
+						    	    closed: false,
+						    	    cache: false,
+						    	    href: 'editDetail.jsp',
+						    	    modal: true
+						    	}).dialog('open');
+						    }
+						});
+					}
+				}],
 			    columns:[[
 						{field:'T',title:'采集时间',width:'25%',align:'center',
 							formatter:function(value,index,row){

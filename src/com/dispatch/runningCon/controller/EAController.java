@@ -101,6 +101,16 @@ public class EAController extends BaseController {
 		super.returnObjectJson(retMap, response);
 	}
 	
+	@RequestMapping("/batchSavePV.do")
+	@ResponseBody
+	public void batchSavePV(HttpServletRequest request,HttpServletResponse response,
+			String pname,String startTime,String endTime,String pvalue){
+		int result = eaService.batchSavePV(pname,startTime,endTime,pvalue);
+		Map<String,Object> retMap = new HashMap<String,Object>();
+		retMap.put("flag", result>=0);
+		super.returnObjectJson(retMap, response);
+	}
+	
 	@RequestMapping("/pnameListJson.do")
 	@ResponseBody
 	public void pnameListJson(HttpServletRequest request,HttpServletResponse response){

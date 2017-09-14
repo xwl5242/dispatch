@@ -31,4 +31,7 @@ public interface EADao {
 
 	int edit(String t, String k, String v);
 
+	int batchSavePV(String pname, String startTime, String endTime,
+			String pvalue);
+
 }

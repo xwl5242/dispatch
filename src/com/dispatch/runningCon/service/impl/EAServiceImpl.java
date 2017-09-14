@@ -441,4 +441,10 @@ public class EAServiceImpl implements EAService{
 	public int edit(String t, String k, String v) {
 		return eaDao.edit(t,k,v);
 	}
+
+	@Override
+	public int batchSavePV(String pname, String startTime, String endTime,
+			String pvalue) {
+		return eaDao.batchSavePV(pname,startTime,endTime,pvalue);
+	}
 }
