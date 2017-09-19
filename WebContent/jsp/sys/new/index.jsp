@@ -125,7 +125,7 @@
 	}
 	$(function(){
 		
-		$.post('<%=path%>/warning/warnCount.do?cmd=warnCount',{},
+		/*$.post('<%=path%>/warning/warnCount.do?cmd=warnCount',{},
 				function(result){
 					$("#warnNum").text(result.WARNCOUNT);
 				},'json');
@@ -133,7 +133,7 @@
 		$("#warnDataDetail").click(function(){
 // 			changeSystem('0001003,0002003,0003003,0004003,0005003','/jsp/warn/warnTotal.jsp','2','报警统计')
 			siMenu('z0001003','lm','报警统计','/jsp/warn/warnTotal.jsp','');
-		});
+		});*/
 		//绑定菜单显示隐藏
 		$("#left_sq").click(function (){
 			if($(".left_menu").is(":hidden")){
@@ -164,10 +164,10 @@
 <!--顶部-->
 <div class="index_top">
    	<div>
-       	<div class="index_logo"></div>
-           <div id="warnDataDetail" class="alert" style="cursor: pointer;">
+       	 <div class="index_logo"></div>
+           <!--<div id="warnDataDetail" class="alert" style="cursor: pointer;">
            	<div id="warnNum">10</div>
-           </div>
+           </div> -->
            <div class="top_right font_shadow">
            	<div id="nowDate">2016-07-18 12:00:00</div>
                <div class="index_user font_shadow" onclick="showMessage()" >

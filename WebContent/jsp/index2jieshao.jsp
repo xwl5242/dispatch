@@ -3,7 +3,7 @@
 	<HEAD>
 	</HEAD>
 	<BODY style="margin: 0px;">
-		<div style="width:1120px;height:750px;overflow:auto;
+		<div style="width:1600px;height:900px;overflow:auto;
 		background:url(../static/images/jieshao.png) no-repeat center;"></div>
 	</BODY>
 </html>

@@ -26,7 +26,7 @@
 		</table> 
 	</div> 
  	<table id='kvListGrid' style="width：100%;" ></table> 
- 	<div id="editDialog"></div>
+  	<div id="editDialog"></div> 
 	<script type="text/javascript"> 
 		
 		$(function(){
@@ -100,6 +100,7 @@
 				height:hh,   
 				method:'post',  
 				title:'修改采集点数值',
+				idField:"T",
 				ctrlSelect:true,
 				rownumbers:true,
 				fitColumns: true,   
@@ -125,14 +126,14 @@
 					}
 				}],
 			    columns:[[
-						{field:'T',title:'采集时间',width:'25%',align:'center',
+						{field:'T',title:'采集时间',width:'15%',align:'center',
 							formatter:function(value,index,row){
 								return dateFormat(value);
 							}	
 						},
 						{field:'K',title:'采集点名称',width:'25%',align:'center'},
-						{field:'IMPV',title:'导入值',width:'25%',align:'center'},
-						{field:'V',title:'计算值',width:'25%',align:'center',editor:'text'}
+						{field:'IMPV',title:'导入值',width:'20%',align:'center'},
+						{field:'V',title:'计算值',width:'20%',align:'center',editor:'text'}
 // 						{field:'OPT',title:'操作',width:'20%',align:'center',
 // 							formatter:function(value,index,row){
 // 								return "<a style='color:blue' onclick='toEditDialog(0)'>修改</a>";
