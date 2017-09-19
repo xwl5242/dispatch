@@ -74,6 +74,12 @@
 	}
 	
 	$(function(){
+		
+		$.post('<%=path%>/runRecord/indexParams.do',{},function(data){
+			$('#wdAsd').html("温度："+data.wd+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp湿度："+data.sd);
+			$('#pmAfl').html("PM2.5："+data.pm+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp风力："+data.fs);
+		},'json');
+		
 		$('.theme-brick').click(function(){
 			switchStylestyle(this.getAttribute("rel"));
 			return false;
@@ -125,15 +131,6 @@
 	}
 	$(function(){
 		
-		/*$.post('<%=path%>/warning/warnCount.do?cmd=warnCount',{},
-				function(result){
-					$("#warnNum").text(result.WARNCOUNT);
-				},'json');
-		
-		$("#warnDataDetail").click(function(){
-// 			changeSystem('0001003,0002003,0003003,0004003,0005003','/jsp/warn/warnTotal.jsp','2','报警统计')
-			siMenu('z0001003','lm','报警统计','/jsp/warn/warnTotal.jsp','');
-		});*/
 		//绑定菜单显示隐藏
 		$("#left_sq").click(function (){
 			if($(".left_menu").is(":hidden")){
@@ -169,7 +166,20 @@
            	<div id="warnNum">10</div>
            </div> -->
            <div class="top_right font_shadow">
-           	<div id="nowDate">2016-07-18 12:00:00</div>
+<!--            <div style="width: 185px;float: left;"> -->
+<!--            		<span id="nowDate" style="width: 185px"></span> -->
+<!--            		<span id="wd" style="width: 185px"></span> -->
+<!--            		<span id="sd" style="width: 185px"></span> -->
+<!--            		<span id="pm" style="width: 185px"></span> -->
+<!--            		<span id="fl" style="width: 185px"></span> -->
+<!--            	</div> -->
+           	<div>
+           		<ul style="margin-top: 12px;">
+           			<li id="nowDate" style="margin-bottom:5px;font-weight: bold;"></li>
+           			<li id="wdAsd" style="margin-bottom:5px;font-weight: bold;"></li>
+           			<li id="pmAfl" style="margin-bottom:5px;font-weight: bold;"></li>
+           		</ul>
+           	</div>
                <div class="index_user font_shadow" onclick="showMessage()" >
                	<div>
                    	${sessionScope.ECCUSER.loginName}<br />

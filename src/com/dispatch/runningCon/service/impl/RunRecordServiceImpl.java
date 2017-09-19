@@ -199,4 +199,9 @@ public class RunRecordServiceImpl implements RunRecordService {
 		result.put("yearList", yearList);
 		return result;
 	}
+
+	@Override
+	public Map<String, Object> indexParams() {
+		return rrDao.indexParams();
+	}
 }

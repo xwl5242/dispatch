@@ -79,4 +79,45 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	@RequestMapping("/indexParams")
+	@ResponseBody
+	public void indexParams(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		Map<String,Object> result = rrService.indexParams();
+		super.returnObjectJson(result, response);
+	}
+	
+	@RequestMapping("/repairRecords.do")
+	@ResponseBody
+	public void repairRecords(HttpServletRequest request,HttpServletResponse response,String sTime,String eTime,String dName){
+		getPageInfo(request);
+		Map<String,Object> result = rrService.repairRecords(super.getCurrentPage(),super.getPageSize(),sTime,eTime,dName);
+		super.returnObjectJson(result, response);
+	}
+	
+	@RequestMapping("/addRR.do")
+	@ResponseBody
+	public void addRR(HttpServletRequest request,HttpServletResponse response,
+			String sysName,String dCode,String dName,String faultTime,String faultDesc,String repairTime,
+			String repairMan,String confirmTime,String remark){
+		Map<String,Object> result = rrService.addRR(super.getCurrentPage(),super.getPageSize(),
+				sysName,dCode,dName,faultTime,faultDesc,repairTime,repairMan,confirmTime,remark);
+		super.returnObjectJson(result, response);
+	}
+	
+	@RequestMapping("/editRR.do")
+	@ResponseBody
+	public void editRR(HttpServletRequest request,HttpServletResponse response,String sysName,String dCode,String dName,String faultTime,String faultDesc,String repairTime,
+			String repairMan,String confirmTime,String remark,String id){
+		Map<String,Object> result = rrService.editRR(super.getCurrentPage(),super.getPageSize(),
+				sysName,dCode,dName,faultTime,faultDesc,repairTime,repairMan,confirmTime,remark,id);
+		super.returnObjectJson(result, response);
+	}
+	
+	@RequestMapping("/removeRR.do")
+	@ResponseBody
+	public void removeRR(HttpServletRequest request,HttpServletResponse response,String ids){
+		getPageInfo(request);
+		Map<String,Object> result = rrService.removeRR(ids);
+		super.returnObjectJson(result, response);
+	}
 }

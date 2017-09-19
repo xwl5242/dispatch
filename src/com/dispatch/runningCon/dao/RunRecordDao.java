@@ -28,4 +28,6 @@ public interface RunRecordDao {
 	List<Map<String, Object>> weatherJson(String param);
 
 	List<Map<String, Object>> tempTrend(String startDate, String endDate);
+
+	Map<String, Object> indexParams();
 }

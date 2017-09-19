@@ -1,5 +1,6 @@
 package com.dispatch.runningCon.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -136,6 +137,20 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		+"  \"D\"                                       "
 		+"ORDER BY YD                                   ";
 		return super.queryForList(sql);
+	}
+
+	@Override
+	public Map<String, Object> indexParams() {
+		Map<String,Object> result = new HashMap<String,Object>();
+		String sql="SELECT * FROM (SELECT SUBSTR(\"K\",LENGTH(\"K\")-1) KK,round(V,2) V from AI_KV where \"TYPE\" = 'tq' ORDER BY \"T\" DESC) WHERE ROWNUM <=5";
+		List<Map<String,Object>> listMap = super.queryForList(sql);
+		if(null!=listMap&&listMap.size()>0){
+			for(Map<String,Object> map:listMap){
+				String value = map.get("V")==null?"0":map.get("V").toString();
+				result.put(map.get("KK").toString(), value);
+			}
+		}
+		return result;
 	}
 
 }

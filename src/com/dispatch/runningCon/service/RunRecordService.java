@@ -30,4 +30,21 @@ public interface RunRecordService {
 	Map<String, Object> avgTemp(String curDate);
 
 	Map<String, Object> tempTrend(String startDate, String endDate) throws Exception;
+
+	Map<String, Object> indexParams();
+
+	Map<String, Object> repairRecords(int currentPage, int pageSize,
+			String sTime, String eTime, String dName);
+
+	Map<String, Object> addRR(int currentPage, int pageSize, String sysName,
+			String dCode, String dName, String faultTime, String faultDesc,
+			String repairTime, String repairMan, String confirmTime,
+			String remark);
+
+	Map<String, Object> editRR(int currentPage, int pageSize, String sysName,
+			String dCode, String dName, String faultTime, String faultDesc,
+			String repairTime, String repairMan, String confirmTime,
+			String remark, String id);
+
+	Map<String, Object> removeRR(String ids);
 }
