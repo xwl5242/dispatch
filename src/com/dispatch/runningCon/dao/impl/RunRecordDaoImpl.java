@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
+import com.dispatch.runningCon.bean.RepairRecord;
 import com.dispatch.runningCon.dao.RunRecordDao;
 import com.frames.jdbc.PageListJdbcTemplate;
 
@@ -151,6 +152,24 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public Map<String, Object> insertRR(RepairRecord rr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> updateRR(RepairRecord rr) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> deleteRR(String in) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

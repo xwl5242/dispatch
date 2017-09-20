@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dispatch.runningCon.bean.RepairRecord;
 import com.dispatch.runningCon.dao.RunRecordDao;
 import com.dispatch.runningCon.service.RunRecordService;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -203,5 +204,35 @@ public class RunRecordServiceImpl implements RunRecordService {
 	@Override
 	public Map<String, Object> indexParams() {
 		return rrDao.indexParams();
+	}
+
+	@Override
+	public Map<String, Object> repairRecords(int currentPage, int pageSize,
+			String sTime, String eTime, String dName) {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> addRR(RepairRecord rr) {
+		return rrDao.insertRR(rr);
+	}
+
+	@Override
+	public Map<String, Object> editRR(RepairRecord rr) {
+		return rrDao.updateRR(rr);
+	}
+
+	@Override
+	public Map<String, Object> removeRR(String ids) {
+		StringBuilder in = new StringBuilder();
+		if(ids.contains(",")){
+			String[] idArrays = ids.split(",");
+			for(String idArray:idArrays){
+				in.append("'").append(idArray).append("',");
+			}
+		}else{
+			in.append(ids+",");
+		}
+		return rrDao.deleteRR(in.substring(0, in.length()-1));
 	}
 }

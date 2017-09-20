@@ -2,6 +2,8 @@ package com.dispatch.runningCon.service;
 
 import java.util.Map;
 
+import com.dispatch.runningCon.bean.RepairRecord;
+
 public interface RunRecordService {
 
 	/**
@@ -36,15 +38,9 @@ public interface RunRecordService {
 	Map<String, Object> repairRecords(int currentPage, int pageSize,
 			String sTime, String eTime, String dName);
 
-	Map<String, Object> addRR(int currentPage, int pageSize, String sysName,
-			String dCode, String dName, String faultTime, String faultDesc,
-			String repairTime, String repairMan, String confirmTime,
-			String remark);
+	Map<String, Object> addRR(RepairRecord rr);
 
-	Map<String, Object> editRR(int currentPage, int pageSize, String sysName,
-			String dCode, String dName, String faultTime, String faultDesc,
-			String repairTime, String repairMan, String confirmTime,
-			String remark, String id);
+	Map<String, Object> editRR(RepairRecord rr);
 
 	Map<String, Object> removeRR(String ids);
 }

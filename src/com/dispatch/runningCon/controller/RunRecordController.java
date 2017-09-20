@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dispatch.runningCon.bean.RepairRecord;
 import com.dispatch.runningCon.service.RunRecordService;
 import com.frames.base.BaseController;
 import com.frames.util.Page;
@@ -96,27 +97,21 @@ public class RunRecordController extends BaseController {
 	
 	@RequestMapping("/addRR.do")
 	@ResponseBody
-	public void addRR(HttpServletRequest request,HttpServletResponse response,
-			String sysName,String dCode,String dName,String faultTime,String faultDesc,String repairTime,
-			String repairMan,String confirmTime,String remark){
-		Map<String,Object> result = rrService.addRR(super.getCurrentPage(),super.getPageSize(),
-				sysName,dCode,dName,faultTime,faultDesc,repairTime,repairMan,confirmTime,remark);
+	public void addRR(HttpServletRequest request,HttpServletResponse response,RepairRecord rr){
+		Map<String,Object> result = rrService.addRR(rr);
 		super.returnObjectJson(result, response);
 	}
 	
 	@RequestMapping("/editRR.do")
 	@ResponseBody
-	public void editRR(HttpServletRequest request,HttpServletResponse response,String sysName,String dCode,String dName,String faultTime,String faultDesc,String repairTime,
-			String repairMan,String confirmTime,String remark,String id){
-		Map<String,Object> result = rrService.editRR(super.getCurrentPage(),super.getPageSize(),
-				sysName,dCode,dName,faultTime,faultDesc,repairTime,repairMan,confirmTime,remark,id);
+	public void editRR(HttpServletRequest request,HttpServletResponse response,RepairRecord rr){
+		Map<String,Object> result = rrService.editRR(rr);
 		super.returnObjectJson(result, response);
 	}
 	
 	@RequestMapping("/removeRR.do")
 	@ResponseBody
 	public void removeRR(HttpServletRequest request,HttpServletResponse response,String ids){
-		getPageInfo(request);
 		Map<String,Object> result = rrService.removeRR(ids);
 		super.returnObjectJson(result, response);
 	}
