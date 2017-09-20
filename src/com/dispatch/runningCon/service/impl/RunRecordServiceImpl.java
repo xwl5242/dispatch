@@ -209,7 +209,7 @@ public class RunRecordServiceImpl implements RunRecordService {
 	@Override
 	public Map<String, Object> repairRecords(int currentPage, int pageSize,
 			String sTime, String eTime, String dName) {
-		return null;
+		return rrDao.queryRRs(currentPage,pageSize,sTime,eTime,dName);
 	}
 
 	@Override

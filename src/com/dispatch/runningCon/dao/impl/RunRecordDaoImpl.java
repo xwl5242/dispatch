@@ -156,19 +156,22 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 
 	@Override
 	public Map<String, Object> insertRR(RepairRecord rr) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Map<String, Object> updateRR(RepairRecord rr) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Map<String, Object> deleteRR(String in) {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryRRs(int currentPage, int pageSize,
+			String sTime, String eTime, String dName) {
 		return null;
 	}
 

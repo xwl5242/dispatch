@@ -68,4 +68,16 @@ public interface RunRecordDao {
 	 * @return
 	 */
 	Map<String, Object> deleteRR(String in);
+
+	/**
+	 * 分页查询维修记录
+	 * @param currentPage
+	 * @param pageSize
+	 * @param sTime
+	 * @param eTime
+	 * @param dName
+	 * @return
+	 */
+	Map<String, Object> queryRRs(int currentPage, int pageSize, String sTime,
+			String eTime, String dName);
 }
