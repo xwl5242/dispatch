@@ -231,7 +231,7 @@ public class RunRecordServiceImpl implements RunRecordService {
 				in.append("'").append(idArray).append("',");
 			}
 		}else{
-			in.append(ids+",");
+			in.append("'"+ids+"',");
 		}
 		return rrDao.deleteRR(in.substring(0, in.length()-1));
 	}

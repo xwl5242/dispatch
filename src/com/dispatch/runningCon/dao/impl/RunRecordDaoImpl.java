@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.dispatch.runningCon.bean.RepairRecord;
 import com.dispatch.runningCon.dao.RunRecordDao;
 import com.frames.jdbc.PageListJdbcTemplate;
+import com.frames.util.CreateSqlTool;
+import com.util.common.UUIDGenerator;
 
 @Repository
 public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordDao {
@@ -156,23 +159,75 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 
 	@Override
 	public Map<String, Object> insertRR(RepairRecord rr) {
-		return null;
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			rr.setId(UUIDGenerator.getUUID());
+			String sql = CreateSqlTool.genInsertSql("com.dispatch.runningCon.bean.RepairRecord", rr, "REPAIR_RECORD");
+			int ret = super.update(sql);
+			if(ret==1){
+				result.put("flag", true);
+			}else{
+				result.put("flag", false);
+			}
+		} catch (DataAccessException e) {
+			result.put("flag", false);
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public Map<String, Object> updateRR(RepairRecord rr) {
-		return null;
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			String sql = CreateSqlTool.genUpdateSql("com.dispatch.runningCon.bean.RepairRecord", rr,
+					"REPAIR_RECORD", " where id='"+rr.getId()+"'");
+			int ret = super.update(sql);
+			if(ret==1){
+				result.put("flag", true);
+			}else{
+				result.put("flag", false);
+			}
+		} catch (DataAccessException e) {
+			result.put("flag", false);
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public Map<String, Object> deleteRR(String in) {
-		return null;
+		Map<String,Object> result = new HashMap<String,Object>();
+		try {
+			String sql = "delete from REPAIR_RECORD WHERE ID IN("+in+")";
+			int ret = super.update(sql);
+			if(ret>0){
+				result.put("flag", true);
+			}else{
+				result.put("flag", false);
+			}
+		} catch (DataAccessException e) {
+			result.put("flag", false);
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public Map<String, Object> queryRRs(int currentPage, int pageSize,
 			String sTime, String eTime, String dName) {
-		return null;
+		String sql = "select * from REPAIR_RECORD WHERE 1=1 ";
+		if(StringUtils.isNotEmpty(dName)){
+			sql += " and DNAME LIKE '%"+dName+"%'";
+		}
+		if(StringUtils.isNotEmpty(sTime)){
+			sql += " and FAULTTIME >= '"+sTime+"'";
+		}
+		if(StringUtils.isNotEmpty(eTime)){
+			sql += " and FAULTTIME <= '"+eTime+"'";
+		}
+		sql +=" order by FAULTTIME DESC";
+		return super.queryGridist(sql, "", currentPage, pageSize);
 	}
 
 }

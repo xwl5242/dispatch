@@ -80,29 +80,30 @@
 			var sysName = $('#sysName').val();
 			var dCode = $('#dCode').val();
 			var dName = $('#dName').val();
-			var faultTime = $('#faultTime').datatimebox('getText');
+			var faultTime = $('#faultTime').datetimebox('getText');
 			var faultDesc = $('#faultDesc').val();
 			var repairTime = $('#repairTime').datetimebox('getText');
 			var repairMan = $('#repairMan').val();
 			var confirmTime = $('#confirmTime').datetimebox('getText');
 			var remark = $('#remark').val();
-			if(sysName||dCode||dName||faultTime||faultDesc||repairTime||repairMan||confirmTime||remark){
+			if(sysName&&dCode&&dName&&faultTime&&faultDesc&&repairTime&&repairMan&&confirmTime&&remark){
+				$.post('<%=request.getContextPath()%>/runRecord/addRR.do',{
+					sysName:sysName,dCode:dCode,dName:dName,
+					faultTime:faultTime,faultDesc:faultDesc,
+					repairTime:repairTime,repairMan:repairMan,
+					confirmTime:confirmTime,remark:remark
+				},function(data){
+					if(data.flag){
+						$.messager.alert('info','保存成功！');
+						$('#addRR').dialog('close');
+						$('#addRR').dialog('refresh');
+						$('#rrListGrid').datagrid('reload');
+					}
+				},'json');
+			}else{
 				$.messager.alert('提示','请补全维修信息！');
 				return;
 			}
-			$.post('<%=request.getContextPath()%>/runRecord/addRR.do',{
-				sysName:sysName,dCode:dCode,dName:dName,
-				faultTime:faultTime,faultDesc:faultDesc,
-				repairTime:repairTime,repairMan:repairMan,
-				confirmTime:confirmTime,remark:remark
-			},function(data){
-				if(data.flag){
-					$.messager.alert('info','保存成功！');
-					$('#addRR').dialog('close');
-					$('#addRR').dialog('refresh');
-					$('#rrListGrid').datagrid('reload');
-				}
-			},'json');
 		}
 		
 		function cancelRR(){

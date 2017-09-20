@@ -18,12 +18,12 @@
 						
 					<td class="tbl_td_label"  width="5%">设备名称：</td> 
 					<td  width="20%">
-						<input id='dId' name='dId' class="easyui-combobox" data-options="editable:false"/>
+						<input id='dNamesear' name='dNamesear' class="easyui-textbox"/>
 					</td>
 				</tr> 
 				<tr style="text-align: right;">
 					<td colspan="12"> 
-						<a id="btn" href='javascript:rrWarnListGrid()' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
+						<a id="btn" href='javascript:searchRRListGrid()' class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>&nbsp;
 						<a id="btn"  href='javascript:formClear("rrFromSearc");' class="easyui-linkbutton" data-options="iconCls:'icon-redo'">重置</a>  &nbsp;
 					</td> 
 				</tr>
@@ -86,8 +86,10 @@
 						{field:'CONFIRMTIME',title:'确认时间',width:'15%',align:'center'},
 				        {field:'REMARK',title:'备注',width:'10%',align:'center'},
 				        {field:'opt',title:'操作',width:'15%',align:'center',
-				        	formatter:function(value,index,row){
-				        		return "<a style='color:blue' onclick='editRR("+row+")'>修改</a>&nbsp;&nbsp;<a style='color:blue' onclick='removeRR()'>删除</a>";
+				        	formatter:function(value,row,index){
+				        		var rowJson = JSON.stringify(row);
+				        		window.rowJson = rowJson;
+				        		return "<a style='color:blue' onclick='editRR()'>修改</a>&nbsp;&nbsp;<a style='color:blue' onclick='removeRR(\""+row.ID+"\")'>删除</a>";
 				        	}	
 				        }
 			    ]]
@@ -98,16 +100,14 @@
 		 * 列表查询
 		 * 根据查询条件刷新列表数据
 		 */
-		function searchWarnListGrid(){
-			var sTime =$('#sTime').datetimebox('getValue');
-			var eTime =$('#eTime').datetimebox('getValue');
-			var dId = $("#dId").combobox("getText");
+		function searchRRListGrid(){
+			var sTime =$('#sTime').datetimebox('getText');
+			var eTime =$('#eTime').datetimebox('getText');
+			var dName = $("#dNamesear").val();
 			$('#rrListGrid').datagrid('load',{
-				unitId:unitid,
 				sTime:sTime,
 				eTime:eTime,
-				unitName:unitName,
-				status:status
+				dName:dName
 			});
 		}
 		
@@ -163,19 +163,23 @@
 	    	    modal: true
 	    	}).dialog('open');
 		}
-		function editRR(row){
-			var url = 'addrepairrecord.jsp?row='+row;
+		function editRR(){
+			var url = 'editrepairrecord.jsp?rowRR='+window.rowJson;
 			addRR('editRR','修改',url);
 		}
-		function removeRR(){
-			var rows = $('#rrListGrid').datagrid('getSelections');
-			if(rows.length==0){
-				$.messager.alert('提示'，'请选择一条记录！');
-				return;
-			}
+		function removeRR(id){
 			var ids = [];
-			for(var i=0;i<rows.length;i++){
-				ids.push(rows[i].ID);
+			if(id){
+				ids.push(id);
+			}else{
+				var rows = $('#rrListGrid').datagrid('getSelections');
+				if(rows.length==0){
+					$.messager.alert('提示','请选择一条记录！');
+					return;
+				}
+				for(var i=0;i<rows.length;i++){
+					ids.push(rows[i].ID);
+				}
 			}
 			$.messager.confirm('操作确认','是否确认操作删除？',function(r){
 			    if (r){
@@ -183,7 +187,8 @@
 			    		ids:ids.join()
 			    	},function(data){
 			    		if(data.flag){
-			    			$.messager.alert('提示'，'删除成功！');
+			    			$('#rrListGrid').datagrid('reload');
+			    			$.messager.alert('提示','删除成功！');
 			    		}
 			    	},'json');
 			    }

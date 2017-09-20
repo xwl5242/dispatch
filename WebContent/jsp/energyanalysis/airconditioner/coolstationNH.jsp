@@ -249,7 +249,7 @@ function renderEcharts(){
                       	        {
                          	            name:'A座',
                          	            type:'bar',
-										barMaxWidth: '45',
+										barMaxWidth: '20',
 //                          	            data:[2.0, 4.9, 7.0],
                          	            data:data.A,
                          	         	itemStyle:{normal:{label:{show:true}}},
@@ -262,7 +262,7 @@ function renderEcharts(){
                          	        {
                          	            name:'B座',
                          	            type:'bar',
-										barMaxWidth: '45',
+										barMaxWidth: '20',
 //                          	            data:[2.6, 5.9, 9.0],
                          	            data:data.B,
                          	            itemStyle:{normal:{label:{show:true}}},
@@ -275,7 +275,7 @@ function renderEcharts(){
                          	        {
                          	            name:'总体',
                          	            type:'bar',
-										barMaxWidth: '45',
+										barMaxWidth: '20',
 //                          	            data:[4.6, 10.8, 16.0],
                          	            data:data.T,
                          	            itemStyle:{normal:{label:{show:true}}},
@@ -316,7 +316,7 @@ function renderEcharts(){
                       	        {
                          	            name:'A座',
                          	            type:'bar',
-										barMaxWidth: '45',
+										barMaxWidth: '20',
 //                          	            data:[2.0, 4.9, 7.0],
                          	            data:data.A,
                          	         	itemStyle:{normal:{label:{show:true}}},
@@ -329,7 +329,7 @@ function renderEcharts(){
                          	        {
                          	            name:'B座',
                          	            type:'bar',
-										barMaxWidth: '45',
+										barMaxWidth: '20',
 //                          	            data:[2.6, 5.9, 9.0],
                          	            data:data.B,
                          	            itemStyle:{normal:{label:{show:true}}},
@@ -342,7 +342,7 @@ function renderEcharts(){
                          	        {
                          	            name:'总体',
                          	            type:'bar',
-										barMaxWidth: '45',
+										barMaxWidth: '20',
 //                          	            data:[4.6, 10.8, 16.0],
                          	            data:data.T,
                          	            itemStyle:{normal:{label:{show:true}}},

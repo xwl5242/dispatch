@@ -12,55 +12,55 @@
 				<tr>
 					<td class="tbl_td_label"  width="5%">系统名称：</td> 
 					<td  width="60%">
-						<input id='sysName' name='sysName' class="easyui-textbox" />
+						<input id='esysName' name='esysName' class="easyui-textbox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">设备编码：</td> 
 					<td  width="60%">
-						<input id='dCode' name='dCode' class="easyui-textbox" />
+						<input id='edCode' name='edCode' class="easyui-textbox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">设备名称：</td> 
 					<td  width="60%">
-						<input id='dName' name='dName' class="easyui-textbox" />
+						<input id='edName' name='edName' class="easyui-textbox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">故障时间：</td> 
 					<td  width="60%">
-						<input id='faultTime' name='faultTime' class="easyui-datetimebox" />
+						<input id='efaultTime' name='efaultTime' class="easyui-datetimebox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">故障描述：</td> 
 					<td  width="60%">
-						<input id='faultDesc' name='faultDesc' class="easyui-textbox" />
+						<input id='efaultDesc' name='efaultDesc' class="easyui-textbox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">维修时间：</td> 
 					<td  width="60%">
-						<input id='repairTime' name='repairTime' class="easyui-datetimebox" />
+						<input id='erepairTime' name='erepairTime' class="easyui-datetimebox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">维修人：</td> 
 					<td  width="60%">
-						<input id='repairMan' name='repairMan' class="easyui-textbox" />
+						<input id='erepairMan' name='erepairMan' class="easyui-textbox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">确认时间：</td> 
 					<td  width="60%">
-						<input id='confirmTime' name='confirmTime' class="easyui-datetimebox" />
+						<input id='econfirmTime' name='econfirmTime' class="easyui-datetimebox" />
 					</td>
 				</tr>
 				<tr>
 					<td class="tbl_td_label"  width="5%">备注：</td> 
 					<td  width="60%">
-						<input id='remark' name='remark' class="easyui-textbox" />
+						<input id='eremark' name='eremark' class="easyui-textbox" />
 					</td>
 				</tr>
 				<tr style="text-align: right;">
@@ -75,49 +75,48 @@
 	</div> 
 	<script type="text/javascript"> 
 		$(function(){
-			var row = '<%=request.getParameter("row")%>';
+// 			debugger;
+			var row = JSON.parse('<%=request.getParameter("rowRR")%>');
 			$('#id').val(row.ID);
-			$('#sysName').val(row.SYSNAME);
-			$('#dCode').val(row.DCODE);
-			$('#dName').val(row.DNAME);
-			$('#faultTime').datatimebox('setValue',row.FAULTTIME);
-			$('#faultTime').datatimebox('setText',row.FAULTTIME);
-			$('#faultDesc').val(row.FAULTDESC);
-			$('#repairTime').datetimebox('setValue',row.REPAIRTIME);
-			$('#repairTime').datetimebox('setText',row.REPAIRTIME);
-			$('#repairMan').val(row.REPAIRMAN);
-			$('#confirmTime').datetimebox('setValue',row.CONFIRMTIME);
-			$('#confirmTime').datetimebox('setText',row.CONFIRMTIME);
-			$('#remark').val(row.REMARK);
+			$('#esysName').val(row.SYSNAME);
+			$('#edCode').val(row.DCODE);
+			$('#edName').val(row.DNAME);
+			$('#efaultTime').val(row.FAULTTIME);
+			$('#efaultDesc').val(row.FAULTDESC);
+			$('#erepairTime').val(row.REPAIRTIME);
+			$('#erepairMan').val(row.REPAIRMAN);
+			$('#econfirmTime').val(row.CONFIRMTIME);
+			$('#eremark').val(row.REMARK);
 		});
 		
 		function saveRR(){
-			var sysName = $('#sysName').val();
-			var dCode = $('#dCode').val();
-			var dName = $('#dName').val();
-			var faultTime = $('#faultTime').datatimebox('getText');
-			var faultDesc = $('#faultDesc').val();
-			var repairTime = $('#repairTime').datetimebox('getText');
-			var repairMan = $('#repairMan').val();
-			var confirmTime = $('#confirmTime').datetimebox('getText');
-			var remark = $('#remark').val();
-			if(sysName||dCode||dName||faultTime||faultDesc||repairTime||repairMan||confirmTime||remark){
+			var sysName = $('#esysName').val();
+			var dCode = $('#edCode').val();
+			var dName = $('#edName').val();
+			var faultTime = $('#efaultTime').datetimebox('getText');
+			var faultDesc = $('#efaultDesc').val();
+			var repairTime = $('#erepairTime').datetimebox('getText');
+			var repairMan = $('#erepairMan').val();
+			var confirmTime = $('#econfirmTime').datetimebox('getText');
+			var remark = $('#eremark').val();
+			if(sysName&&dCode&&dName&&faultTime&&faultDesc&&repairTime&&repairMan&&confirmTime&&remark){
+				$.post('<%=request.getContextPath()%>/runRecord/editRR.do',{
+					sysName:sysName,dCode:dCode,dName:dName,
+					faultTime:faultTime,faultDesc:faultDesc,
+					repairTime:repairTime,repairMan:repairMan,
+					confirmTime:confirmTime,remark:remark,id:$('#id').val()
+				},function(data){
+					if(data.flag){
+						$.messager.alert('info','保存成功！');
+						$('#editRR').dialog('close');
+						$('#editRR').dialog('refresh');
+						$('#rrListGrid').datagrid('reload');
+					}
+				},'json');
+			}else{
 				$.messager.alert('提示','请补全维修信息！');
 				return;
 			}
-			$.post('<%=request.getContextPath()%>/runRecord/editRR.do',{
-				sysName:sysName,dCode:dCode,dName:dName,
-				faultTime:faultTime,faultDesc:faultDesc,
-				repairTime:repairTime,repairMan:repairMan,
-				confirmTime:confirmTime,remark:remark
-			},function(data){
-				if(data.flag){
-					$.messager.alert('info','保存成功！');
-					$('#addRR').dialog('close');
-					$('#addRR').dialog('refresh');
-					$('#rrListGrid').datagrid('reload');
-				}
-			},'json');
 		}
 		
 		function cancelRR(){
