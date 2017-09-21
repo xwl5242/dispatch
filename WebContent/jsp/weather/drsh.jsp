@@ -220,12 +220,7 @@
 							type : 'bar',
 							data : data.drsh,
 							barWidth: '60',
-							itemStyle:{normal:{label:{show:true}}},
-	           	            markLine : {
-	           	                data : [
-	           	                    {type : 'average', name: '平均值'}
-	           	                ]
-	           	            }
+							itemStyle:{normal:{label:{show:true}}}
 						}]
 					};
 	                

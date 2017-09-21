@@ -232,12 +232,7 @@
 								barMaxWidth: '20',
 //                    	            data:[2.0, 4.9, 7.0],
                    	            data:data.A,
-                   	         	itemStyle:{normal:{label:{show:true}}},
-                   	            markLine : {
-                   	                data : [
-                   	                    {type : 'average', name: '平均值'}
-                   	                ]
-                   	            }
+                   	         	itemStyle:{normal:{label:{show:true}}}
                    	        },
                    	        {
                    	            name:'B座',
@@ -245,12 +240,7 @@
 								barMaxWidth: '20',
 //                    	            data:[2.6, 5.9, 9.0],
                    	            data:data.B,
-                   	            itemStyle:{normal:{label:{show:true}}},
-                   	            markLine : {
-                   	                data : [
-                   	                    {type : 'average', name: '平均值'}
-                   	                ]
-                   	            }
+                   	            itemStyle:{normal:{label:{show:true}}}
                    	        },
                    	        {
                    	            name:'总体',
@@ -258,12 +248,7 @@
 								barMaxWidth: '20',
 //                    	            data:[4.6, 10.8, 16.0],
                    	            data:data.T,
-                   	            itemStyle:{normal:{label:{show:true}}},
-                   	            markLine : {
-                   	                data : [
-                   	                    {type : 'average', name: '平均值'}
-                   	                ]
-                   	            }
+                   	            itemStyle:{normal:{label:{show:true}}}
                    	        }
                    	    ]
     				};
