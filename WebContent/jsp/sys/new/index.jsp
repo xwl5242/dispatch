@@ -76,10 +76,13 @@
 	$(function(){
 		
 		$.post('<%=path%>/runRecord/indexParams.do',{},function(data){
-			$('#wdAsd').html("温度："+data.wd+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp湿度："+data.sd);
-			$('#pmAfl').html("PM2.5："+data.pm+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp风力："+data.fs);
+			var span1 = "<span style='width:160px;'>温度："+data.wd+"℃</span><span style='width:160px;float:right;'>湿度："+data.sd+"%</span>";
+			var span2 = "<span style='width:160px;'>PM2.5："+data.pm+"μg/m³</span><span style='width:160px;float:right;'>风力："+data.fs+"mps</span>";
+			$('#wdAsd').html(span1);
+			$('#pmAfl').html(span2);
+// 			$('#wdAsd').html("温度："+data.wd+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp湿度："+data.sd);
+// 			$('#pmAfl').html("PM2.5："+data.pm+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp风力："+data.fs);
 		},'json');
-		
 		$('.theme-brick').click(function(){
 			switchStylestyle(this.getAttribute("rel"));
 			return false;
@@ -107,7 +110,7 @@
 	    var arr_week = new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
 	    week = arr_week[day];
 	    var time = "";
-	    time = year+"/"+month+"/"+date+" "+week+" "+hour+":"+minu+":"+sec;
+	    time = year+"/"+month+"/"+date+"   "+week+"   "+hour+":"+minu+":"+sec;
 		$("#nowDate").text(time);
 		setTimeout("nowDate();", 1000); 
 	}
@@ -175,7 +178,7 @@
 <!--            	</div> -->
            	<div>
            		<ul style="margin-top: 12px;">
-           			<li id="nowDate" style="margin-bottom:5px;font-weight: bold;"></li>
+           			<li id="nowDate" style="margin-left:0px;margin-bottom:5px;font-weight: bold;width: 320px;"></li>
            			<li id="wdAsd" style="margin-bottom:5px;font-weight: bold;"></li>
            			<li id="pmAfl" style="margin-bottom:5px;font-weight: bold;"></li>
            		</ul>
