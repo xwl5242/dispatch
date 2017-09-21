@@ -134,8 +134,8 @@
         $(document.body).width(ww-20);
         
         var divH = (hh-105);
-        $("#parentId > div").height(divH/2-5);
-        $(".sjwd_cont").height(divH/2-5);
+        $("#parentId > div").height(divH/1.5);
+        $(".sjwd_cont").height(divH/1.5);
         
         var divW = (ww-65);
         $("#parentId > div").width(divW);
