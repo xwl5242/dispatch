@@ -123,4 +123,13 @@ public interface EADao {
 	 */
 	List<Map<String, Object>> copLine4Avg(String startDate, String endDate);
 
+	/**
+	 * 室内外温度曲线
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	List<Map<String, Object>> roomAndoutTempLine(String startDate,
+			String endDate);
+
 }

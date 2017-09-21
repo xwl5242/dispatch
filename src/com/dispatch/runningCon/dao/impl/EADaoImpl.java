@@ -376,4 +376,32 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 		return super.queryForList(sql);
 	}
 
+	/**
+	 * 室内外温度曲线
+	 */
+	@Override
+	public List<Map<String, Object>> roomAndoutTempLine(String startDate,
+			String endDate) {
+		String sql="SELECT C.*, ROUND(nvl(LAST_VALUE (D .V IGNORE NULLS) OVER (ORDER BY C.HH),(C.AA+C.BB)/2),2) W "
+				+ "FROM ( SELECT B.HH, ROUND (B.AZ / B.AC, 2) AA, ROUND (B.BZ / B.BC, 2) BB "
+				+ "FROM ( SELECT A .HH, SUM ( DECODE ( INSTR (\"TagName\", 'abc', 1, 1), 6, A .V / A .C ) ) AZ, "
+				+ "SUM ( DECODE ( INSTR (\"TagName\", 'bbc', 1, 1), 6, A .V / A .C ) ) BZ, "
+				+ "( SELECT COUNT (DISTINCT \"TagName\") FROM AIR_T "
+				+ "WHERE INSTR (\"TagName\", 'abc', 1, 1) = 6 ) AC, ( SELECT COUNT (DISTINCT \"TagName\") "
+				+ "FROM AIR_T WHERE INSTR (\"TagName\", 'bbc', 1, 1) = 6 ) BC "
+				+ "FROM ( SELECT TO_CHAR (\"Time\", 'yyyy-mm-dd hh24') HH, \"TagName\", SUM (\"PV\") V, COUNT (1) C "
+				+ "FROM AIR_T WHERE 1 = 1";
+				if(null!=startDate&&!"".equals(startDate)){
+					sql += " AND TO_CHAR (\"Time\", 'yyyy-mm-dd') >= '"+startDate+"'";
+				}
+				if(null!=endDate&&!"".equals(endDate)){
+					sql += " and TO_CHAR (\"Time\", 'yyyy-mm-dd') <= '"+endDate+"'";
+				}
+				sql+= " AND \"PV\" >0 GROUP BY TO_CHAR (\"Time\", 'yyyy-mm-dd hh24'), \"TagName\" ) A GROUP BY A .HH ) B ) C "
+				+ "LEFT JOIN ( SELECT TO_CHAR (\"T\", 'yyyy-mm-dd hh24') HH, V "
+				+ "FROM AI_KV WHERE \"TYPE\" = 'tq' AND INSTR (\"K\", 'wd', 1, 1) = LENGTH (\"K\") - 1 "
+				+ "ORDER BY TO_CHAR (\"T\", 'yyyy-mm-dd hh24') ) D ON C.HH = D .HH ORDER BY C.HH";
+		return super.queryForList(sql);
+	}
+
 }

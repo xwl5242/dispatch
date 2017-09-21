@@ -58,6 +58,16 @@
 </div>
 <div id="parentId" class="box">
     <div>
+        <div class="box_tit">A座平均COP趋势</div>
+        <div class="sjwd_cont" id="AvgACOPtrend">
+        </div>
+    </div>
+    <div>
+        <div class="box_tit">B座平均COP趋势</div>
+        <div class="sjwd_cont" id="AvgBCOPtrend">
+        </div>
+    </div>
+    <div>
         <div class="box_tit">A座COP趋势</div>
         <div class="sjwd_cont" id="ACOPtrend">
         </div>
@@ -192,9 +202,210 @@
             ],
             function (ec, theme) {
                 // 基于准备好的dom，初始化echarts图表
+                AvgACOPtrend = ec.init(document.getElementById('AvgACOPtrend'), theme);
+                AvgBCOPtrend = ec.init(document.getElementById('AvgBCOPtrend'), theme);
                 ACOPtrend = ec.init(document.getElementById('ACOPtrend'), theme);
                 BCOPtrend = ec.init(document.getElementById('BCOPtrend'), theme);
                
+                $.post('<%=path %>/ea/airsystem/air/copLine4Avg.do',{
+                	startDate : $('#startDate').datebox('getValue'),
+                	endDate : $('#endDate').datebox('getValue')
+                },function(data){
+                	myAvgACOPtrend = {
+    	               		tooltip : {
+    	               	        trigger: 'axis'
+    	               	    },
+    						color:['#48cda6','#fd87ab','#00ff00'],
+    	               	    legend: {
+    	               	        data:['A1','A2','A3']
+    	               	    },
+    						toolbox: {
+    							show : true,
+    							feature : {
+    								dataZoom : {
+    									show : true,
+    									title : {
+    										dataZoom : '区域缩放',
+    										dataZoomReset : '区域缩放后退'
+    									}
+    								},
+    								restore : {show: true},
+    								saveAsImage : {show: true}
+    							}
+    						},
+    	               	    calculable : true,
+    	               	    xAxis : [
+    	               	        {
+    	               	            type : 'category',
+    	               	            boundaryGap : false,
+    	               	            data : data.yearList
+    	               	        }
+    	               	    ],
+    	               	    yAxis : [
+    	               	        {
+    	               	            type : 'value'
+    	               	        }
+    	               	    ],
+    	               	    series : [
+    	               	        {
+    	               	            name:'A1',
+    	               	            type:'line',
+    	               	         	symbol:'none',
+    	               	            data:data.A1,
+    	               	         	itemStyle : {  
+    					              normal : {  
+    					                lineStyle:{  
+    					                  color:'#48cda6'  
+    					                },
+    					                label:{show:true}
+    					              }  
+    					            },  
+    	               	            markLine : {
+    	               	                data : [
+    	               	                    {type : 'average', name: '平均值'}
+    	               	                ]
+    	               	            }
+    	               	        },
+    	               	        {
+    	               	            name:'A2',
+    	               	            type:'line',
+    	               	         	symbol:'none',
+    	               	            data:data.A2,
+    	               	         	itemStyle : {  
+    					              normal : {  
+    					                lineStyle:{  
+    					                  color:'#fd87ab'  
+    					                },
+    					                label:{show:true}
+    					              }  
+    					            },  
+    	               	            markLine : {
+    	               	                data : [
+    	               	                    {type : 'average', name : '平均值'}
+    	               	                ]
+    	               	            }
+    	               	        },
+    	               	        {
+    	               	            name:'A3',
+    	               	            type:'line',
+    	               	         	symbol:'none',
+    	               	            data:data.A3,
+    	               	         	itemStyle : {  
+    					              normal : {  
+    					                lineStyle:{  
+    					                  color:'#00ff00'  
+    					                },
+    					                label:{show:true}
+    					              }  
+    					            },  
+    	               	            markLine : {
+    	               	                data : [
+    	               	                    {type : 'average', name : '平均值'}
+    	               	                ]
+    	               	            }
+    	               	        }
+    	               	    ]
+    	   				};
+    	              
+    	                myAvgBCOPtrend = {
+    	               		tooltip : {
+    	               	        trigger: 'axis'
+    	               	    },
+    						color:['#48cda6','#fd87ab','#00ff00'],
+    	               	    legend: {
+    	               	        data:['B1','B2','B3']
+    	               	    },
+    						toolbox: {
+    							show : true,
+    							feature : {
+    								dataZoom : {
+    									show : true,
+    									title : {
+    										dataZoom : '区域缩放',
+    										dataZoomReset : '区域缩放后退'
+    									}
+    								},
+    								restore : {show: true},
+    								saveAsImage : {show: true}
+    							}
+    						},
+    	               	    calculable : true,
+    	               	    xAxis : [
+    	               	        {
+    	               	            type : 'category',
+    	               	            boundaryGap : false,
+    	               	            data : data.yearList
+    	               	        }
+    	               	    ],
+    	               	    yAxis : [
+    	               	        {
+    	               	            type : 'value'
+    	               	        }
+    	               	    ],
+    	               	    series : [
+    	               	        {
+    	               	            name:'B1',
+    	               	            type:'line',
+    	               	         	symbol:'none',
+    	               	            data:data.B1,
+    	               	         	itemStyle : {  
+    					              normal : {  
+    					                lineStyle:{  
+    					                  color:'#48cda6'  
+    					                },
+    					                label:{show:true}
+    					              }  
+    					            },  
+    	               	            markLine : {
+    	               	                data : [
+    	               	                    {type : 'average', name: '平均值'}
+    	               	                ]
+    	               	            }
+    	               	        },
+    	               	        {
+    	               	            name:'B2',
+    	               	            type:'line',
+    	               	         	symbol:'none',
+    	               	            data:data.B2,
+    	               	         	itemStyle : {  
+    					              normal : {  
+    					                lineStyle:{  
+    					                  color:'#fd87ab'  
+    					                },
+    					                label:{show:true}
+    					              }  
+    					            },  
+    	               	            markLine : {
+    	               	                data : [
+    	               	                    {type : 'average', name : '平均值'}
+    	               	                ]
+    	               	            }
+    	               	        },
+    	               	        {
+    	               	            name:'B3',
+    	               	            type:'line',
+    	               	         	symbol:'none',
+    	               	            data:data.B3,
+    	               	         	itemStyle : {  
+    					              normal : {  
+    					                lineStyle:{  
+    					                  color:'#00ff00'  
+    					                },
+    					                label:{show:true}
+    					              }  
+    					            },  
+    	               	            markLine : {
+    	               	                data : [
+    	               	                    {type : 'average', name : '平均值'}
+    	               	                ]
+    	               	            }
+    	               	        }
+    	               	    ]
+    	   				};
+    	                AvgACOPtrend.setOption(myAvgACOPtrend);
+    	                AvgBCOPtrend.setOption(myAvgBCOPtrend);
+                },'json');
+                
                 $.post('<%=path %>/ea/airsystem/air/copLine.do',{
                 	startDate : $('#startDate').datebox('getValue'),
                 	endDate : $('#endDate').datebox('getValue')

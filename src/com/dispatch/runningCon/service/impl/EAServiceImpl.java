@@ -504,17 +504,11 @@ public class EAServiceImpl implements EAService{
 		
 		String sd = startDate;
 		while(!sd.equals(endDate)){
-			for(int h=0;h<24;h++){
-				String hStr = sd + " " +(h<=9?"0"+h:h+"");
-				yearList.add(hStr);
-			}
+			yearList.add(sd);
 			defaultList.add("0");
 			sd = sdf.format(sdf.parse(sd).getTime()+24*60*60*1000);
 		}
-		for(int h=0;h<24;h++){
-			String hStr = endDate + " " +(h<=9?"0"+h:h+"");
-			yearList.add(hStr);
-		}
+		yearList.add(endDate);
 		defaultList.add("0");
 		
 		List<Map<String, Object>> listMap = eaDao.copLine4Avg(startDate,endDate);
@@ -558,6 +552,70 @@ public class EAServiceImpl implements EAService{
 			result.put("B1", defaultList);
 			result.put("B2", defaultList);
 			result.put("B3", defaultList);
+		}
+		result.put("yearList", yearList);
+		return result;
+	}
+
+	/**
+	 * 室内外温度曲线
+	 */
+	@Override
+	public Map<String, Object> roomAndoutTempLine(String startDate,
+			String endDate) throws Exception{
+		Map<String,Object> result =new HashMap<String,Object>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		List<String> yearList = new ArrayList<String>();
+		List<String> defaultList = new ArrayList<String>();
+		
+		endDate=null!=endDate&&!"".equals(endDate)?endDate:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		a.setTime(sdf.parse(endDate));
+		a.add(Calendar.DATE, -6);
+		startDate=null!=startDate&&!"".equals(startDate)?startDate:sdf.format(a.getTime());
+		
+		String sd = startDate;
+		while(!sd.equals(endDate)){
+			for(int h=0;h<24;h++){
+				String hStr = sd + " " +(h<=9?"0"+h:h+"");
+				yearList.add(hStr);
+			}
+			defaultList.add("0");
+			sd = sdf.format(sdf.parse(sd).getTime()+24*60*60*1000);
+		}
+		for(int h=0;h<24;h++){
+			String hStr = endDate + " " +(h<=9?"0"+h:h+"");
+			yearList.add(hStr);
+		}
+		defaultList.add("0");
+		
+		List<Map<String, Object>> listMap = eaDao.roomAndoutTempLine(startDate,endDate);
+		if(null!=listMap&&listMap.size()>0){
+			List<String> AA = new ArrayList<String>();
+			List<String> BB = new ArrayList<String>();
+			List<String> W = new ArrayList<String>();
+			for(String y:yearList){
+				boolean flag = false;
+				for(Map<String,Object> map:listMap){
+					if(map.get("HH").toString().equals(y)){
+						flag = true;
+						String aa = map.get("AA").toString();
+						String bb = map.get("BB").toString();
+						String w = map.get("W").toString();
+						AA.add(aa);BB.add(bb);W.add(w);
+					}
+				}
+				if(!flag){
+					AA.add("0");BB.add("0");W.add("0");
+				}
+			}
+			result.put("AA", AA);
+			result.put("BB", BB);
+			result.put("W", W);
+		}else{
+			result.put("AA", defaultList);
+			result.put("BB", defaultList);
+			result.put("W", defaultList);
 		}
 		result.put("yearList", yearList);
 		return result;

@@ -125,6 +125,22 @@ public class EAController extends BaseController {
 	}
 	
 	/**
+	 * 室内外温度曲线
+	 * @param request
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/airsystem/air/roomAndoutTempLine.do")
+	@ResponseBody
+	public void roomAndoutTempLine(HttpServletRequest request, HttpServletResponse response,
+			String startDate,String endDate) throws Exception{
+		Map<String, Object> map = eaService.roomAndoutTempLine(startDate,endDate);
+		super.returnObjectJson(map, response);
+	}
+	
+	/**
 	 * 度日数柱状图，同比
 	 * @param request
 	 * @param response
