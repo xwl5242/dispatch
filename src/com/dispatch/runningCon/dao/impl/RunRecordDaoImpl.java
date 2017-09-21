@@ -17,6 +17,9 @@ import com.util.common.UUIDGenerator;
 @Repository
 public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordDao {
 
+	/**
+	 * 运行工况列表
+	 */
 	@Override
 	public Map<String, Object> queryRunRecord(int currentPage, int pageSize,
 			String sTime,String eTime,String dName,String kName) {
@@ -74,6 +77,9 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		return super.queryGridist(sql, "", currentPage, pageSize);
 	}
 
+	/**
+	 * 天气参数table数据
+	 */
 	@Override
 	public List<Map<String, Object>> weatherJson(String curDate) {
 		
@@ -117,6 +123,9 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		return super.queryForList(sql);
 	}
 
+	/**
+	 * 气温曲线
+	 */
 	@Override
 	public List<Map<String, Object>> tempTrend(String startDate, String endDate) {
 		String sql = "SELECT                            "
@@ -143,6 +152,9 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		return super.queryForList(sql);
 	}
 
+	/**
+	 * 首页top上 气象参数信息
+	 */
 	@Override
 	public Map<String, Object> indexParams() {
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -157,6 +169,9 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		return result;
 	}
 
+	/**
+	 * 新增维修记录
+	 */
 	@Override
 	public Map<String, Object> insertRR(RepairRecord rr) {
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -176,6 +191,9 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		return result;
 	}
 
+	/**
+	 * 修改维修记录
+	 */
 	@Override
 	public Map<String, Object> updateRR(RepairRecord rr) {
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -195,6 +213,9 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		return result;
 	}
 
+	/**
+	 * 删除维修记录
+	 */
 	@Override
 	public Map<String, Object> deleteRR(String in) {
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -213,6 +234,9 @@ public class RunRecordDaoImpl extends PageListJdbcTemplate implements RunRecordD
 		return result;
 	}
 
+	/**
+	 * 维修记录分页信息
+	 */
 	@Override
 	public Map<String, Object> queryRRs(int currentPage, int pageSize,
 			String sTime, String eTime, String dName) {

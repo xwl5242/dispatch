@@ -40,6 +40,12 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 查询日志分页信息
+	 * @param request
+	 * @param response
+	 * @param param
+	 */
 	@RequestMapping("/queryLogList")
 	@ResponseBody
 	public void queryLogList(HttpServletRequest request,HttpServletResponse response,
@@ -49,6 +55,12 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 天气参数table数据
+	 * @param request
+	 * @param response
+	 * @param curDate
+	 */
 	@RequestMapping("/weatherJson")
 	@ResponseBody
 	public void weatherJson(HttpServletRequest request,HttpServletResponse response, String curDate){
@@ -61,6 +73,12 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 平均气温曲线
+	 * @param request
+	 * @param response
+	 * @param curDate
+	 */
 	@RequestMapping("/avgTemp")
 	@ResponseBody
 	public void avgTemp(HttpServletRequest request,HttpServletResponse response, String curDate){
@@ -72,6 +90,14 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 气温曲线
+	 * @param request
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @throws Exception
+	 */
 	@RequestMapping("/tempTrend")
 	@ResponseBody
 	public void tempTrend(HttpServletRequest request,HttpServletResponse response, String startDate,
@@ -80,6 +106,12 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 首页top上 气象参数信息
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping("/indexParams")
 	@ResponseBody
 	public void indexParams(HttpServletRequest request,HttpServletResponse response) throws Exception{
@@ -87,6 +119,14 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 维修记录分页信息
+	 * @param request
+	 * @param response
+	 * @param sTime
+	 * @param eTime
+	 * @param dName
+	 */
 	@RequestMapping("/repairRecords.do")
 	@ResponseBody
 	public void repairRecords(HttpServletRequest request,HttpServletResponse response,String sTime,String eTime,String dName){
@@ -95,6 +135,12 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 新增维修记录
+	 * @param request
+	 * @param response
+	 * @param rr
+	 */
 	@RequestMapping("/addRR.do")
 	@ResponseBody
 	public void addRR(HttpServletRequest request,HttpServletResponse response,RepairRecord rr){
@@ -102,6 +148,12 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 修改维修记录
+	 * @param request
+	 * @param response
+	 * @param rr
+	 */
 	@RequestMapping("/editRR.do")
 	@ResponseBody
 	public void editRR(HttpServletRequest request,HttpServletResponse response,RepairRecord rr){
@@ -109,6 +161,12 @@ public class RunRecordController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 删除维修记录
+	 * @param request
+	 * @param response
+	 * @param ids
+	 */
 	@RequestMapping("/removeRR.do")
 	@ResponseBody
 	public void removeRR(HttpServletRequest request,HttpServletResponse response,String ids){

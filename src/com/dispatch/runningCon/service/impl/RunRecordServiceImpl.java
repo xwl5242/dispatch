@@ -65,6 +65,9 @@ public class RunRecordServiceImpl implements RunRecordService {
 		return rrDao.queryLogList(currentPage,pageSize,param);
 	}
 
+	/**
+	 * 天气参数table数据
+	 */
 	@Override
 	public Map<String, Object> weatherJson(int currentPage, int pageSize,
 			String param) {
@@ -118,6 +121,9 @@ public class RunRecordServiceImpl implements RunRecordService {
 		return result;
 	}
 
+	/**
+	 * 平均气温曲线
+	 */
 	@Override
 	public Map<String, Object> avgTemp(String curDate) {
 		Map<String,Object> result = new HashMap<String,Object>();
@@ -147,6 +153,9 @@ public class RunRecordServiceImpl implements RunRecordService {
 		return result;
 	}
 
+	/**
+	 * 气温曲线
+	 */
 	@Override
 	public Map<String, Object> tempTrend(String startDate, String endDate) throws Exception {
 		Map<String,Object> result =new HashMap<String,Object>();
@@ -201,27 +210,42 @@ public class RunRecordServiceImpl implements RunRecordService {
 		return result;
 	}
 
+	/**
+	 * 首页top上 气象参数信息
+	 */
 	@Override
 	public Map<String, Object> indexParams() {
 		return rrDao.indexParams();
 	}
 
+	/**
+	 * 维修记录分页信息
+	 */
 	@Override
 	public Map<String, Object> repairRecords(int currentPage, int pageSize,
 			String sTime, String eTime, String dName) {
 		return rrDao.queryRRs(currentPage,pageSize,sTime,eTime,dName);
 	}
 
+	/**
+	 * 新增维修记录
+	 */
 	@Override
 	public Map<String, Object> addRR(RepairRecord rr) {
 		return rrDao.insertRR(rr);
 	}
 
+	/**
+	 * 修改维修记录
+	 */
 	@Override
 	public Map<String, Object> editRR(RepairRecord rr) {
 		return rrDao.updateRR(rr);
 	}
 
+	/**
+	 * 删除维修记录
+	 */
 	@Override
 	public Map<String, Object> removeRR(String ids) {
 		StringBuilder in = new StringBuilder();

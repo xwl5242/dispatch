@@ -23,6 +23,14 @@ public class EAController extends BaseController {
 	@Autowired
 	private EAService eaService;
 	
+	/**
+	 * 同比柱状图（A座，B座，总体）
+	 * @param request
+	 * @param response
+	 * @param ys
+	 * @param type
+	 * @param eaType
+	 */
 	@RequestMapping(value = "/airsystem/air/tongbi.do")
 	@ResponseBody
 	public void airTongbi(HttpServletRequest request, HttpServletResponse response,
@@ -32,6 +40,16 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	/**
+	 * 所有曲线图
+	 * @param request
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @param type
+	 * @param eaType
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/airsystem/air/qushi.do")
 	@ResponseBody
 	public void airLine(HttpServletRequest request, HttpServletResponse response,
@@ -41,6 +59,14 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	/**
+	 * 柱状图
+	 * @param request
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @param type
+	 */
 	@RequestMapping(value = "/airsystem/air/biaozhun.do")
 	@ResponseBody
 	public void biaozhun(HttpServletRequest request, HttpServletResponse response,
@@ -50,6 +76,14 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	/**
+	 * 饼图
+	 * @param request
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/airsystem/air/pricePie.do")
 	@ResponseBody
 	public void pricePie(HttpServletRequest request, HttpServletResponse response,
@@ -58,6 +92,14 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	/**
+	 * cop曲线
+	 * @param request
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/airsystem/air/copLine.do")
 	@ResponseBody
 	public void copLines(HttpServletRequest request, HttpServletResponse response,
@@ -66,6 +108,31 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	/**
+	 * 平均cop曲线
+	 * @param request
+	 * @param response
+	 * @param startDate
+	 * @param endDate
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/airsystem/air/copLine4Avg.do")
+	@ResponseBody
+	public void copLine4Avg(HttpServletRequest request, HttpServletResponse response,
+			String startDate,String endDate) throws Exception{
+		Map<String, Object> map = eaService.copLine4Avg(startDate,endDate);
+		super.returnObjectJson(map, response);
+	}
+	
+	/**
+	 * 度日数柱状图，同比
+	 * @param request
+	 * @param response
+	 * @param ys
+	 * @param startDate
+	 * @param endDate
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/airsystem/air/drsh.do")
 	@ResponseBody
 	public void drsh(HttpServletRequest request, HttpServletResponse response,String ys,
@@ -74,6 +141,15 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	/**
+	 * 度日数曲线
+	 * @param request
+	 * @param response
+	 * @param ys
+	 * @param startDate
+	 * @param endDate
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/airsystem/air/DRSHtrend.do")
 	@ResponseBody
 	public void DRSHtrend(HttpServletRequest request, HttpServletResponse response,String ys,
@@ -82,6 +158,12 @@ public class EAController extends BaseController {
 		super.returnObjectJson(map, response);
 	}
 	
+	/**
+	 * 数据更新（分页查询）
+	 * @param request
+	 * @param response
+	 * @param param
+	 */
 	@RequestMapping("/editKV.do")
 	@ResponseBody
 	public void editKV(HttpServletRequest request,HttpServletResponse response,
@@ -91,6 +173,14 @@ public class EAController extends BaseController {
 		super.returnObjectJson(result, response);
 	}
 	
+	/**
+	 * 数据更新（修改）
+	 * @param request
+	 * @param response
+	 * @param T
+	 * @param K
+	 * @param V
+	 */
 	@RequestMapping("/edit.do")
 	@ResponseBody
 	public void editKV(HttpServletRequest request,HttpServletResponse response,
@@ -101,6 +191,15 @@ public class EAController extends BaseController {
 		super.returnObjectJson(retMap, response);
 	}
 	
+	/**
+	 * 数据更新（批量修改）
+	 * @param request
+	 * @param response
+	 * @param pname
+	 * @param startTime
+	 * @param endTime
+	 * @param pvalue
+	 */
 	@RequestMapping("/batchSavePV.do")
 	@ResponseBody
 	public void batchSavePV(HttpServletRequest request,HttpServletResponse response,
@@ -111,6 +210,11 @@ public class EAController extends BaseController {
 		super.returnObjectJson(retMap, response);
 	}
 	
+	/**
+	 * 采集点名称集合
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping("/pnameListJson.do")
 	@ResponseBody
 	public void pnameListJson(HttpServletRequest request,HttpServletResponse response){

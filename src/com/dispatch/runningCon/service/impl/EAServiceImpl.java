@@ -23,6 +23,9 @@ public class EAServiceImpl implements EAService{
 	@Resource
 	private EADao eaDao;
 
+	/**
+	 * 同比柱状图（A座，B座，总体）
+	 */
 	@Override
 	public Map<String, Object> tongbi(String ys,String type,String eaType) {
 		Map<String,Object> result =new HashMap<String,Object>();
@@ -88,6 +91,9 @@ public class EAServiceImpl implements EAService{
 		return result;
 	}
 
+	/**
+	 * 柱状图
+	 */
 	@Override
 	public Map<String, Object> airTongbi1(String startDate, String endDate,String utype) {
 		Map<String,Object> result =new HashMap<String,Object>();
@@ -129,6 +135,9 @@ public class EAServiceImpl implements EAService{
 		return result;
 	}
 
+	/**
+	 * 所有曲线图
+	 */
 	@Override
 	public Map<String, Object> qushi(String startDate, String endDate,String type,String eaType) throws Exception {
 		Map<String,Object> result =new HashMap<String,Object>();
@@ -203,6 +212,9 @@ public class EAServiceImpl implements EAService{
 		return result;
 	}
 
+	/**
+	 * 饼图
+	 */
 	@Override
 	public List<Map<String,String>> pricePie(String startDate, String endDate) throws Exception{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -224,6 +236,11 @@ public class EAServiceImpl implements EAService{
 		return list;
 	}
 
+	/**
+	 * 获取A座或B座的面积
+	 * @param type
+	 * @return
+	 */
 	private double getABArea(String type){
 		List<Map<String,Object>> abArea = eaDao.getArea(type);
 		if(abArea!=null&&abArea.size()>0){
@@ -233,6 +250,9 @@ public class EAServiceImpl implements EAService{
 		return 0;
 	}
 
+	/**
+	 * cop曲线
+	 */
 	@Override
 	public Map<String, Object> copLine(String startDate, String endDate)throws Exception {
 		Map<String,Object> result =new HashMap<String,Object>();
@@ -307,6 +327,9 @@ public class EAServiceImpl implements EAService{
 		return result;
 	}
 
+	/**
+	 * 度日数柱状图，同比
+	 */
 	@Override
 	public Map<String, Object> drsh(String ys,String startDate,String endDate)throws Exception {
 		Map<String,Object> result =new HashMap<String,Object>();
@@ -350,6 +373,9 @@ public class EAServiceImpl implements EAService{
 		return result;
 	}
 
+	/**
+	 * 度日数曲线
+	 */
 	@Override
 	public Map<String, Object> DRSHtrend(String ys, String startDate,
 			String endDate)throws Exception {
@@ -412,6 +438,9 @@ public class EAServiceImpl implements EAService{
 		return result;
 	}
 
+	/**
+	 * 数据更新（分页查询）
+	 */
 	@Override
 	public Map<String, Object> editKV(int currentPage, int pageSize,
 			Map<String, String> param) {
@@ -432,19 +461,106 @@ public class EAServiceImpl implements EAService{
 		return eaDao.editKV(currentPage,pageSize,param);
 	}
 
+	/**
+	 * 采集点名称集合
+	 */
 	@Override
 	public List<Map<String, Object>> pnameListJson() {
 		return eaDao.pnameListJson();
 	}
 
+	/**
+	 * 数据更新（修改）
+	 */
 	@Override
 	public int edit(String t, String k, String v) {
 		return eaDao.edit(t,k,v);
 	}
 
+	/**
+	 * 数据更新（批量修改）
+	 */
 	@Override
 	public int batchSavePV(String pname, String startTime, String endTime,
 			String pvalue) {
 		return eaDao.batchSavePV(pname,startTime,endTime,pvalue);
 	}
+
+	/**
+	 * 平均cop曲线
+	 */
+	@Override
+	public Map<String, Object> copLine4Avg(String startDate, String endDate) throws Exception{
+		Map<String,Object> result =new HashMap<String,Object>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		List<String> yearList = new ArrayList<String>();
+		List<String> defaultList = new ArrayList<String>();
+		
+		endDate=null!=endDate&&!"".equals(endDate)?endDate:sdf.format(new Date());
+		Calendar a = Calendar.getInstance();
+		a.setTime(sdf.parse(endDate));
+		a.add(Calendar.DATE, -6);
+		startDate=null!=startDate&&!"".equals(startDate)?startDate:sdf.format(a.getTime());
+		
+		String sd = startDate;
+		while(!sd.equals(endDate)){
+			for(int h=0;h<24;h++){
+				String hStr = sd + " " +(h<=9?"0"+h:h+"");
+				yearList.add(hStr);
+			}
+			defaultList.add("0");
+			sd = sdf.format(sdf.parse(sd).getTime()+24*60*60*1000);
+		}
+		for(int h=0;h<24;h++){
+			String hStr = endDate + " " +(h<=9?"0"+h:h+"");
+			yearList.add(hStr);
+		}
+		defaultList.add("0");
+		
+		List<Map<String, Object>> listMap = eaDao.copLine4Avg(startDate,endDate);
+		if(null!=listMap&&listMap.size()>0){
+			List<String> A1 = new ArrayList<String>();
+			List<String> A2 = new ArrayList<String>();
+			List<String> A3 = new ArrayList<String>();
+			List<String> B1 = new ArrayList<String>();
+			List<String> B2 = new ArrayList<String>();
+			List<String> B3 = new ArrayList<String>();
+			for(String y:yearList){
+				boolean flag = false;
+				for(Map<String,Object> map:listMap){
+					if(map.get("D").toString().equals(y)){
+						flag = true;
+						String a1 = map.get("A1").toString();
+						String a2 = map.get("A2").toString();
+						String a3 = map.get("A3").toString();
+						String b1 = map.get("B1").toString();
+						String b2 = map.get("B2").toString();
+						String b3 = map.get("B3").toString();
+						A1.add(a1);A2.add(a2);A3.add(a3);
+						B1.add(b1);B2.add(b2);B3.add(b3);
+					}
+				}
+				if(!flag){
+					A1.add("0");A2.add("0");A3.add("0");
+					B1.add("0");B2.add("0");B3.add("0");
+				}
+			}
+			result.put("A1", A1);
+			result.put("A2", A2);
+			result.put("A3", A3);
+			result.put("B1", B1);
+			result.put("B2", B2);
+			result.put("B3", B3);
+		}else{
+			result.put("A1", defaultList);
+			result.put("A2", defaultList);
+			result.put("A3", defaultList);
+			result.put("B1", defaultList);
+			result.put("B2", defaultList);
+			result.put("B3", defaultList);
+		}
+		result.put("yearList", yearList);
+		return result;
+	}
+	
 }
