@@ -168,7 +168,7 @@ public class EAServiceImpl implements EAService{
 						String DL = map.get("DL").toString();
 						String AVGDL = map.get("DL").toString();
 						if("DH".equals(eaType)){
-							DL = String.format("%.2f", Double.parseDouble(DL)/getABArea("AB"));
+							AVGDL = DL = String.format("%.2f", Double.parseDouble(DL)/getABArea("AB"));
 						}
 						if(AB.equals("A")){
 							aflag = true;

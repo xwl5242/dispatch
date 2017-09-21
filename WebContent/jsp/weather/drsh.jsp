@@ -58,16 +58,15 @@
 </div>
 <div id="parentId" class="box">
     <div>
-        <div class="box_tit">A座COP趋势</div>
-        <div class="sjwd_cont" id="ACOPtrend">
+        <div class="box_tit">度日数同期比</div>
+        <div class="sjwd_cont" id="DRSH">
         </div>
     </div>
     <div>
-        <div class="box_tit">B座COP趋势</div>
-        <div class="sjwd_cont" id="BCOPtrend">
+        <div class="box_tit">度日数趋势</div>
+        <div class="sjwd_cont" id="DRSHtrend">
         </div>
     </div>
-    
 </div>
 <script type="text/javascript">
 	
@@ -118,18 +117,18 @@
 		});
 	}
     $(function () {
-    	var hh = parent.$("#page_seconde").height();
-        var ww = parent.$("#page_seconde").width();
+    	var hh = parent.$("#page").height();
+        var ww = parent.$("#page").width();
         $(document.body).height(hh-10);
         $(document.body).width(ww-20);
         
         var divH = (hh-90);
-        $("#parentId > div").height(divH/2-5);
-        $(".sjwd_cont").height(divH/2-5);
+        $("#parentId > div").height(divH);
+        $(".sjwd_cont").height(divH);
         
         var divW = (ww-65);
-        $("#parentId > div").width(divW);
-        $(".sjwd_cont").width(divW);
+        $("#parentId > div").width(divW/2);
+        $(".sjwd_cont").width(divW/2);
 		
 		$('#startDate').datebox({
 			onSelect:function(date){
@@ -192,221 +191,127 @@
             ],
             function (ec, theme) {
                 // 基于准备好的dom，初始化echarts图表
-                ACOPtrend = ec.init(document.getElementById('ACOPtrend'), theme);
-                BCOPtrend = ec.init(document.getElementById('BCOPtrend'), theme);
+                DRSH = ec.init(document.getElementById('DRSH'), theme);
+                DRSHtrend = ec.init(document.getElementById('DRSHtrend'), theme);
                
-                $.post('<%=path %>/ea/airsystem/air/copLine.do',{
+                $.post('<%=path %>/ea/airsystem/air/drsh.do',{
+                	ys : $('#years').combo('getText'),
                 	startDate : $('#startDate').datebox('getValue'),
                 	endDate : $('#endDate').datebox('getValue')
                 },function(data){
-	                myACOPtrend = {
-	               		tooltip : {
-	               	        trigger: 'axis'
-	               	    },
-						color:['#48cda6','#fd87ab','#00ff00'],
-	               	    legend: {
-	               	        data:['A1','A2','A3']
-	               	    },
-						toolbox: {
-							show : true,
-							feature : {
-								dataZoom : {
-									show : true,
-									title : {
-										dataZoom : '区域缩放',
-										dataZoomReset : '区域缩放后退'
-									}
-								},
-								restore : {show: true},
-								saveAsImage : {show: true}
-							}
+	                myDRSH = {
+						tooltip : {
+							trigger : 'axis'
 						},
-	               	    calculable : true,
-	               	    xAxis : [
-	               	        {
-	               	            type : 'category',
-	               	            boundaryGap : false,
-	               	            data : data.yearList,
-	               	         	axisLabel:{  
-								 interval:Math.ceil(data.yearList.length/7),//横轴信息全部显示  
-								 //rotate:-30,//-30度角倾斜显示  
-								 formatter:function(value){
-									 return value.substring(0,value.length-3);
-								 }
-								}
-	               	        }
-	               	    ],
-	               	    yAxis : [
-	               	        {
-	               	            type : 'value'
-	               	        }
-	               	    ],
-	               	    series : [
-	               	        {
-	               	            name:'A1',
-	               	            type:'line',
-	               	         	symbol:'none',
-	               	            data:data.A1,
-	               	         	itemStyle : {  
-					              normal : {  
-					                lineStyle:{  
-					                  color:'#48cda6'  
-					                },
-					                label:{show:true}
-					              }  
-					            },  
-	               	            markLine : {
-	               	                data : [
-	               	                    {type : 'average', name: '平均值'}
-	               	                ]
-	               	            }
-	               	        },
-	               	        {
-	               	            name:'A2',
-	               	            type:'line',
-	               	         	symbol:'none',
-	               	            data:data.A2,
-	               	         	itemStyle : {  
-					              normal : {  
-					                lineStyle:{  
-					                  color:'#fd87ab'  
-					                },
-					                label:{show:true}
-					              }  
-					            },  
-	               	            markLine : {
-	               	                data : [
-	               	                    {type : 'average', name : '平均值'}
-	               	                ]
-	               	            }
-	               	        },
-	               	        {
-	               	            name:'A3',
-	               	            type:'line',
-	               	         	symbol:'none',
-	               	            data:data.A3,
-	               	         	itemStyle : {  
-					              normal : {  
-					                lineStyle:{  
-					                  color:'#00ff00'  
-					                },
-					                label:{show:true}
-					              }  
-					            },  
-	               	            markLine : {
-	               	                data : [
-	               	                    {type : 'average', name : '平均值'}
-	               	                ]
-	               	            }
-	               	        }
-	               	    ]
-	   				};
-	              
-	                myBCOPtrend = {
-	               		tooltip : {
-	               	        trigger: 'axis'
-	               	    },
-						color:['#48cda6','#fd87ab','#00ff00'],
-	               	    legend: {
-	               	        data:['B1','B2','B3']
-	               	    },
-						toolbox: {
-							show : true,
-							feature : {
-								dataZoom : {
-									show : true,
-									title : {
-										dataZoom : '区域缩放',
-										dataZoomReset : '区域缩放后退'
-									}
-								},
-								restore : {show: true},
-								saveAsImage : {show: true}
-							}
+						legend : {
+							data : [ '度日数' ]
 						},
-	               	    calculable : true,
-	               	    xAxis : [
-	               	        {
-	               	            type : 'category',
-	               	            boundaryGap : false,
-	               	            data : data.yearList,
-		               	        axisLabel:{  
-									 interval:Math.ceil(data.yearList.length/7),//横轴信息全部显示  
-									 //rotate:-30,//-30度角倾斜显示  
-									 formatter:function(value){
-										 return value.substring(0,value.length-3);
-									 }
-								}
-	               	        }
-	               	    ],
-	               	    yAxis : [
-	               	        {
-	               	            type : 'value'
-	               	        }
-	               	    ],
-	               	    series : [
-	               	        {
-	               	            name:'B1',
-	               	            type:'line',
-	               	         	symbol:'none',
-	               	            data:data.B1,
-	               	         	itemStyle : {  
-					              normal : {  
-					                lineStyle:{  
-					                  color:'#48cda6'  
-					                },
-					                label:{show:true}
-					              }  
-					            },  
-	               	            markLine : {
-	               	                data : [
-	               	                    {type : 'average', name: '平均值'}
-	               	                ]
-	               	            }
-	               	        },
-	               	        {
-	               	            name:'B2',
-	               	            type:'line',
-	               	         	symbol:'none',
-	               	            data:data.B2,
-	               	         	itemStyle : {  
-					              normal : {  
-					                lineStyle:{  
-					                  color:'#fd87ab'  
-					                },
-					                label:{show:true}
-					              }  
-					            },  
-	               	            markLine : {
-	               	                data : [
-	               	                    {type : 'average', name : '平均值'}
-	               	                ]
-	               	            }
-	               	        },
-	               	        {
-	               	            name:'B3',
-	               	            type:'line',
-	               	         	symbol:'none',
-	               	            data:data.B3,
-	               	         	itemStyle : {  
-					              normal : {  
-					                lineStyle:{  
-					                  color:'#00ff00'  
-					                },
-					                label:{show:true}
-					              }  
-					            },  
-	               	            markLine : {
-	               	                data : [
-	               	                    {type : 'average', name : '平均值'}
-	               	                ]
-	               	            }
-	               	        }
-	               	    ]
-	   				};
-	                ACOPtrend.setOption(myACOPtrend);
-	                BCOPtrend.setOption(myBCOPtrend);
+						calculable : true,
+						xAxis : [ {
+							type : 'category',
+							data : data.yearList
+						} ],
+						yAxis : [ {
+							name : '',
+							type : 'value'
+						} ],
+						series : [ {
+							name : '度日数',
+							type : 'bar',
+							data : data.drsh,
+							barWidth: '60',
+							itemStyle:{normal:{label:{show:true}}},
+	           	            markLine : {
+	           	                data : [
+	           	                    {type : 'average', name: '平均值'}
+	           	                ]
+	           	            }
+						}]
+					};
+	                
+	                DRSH.setOption(myDRSH);
                 },'json');
+                
+                $.post('<%=path %>/ea/airsystem/air/DRSHtrend.do',{
+                	startDate : $('#startDate').datebox('getValue'),
+                	endDate : $('#endDate').datebox('getValue')
+                },function(data){
+	                myDRSHtrend = {
+	               		tooltip : {
+	               	        trigger: 'axis'
+	               	    },
+	               	    legend: {
+	               	        data:data.yearList
+	               	    },
+						toolbox: {
+							show : true,
+							feature : {
+								dataZoom : {
+									show : true,
+									title : {
+										dataZoom : '区域缩放',
+										dataZoomReset : '区域缩放后退'
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+							}
+						},
+	               	    calculable : true,
+	               	    xAxis : [
+	               	        {
+	               	            type : 'category',
+	               	            boundaryGap : false,
+	               	            data : data.yearDateList
+	               	        }
+	               	    ],
+	               	    yAxis : [
+	               	        {
+	               	            type : 'value'
+	               	        }
+	               	    ],
+	               	    series : [
+	               	        {
+	               	            name:data.yearList[0],
+	               	            type:'line',
+	               	         	symbol:'none',
+	               	            data:data.trend1,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	     {
+	               	            name:data.yearList[1],
+	               	            type:'line',
+	               	         	symbol:'none',
+	               	            data:data.trend2,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        },
+	               	     {
+	               	            name:data.yearList[2],
+	               	            type:'line',
+	               	         	symbol:'none',
+	               	            data:data.trend3,
+	               	            itemStyle:{normal:{label:{show:true}}},
+	               	            markLine : {
+	               	                data : [
+	               	                    {type : 'average', name: '平均值'}
+	               	                ]
+	               	            }
+	               	        }
+	               	    ]
+	   				};
+	                DRSHtrend.setOption(myDRSHtrend);
+                },'json');
+                
 			});
     }
     
