@@ -219,7 +219,7 @@
 							name : '度日数',
 							type : 'bar',
 							data : data.drsh,
-							barWidth: '60',
+							barMaxWidth: '20',
 							itemStyle:{normal:{label:{show:true}}}
 						}]
 					};
