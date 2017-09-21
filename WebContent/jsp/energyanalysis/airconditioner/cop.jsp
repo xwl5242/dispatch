@@ -123,7 +123,7 @@
         $(document.body).height(hh-10);
         $(document.body).width(ww-20);
         
-        var divH = (hh-90);
+        var divH = (hh-105);
         $("#parentId > div").height(divH/2-5);
         $(".sjwd_cont").height(divH/2-5);
         

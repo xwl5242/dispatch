@@ -390,8 +390,11 @@
     	               	            axisLabel : {
     	               	                formatter: function(value){
 											var n = new Number(value);
-											var ret = n.toExponential(1);
-											return ret+" KWh/m²";
+											if(n>10000){
+												return (n/10000).toFixed(2); +" 万KWh/m²";
+											}else{
+												return n+" KWh/m²";
+											}
 										}
     	               	            }
     	               	        }
