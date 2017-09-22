@@ -398,8 +398,9 @@ public class EADaoImpl extends PageListJdbcTemplate implements EADao {
 					sql += " and TO_CHAR (\"Time\", 'yyyy-mm-dd') <= '"+endDate+"'";
 				}
 				sql+= " AND \"PV\" >0 GROUP BY TO_CHAR (\"Time\", 'yyyy-mm-dd hh24'), \"TagName\" ) A GROUP BY A .HH ) B ) C "
-				+ "LEFT JOIN ( SELECT TO_CHAR (\"T\", 'yyyy-mm-dd hh24') HH, V "
+				+ "LEFT JOIN ( SELECT TO_CHAR (\"T\", 'yyyy-mm-dd hh24') HH, AVG(V) V "
 				+ "FROM AI_KV WHERE \"TYPE\" = 'tq' AND INSTR (\"K\", 'wd', 1, 1) = LENGTH (\"K\") - 1 "
+				+ " GROUP BY TO_CHAR (\"T\", 'yyyy-mm-dd hh24')"
 				+ "ORDER BY TO_CHAR (\"T\", 'yyyy-mm-dd hh24') ) D ON C.HH = D .HH ORDER BY C.HH";
 		return super.queryForList(sql);
 	}
