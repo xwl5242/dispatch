@@ -138,7 +138,7 @@
 	               		tooltip : {
 	               	        trigger: 'axis'
 	               	    },
-						color:['#48cda6','#fd87ab','#00ff00'],
+						color:['#48cda6','#fd87ab','#CC0000'],
 	               	    legend: {
 	               	        data:['A座','B座','室外']
 	               	    },
@@ -223,7 +223,7 @@
 	               	         	itemStyle : {  
 					              normal : {  
 					                lineStyle:{  
-					                  color:'#00ff00'  
+					                  color:'#CC0000'  
 					                },
 					                label:{show:true}
 					              }  
