@@ -102,6 +102,7 @@
 				}
 			}
 		});
+		dealIECssError4forms(['startDate','endDate']);
 		
 		$('#endDate').datebox('setText',getDate(0));
 		$('#endDate').datebox('setValue',getDate(0));
@@ -109,7 +110,11 @@
 		$('#startDate').datebox('setValue',getDate(6*24*60*60*1000));
 		renderEchart();
 	});
-    
+    function dealIECssError4forms(ids){
+    	for(var i=0,len=ids.length;i<len;i++){
+    		$('#'+ids[i]).siblings('span').children('input').css("padding-top","2px");
+    	}
+    }
     function renderEchart(){
     	//路径配置
         require.config({

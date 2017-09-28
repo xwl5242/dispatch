@@ -116,6 +116,11 @@
 			$('#years').combo('setValue', s).combo('setText', s);
 		});
 	}
+	function dealIECssError4forms(ids){
+		for(var i=0,len=ids.length;i<len;i++){
+			$('#'+ids[i]).siblings('span').children('input').css("padding-top","2px");
+		}
+	}
     $(function () {
     	var hh = parent.$("#page_seconde").height()==null?parent.$("#page").height():parent.$("#page_seconde").height();
         var ww = parent.$("#page_seconde").width()==null?parent.$("#page").width():parent.$("#page_seconde").width();
@@ -163,6 +168,7 @@
 		
         //查询条件中的年份设置
         yearsSet();
+        dealIECssError4forms(['years','startDate','endDate']);
 		
 		$('[name="2017"]').attr("checked",true);
 		$('#years').combo('setText','2017');

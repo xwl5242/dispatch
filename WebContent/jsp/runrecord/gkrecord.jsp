@@ -42,6 +42,7 @@ params = sb.toString();
 </body>	 	
 <script type="text/javascript"> 
 $(document).ready(function(){
+	dealIECssError4forms(['startDateBox']);
 	$("#startDateBox").datebox("setValue","<%=startDate%>");
 	$("#startDate").val("<%=startDate%>");
 	$("#searchBtn").bind("click",function(){
@@ -49,6 +50,10 @@ $(document).ready(function(){
 		form1.submit();
 	});
 });
-
+function dealIECssError4forms(ids){
+	for(var i=0,len=ids.length;i<len;i++){
+		$('#'+ids[i]).siblings('span').children('input').css("padding-top","2px");
+	}
+}
 </script>
 </html>
