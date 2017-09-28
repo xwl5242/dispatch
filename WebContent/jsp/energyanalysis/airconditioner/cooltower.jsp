@@ -117,8 +117,8 @@
 		});
 	}
     $(function () {
-    	var hh = parent.$("#page_seconde").height();
-        var ww = parent.$("#page_seconde").width();
+    	var hh = parent.$("#page_seconde").height()==null?parent.$("#page").height():parent.$("#page_seconde").height();
+        var ww = parent.$("#page_seconde").width()==null?parent.$("#page").width():parent.$("#page_seconde").width();
         $(document.body).height(hh-10);
         $(document.body).width(ww);
         
